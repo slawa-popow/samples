@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+    <title>Document</title>
+    
+
+  </head>
+  <body onload="brython(1)">
+    
+    <div class="svg">
+      
+     
+
+      <?xml version="1.0" standalone="no"?>
+<svg width=15cm" height="6cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <desc>Example line01 - lines expressed in user coordinates</desc>
+
+  <!-- Show outline of viewport using 'rect' element -->
+  
+  <!-- <circle id="my-circle" r="100" cx="100" cy="100" fill="orange" /> -->
+  <rect id="rect" x="100" y="100" width="100" height="100" fill="orange"/> 
+  <rect id="rect2" x="200" y="200" width="100" height="100" fill="blue"/>     
+</svg>
+
+    </div>
+     <h1 id="h"></h1>
+     <h1 id="j"></h1>
+    <div >
+    <button id="push">PUSH</button>
+   
+    <script type="text/python">
+    from browser import document, window
+    
+
+   
+    class SvgFigure:
+      pass
+
+
+    class Rect(SvgFigure):
+      def __init__(self, svg_obj: object, id_view=None) -> None:        
+        self._x: str = svg_obj.attrs.get('x')
+        self._y: str = svg_obj.attrs.get('y')
+        self._width: str = svg_obj.attrs.get('width')
+        self._height: str = svg_obj.attrs.get('height')
+        self._fill: str = svg_obj.attrs.get('fill')
+        self._svg_obj = svg_obj 
+        self._id_animate = None
+        self._id_view = id_view
+        
+
+      @property
+      def id_animate(self):
+        return self._id_animate
+
+      @id_animate.setter
+      def id_animate(self, value):
+        self._id_animate = value
+
+      @property
+      def x(self) -> str:
+        return self._x
+
+      @x.setter
+      def x(self, value) -> None:
+        self._x = str(value)
+        self._svg_obj.attrs['x'] = self._x        
+
+      @property
+      def y(self) -> str:
+        return self._y
+
+      @y.setter
+      def y(self, value) -> None:
+        self._y = str(value)
+        self._svg_obj.attrs['y'] = self._y
+
+      @property
+      def width(self) -> str:
+        return self._width
+
+      @width.setter
+      def width(self, value) -> None:
+        self._width = str(value)
+        self._svg_obj.attrs['width'] = self._width
+
+      @property
+      def height(self) -> str:
+        return self._height
+
+      @height.setter
+      def height(self, value) -> None:
+        self._height = str(value)
+        self._svg_obj.attrs['height'] = self._height
+
+      @property
+      def fill(self) -> str:
+        return self._fill
+
+      @fill.setter
+      def fill(self, value) -> None:
+        self._fill = str(value)
+        self._svg_obj.attrs['fill'] = self._fill
+
+      def get_attrs_rect(self) -> list:
+        return [self.x, self.y, self.width, self.height, self.fill]
+
+      def run(self, step: float, max_path) -> None:
+        self.x = str(float(self.x) + step)
+        self._svg_obj.attrs['x'] = self.x
+        if self._id_view:
+          self._id_view.innerHTML = self.x[:5]
+        if max_path:
+          if float(self.x) >= max_path:
+            # window.cancelAnimationFrame(self.id_animate)
+            self.x = 0
+
+    class Movied:
+      def __init__(self, svg_obj, step: float):
+        self.svg_obj = svg_obj
+        self.step = step
+        self.curr_coord = None
+
+      def __call__(self, name_method: str, max_path=None):
+        def move(t):
+          self.svg_obj.id_animate = window.requestAnimationFrame(move)
+          self.svg_obj.__getattribute__(name_method)(self.step, max_path)
+        move(1)
+        
+
+    prnt = document['h'] 
+    prnr = document['j'] 
+    rect_id = document['rect']
+    rect_id_2 = document['rect2']
+    obj_rect = Rect(rect_id)
+    obj_rect2 = Rect(rect_id_2, prnt)
+    rect = Movied(obj_rect, 1)
+    rect2 = Movied(obj_rect2, 0.4)
+    o = None
+    o1 = None
+       
+
+    def func(e):
+      obj_rect.x = 100
+      obj_rect2.x = 200
+      global o, o1
+      
+      if (o is None) and (o1 is None): 
+        o, o1 = rect, rect2
+        rect('run', 600)
+        rect2('run', 344) 
+    document["push"].bind("click", func)
+    
+    
+     
+    </script>
+  </div>
+  </body>
+</html>

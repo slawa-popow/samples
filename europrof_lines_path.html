@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Rubik:wght@300;400&family=Tiro+Gurmukhi&display=swap" rel="stylesheet">
+    <title>Расчет диска для датчика длинны</title>
+    <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+  ></script>
+  <style>
+     /* сброс стилей браузера */
+     html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+          margin: 0;
+          padding: 0;
+          border: 0;
+          font-size: 100%;
+          vertical-align: baseline;
+        }
+        article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+          display: block;
+        }
+        body {
+          line-height: 1.2;
+        }
+        ol { 
+          padding-left: 1.4em;
+          list-style: decimal;
+        }
+        ul {
+          padding-left: 1.4em;
+          list-style: square;
+        }
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+        } 
+        
+        
+
+    body {
+        font-family: 'Rubik', sans-serif;
+        font-size: 0.9em;
+        padding-bottom: 100px;
+    }
+    .warning {
+        background-color: rgba(240, 199, 64, 0.425);
+        font-size: 0.8em;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    #table {
+        width: 95%;
+    }
+    #table th {
+        background-color: rgba(130, 54, 180, 0.664);
+        height: 2px;
+    }
+    #table td {
+        padding: 5px 10px;
+    }
+    input, button {
+        text-align: center;
+    }
+    button {
+        padding: 4px 15px;
+        height: 45px;
+    }
+    input {
+        font-size: 1em;
+        height: 30px;
+    }
+    .label {
+        height: 40px;
+        text-align: center;
+        background-color: rgba(30, 17, 216, 0.781);
+        color: rgb(255, 254, 254);
+        font-size: 1.1em;
+        padding: 3px;
+    }
+    #yes-cut{
+        opacity: 0;
+        background-color: rgb(101, 101, 230);
+        border: 5px solid rgb(236, 118, 21);
+        border-radius: 10px;
+        color: white;
+        font-size: 1.4em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, .75);
+        padding: 5px 25px;
+        font-weight: bold;
+    }
+
+    .title-page span {
+        display: block;
+        width: 800px;
+        margin-top: 40px;
+        padding: 10px 0;
+        color: white;
+        background-color: rgba(9, 110, 23, 0.795);
+        font-family: "Arial Black", Arial, Helvetica, sans-serif;
+        font-size: 2.3em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, .75);
+        text-align: center;
+        }
+    section {
+        width: 798px;
+        margin-top: 20px;
+        border: 1px dashed rgba(172, 167, 167, 0.76);
+    }
+    section h3 {
+        padding: 20px 0;
+        text-align: center;
+        font-size: 1.4em;
+    }
+    .content {
+        margin-top: 30px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .content .translated {
+        font-weight: bold;
+    }
+    .content p {
+        margin: 10px 0;
+    }
+    footer {
+        width: 790px;
+        margin-top: 40px;
+        padding: 20px 5px;
+        height: 20px;
+        text-align: end;
+        border: 1px dashed rgba(172, 167, 167, 0.76);
+    }
+    footer .about {
+        font-size: 0.8em; 
+    }
+    @keyframes rotation {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+      }
+    
+  </style>
+</head>
+<body onload="brython(1)">
+    <div id="svgi">
+    <svg
+    version="1.0" standalone="no"    
+    height="600"
+    width="600"
+    viewBox="-250 -250 900 900"
+   
+    baseProfile="full"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:ev="http://www.w3.org/2001/xml-events">
+    >
+        <defs></defs>
+        <g id="disc"  transform-origin="200 200">
+          <circle id="main_cirkle" style="fill: rgba(125, 175, 10, 0.445);"  cx="200" cy="200" r="79.57747154594767mm" ></circle>
+          <ellipse style="stroke: rgb(0, 0, 0); fill: rgba(163, 158, 158, 0.61); stroke-width: 2px;" cx="200" cy="200" rx="30" ry="30"></ellipse>
+        </g>
+            <defs>
+              <linearGradient gradientUnits="userSpaceOnUse" x1="69.833" y1="50.748" x2="69.833" y2="68.851" id="gradient-0" spreadMethod="pad" gradientTransform="matrix(1, 0, 0, 0.737823, 0, 18.051163)">
+                <stop offset="0" style="stop-color: rgba(216, 216, 216, 1)"></stop>
+                <stop offset="0.569" style="stop-color: rgb(189, 189, 189);"></stop>
+                <stop offset="1" style="stop-color: rgba(165, 165, 165, 1)"></stop>
+              </linearGradient>
+            </defs>
+            <g id="sensor" transform="translate(469 160)">
+              <rect id="detector" x="41" y="47" width="56" height="24" style="stroke: rgb(0, 0, 0);  fill: url(#gradient-0);"></rect>
+              <rect x="39" y="43" width="5" height="31" style="stroke: rgba(17, 16, 16, 0.78); fill: rgb(168, 189, 214);"></rect>
+              <rect x="98" y="56" width="8" height="6" style="stroke: rgb(0, 0, 0); fill: rgb(74, 74, 74);"></rect>
+            </g>       
+      </svg>
+
+    </div>
+
+    <table id="table">
+        <tr>
+          <th></th>
+          <th></th> 
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <td>Радиус диска (mm):</td>
+          <td><input id="radius" type="text" size="10" value="79.57747154594767"></td>
+          <td><button id="app-radius">расчет L окруж.</button></td>
+          <td></td>
+          <td><button id="on" style="background-color: rgba(27, 146, 16, 0.493);">включить счет</button></td>
+          <td><span class="label" id="counter"> 0.0 </span></td>
+          <td>Пройденный путь(mm):</td>
+          <td><span class="label" id="S">0.0</span></td>         
+        </tr>
+        <tr>
+          <td>Число болтов по кругу:</td>
+          <td><input id="dots" type="text" size="10" value="26"></td>
+          <td><button id="set-dots">установить болты</button></td>
+          <td><button id="del-dots">удалить болты</button></td>
+          <td><button id="off" style="background-color: rgba(214, 23, 16, 0.479);">стоп</button></td>
+        </tr>
+        <tr>
+          <td>Длинна окружности диска (mm):</td>
+          <td><input id="len-round-disc" type="text" size="10" value="500.0"></td>
+          <td><button id="app-lendth">расчет радиуса</button></td>
+          <td></td>
+          <td><button id="d-mul">множитель</button></td>
+          <td><input id="delta-mul" type="text" size="10" value="18.40"></td>
+        </tr>
+         <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><span style="border: 1px dotted black; padding: 5px 8px;">скорость:</span> </td>
+            <td><input type="range" id="speed-disc" min="2" max="30" step="0.5" value="10"> </td>
+            <td><span class="label" id="speed">10</span></td>
+        </tr>  
+        <tr>
+            <td colspan="2">
+               <h2 class="warning">Проверку расчетов производить ститая даже сотые доли чисел (не выше).</h2> 
+            </td>
+            
+            <td colspan="2"><span id="yes-cut">отрезано</span></td>
+            <td><button id="clear" style="background-color: rgba(245, 215, 119, 0.849);">очистить</button></td>
+        </tr>
+            
+        <tr>
+          <th></th>
+          <th></th> 
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+            <td>Диаметр шляпки болта:</td>
+            <td><span class="label"> 8 мм. </span></td>
+            <td></td>
+            <td></td>
+            <td><button id="total">Задать размер (mm):</button></td>
+            <td><input id="set-total" type="text" size="10" value="1000"></td>
+        </tr>
+        <tr>
+            <td>Расстояние между болтами по дуге:</td>
+            <td><span id="L-segment" class="label"> 0.0 </span></td>
+        </tr>
+        <tr>
+            <td>Рабочий радиус:</td>
+            <td><span id="main-radius" class="label"> 0.0 </span></td>
+        </tr>
+        <tr>
+            <td>Рабочая длинна окружн.:</td>
+            <td><span id="main-lendth" class="label"> 0.0 </span></td>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th> 
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+      </table>
+
+    <header class="title-page">
+        <span>ООО "Европрофиль"</span>
+    </header> 
+    <section>
+    <h3>Расчет параметров узла измерения длинны изделия</h3>
+    <h3>Как этим пользоваться.</h3>
+    <h2 class="warning">Для нормальной работы документа необходимо, чтобы устройство на котором открыт этот документ было подключено к сети интернет. Т-к документ загружает шрифты, интерпритатор python3 (brython).</h2>
+    <div class="content">
+        <p>Чтобы начать нужно ввести (если не устраивает значения по умолчанию) или значения радиуса будущего диска и нажать на кнопку <span class="translated">расчет L окруж.</span>,
+        или ввести значения в поле <span class="translated">Длинна окружности диска (mm)</span> и нажать кнопку <span class="translated">расчет радиуса</span>.</p>
+        <p>
+            Далее надо ввести в поле <span class="translated">Число болтов по кругу:</span> количество болтов, которы будут установлены по кругу диска и нажать кнопку <span class="translated">установить болты</span>.
+            На рисунке будут созданы кружки - это типа шляпки болтов. Справа от диска штука - это сенсор (бесконтактный датчик).
+            Болты, если надо, можно убрать нажав кнопку <span class="translated">удалить болты</span>.
+        </p>
+        <p>
+            Внизу таблицы будут показаны вычисленные значения длинны окружности на которой по кругу установлены болты (рабочий радиус), расстояние между центрами шляпок болтов по дуге. Короче если перемножить расстояние между шляпками на кол-во болтов, то должны получить длинну рабочей окружности. <span class="translated">рабочий радиус, рабочая длинна окружности</span> - это радиус, длинна окружности не всего диска, а только той невидмой окружности по которой выстроены болты. 
+        </p>
+        <p>
+            Далее нужно выставить размер в поле ввода справа от кнопки <span class="translated">задать размер</span> и собственно нажать на кнопку. Потом методом тыка искать множитель. Множитель это параметр в счетчике импульсов, если множитель равен 1, то один тик (импульс) счетчик импульсов покажет как 1, если например множитель равет 3.7 то прибор выведет на свое табло один тик за 3.7... ну итд. я думаю понятно. Множитель меньше 1 и больше 0 тоже можно (в приборе) выставлять, только надо в настройках прибора указать положение десятичной точки.            
+        </p>
+        <p>
+            Нажимаем зеленую кнопку <span class="translated">включить счет</span>. Ползунком скорости можно задать скорость анимации - вправо медленно, влево - быстро. Справа   от зеленой кнопки выводится число прошедших тиков. 
+        </p>
+        <p>
+            Ну короче должно работать, если исходить от этих расчетов.
+        </p>
+    </div>
+    </section> 
+    <footer>
+        <span class="about">Попов В.Г. слесарь ООО Европрофиль. 2022</span>
+    </footer>
+
+    <script type="text/python">
+        # Попов В.Г.
+        # для ООО "Европрофиль"
+        # Минск 2022.09.15
+        #
+        # Расчет диска датчика длинны изделия
+        # python3 (brython)
+        # -----------------------------------------------------
+
+
+        from browser import document, window, html, bind,  timer
+        from functools import wraps
+        import math
+
+
+        def get_center(svg_id) -> tuple:
+            """ Принимает svg объект. Возвращает
+                координаты x, y центра объектa.
+            """
+            bb = svg_id.getBBox()
+            return (int(bb.x + bb.width / 2), int(bb.y + bb.height / 2))
+
+
+
+        class Bolt:
+            """Болт на диске"""
+
+            _id: int = 0
+
+            def __init__(self, pos_X: float, pos_Y: float, radius: float=3.0, color: str="orange", ex_id: str = None):
+                self._radius: float = radius
+                self._color: str = color
+                self._posX: float = pos_X
+                self._posY: float = pos_Y
+                self._width = self._height = radius
+                self._id: str = self.get_id() if ex_id is None else ex_id
+                self._bolt = self.create_svg()
+                self._deg = 0.0
+                self.mX = 0    
+                self.mY = 0
+               
+
+            def create_svg(self):
+                svgNS = "http://www.w3.org/2000/svg"
+                new_bolt =  document.createElementNS(svgNS,"circle")
+                new_bolt.setAttributeNS(None, "id", self.id)
+                new_bolt.setAttributeNS(None, "cx", self.posX)
+                new_bolt.setAttributeNS(None, "cy", self.posY)
+                new_bolt.setAttributeNS(None, "r", f"{self.radius}mm")
+                new_bolt.setAttributeNS(None, "fill", self.color)
+                return new_bolt
+
+            @classmethod
+            def get_id(cls) -> str:
+                cls._id += 1
+                return f"bolt{cls._id}"
+
+
+            @property
+            def bolt(self):
+                return self._bolt
+
+            @bolt.setter
+            def bolt(self, value):
+                pass
+
+            @property
+            def deg(self) -> float:
+                return self._deg
+
+            @deg.setter
+            def deg(self, value: float) -> None:
+                self._deg = value
+
+
+            @property
+            def color(self) -> str:
+                return self._color
+
+            @color.setter
+            def color(self, value: str) -> None:
+                self._color = value
+
+            @property
+            def radius(self) -> float:
+                return self._radius
+
+            @radius.setter
+            def radius(self, value: float) -> None:
+                self._radius = value
+
+            @property
+            def id(self) -> str:
+                return self._id
+
+            @id.setter
+            def id(self, value: str) -> None:
+                self._id = value
+
+            @property
+            def posX(self) -> float:
+                return self._posX
+
+            @posX.setter
+            def posX(self, value: float) -> None:
+                self._posX = value
+
+            @property
+            def posY(self) -> float:
+                return self._posY
+
+            @posY.setter
+            def posY(self, value: float) -> None:
+                self._posY = value
+
+
+        class Sensor:
+            def __init__(self):
+                self.sens = document["sensor"]
+                self.detector = document["detector"]
+                self.x, self.y = self.get_coords_translate()
+                
+            def get_coords_translate(self) -> tuple:
+                translate = self.sens["transform"]
+                coords = translate[translate.find('(')+1 : translate.rfind(')')].split()
+                return (int(coords[0]), int(coords[1]))
+
+            def set_coord_X_translate(self, r_disk: int):
+                self.sens["transform"] = f"translate({r_disk * 3.779 + 170} {self.y})"
+
+            def get_position(self):
+                x = int(self.sens.getBoundingClientRect()['x'])
+                y = int(self.sens.getBoundingClientRect()['y'])
+                return (x+window.scrollX, y+window.scrollY)
+        
+        
+
+        class Disk:
+
+            def __init__(self, document_id: str) -> None:
+                self.disk = document[document_id]
+                self._step: str = "10s"
+                self.list_bolts: dict = dict()
+                self.bolts_radius: float = None
+                self.L_segment = None
+                self.transform_origin: tuple = (200, 200)
+                self.on: bool = False
+
+            @property
+            def step(self) -> str:
+                return self._step
+
+            @step.setter
+            def step(self, value: str) -> None:
+                self._step = value + "s"
+                self.set_step_rotate(self.step)
+
+            def append_bolts(self, n: int) -> None:
+                tr_ori = self.transform_origin
+                cx, cy = float(tr_ori[0]), float(tr_ori[1])
+                delta = 360 / n
+                tmp_deg = 0
+                
+                # перевод пиксели в мм.
+                # 1 мм - 3.779 пикселей, радиус основного диска умножаем на 3.779 минус радиус болта * 3.779
+                # чтобы болты были ближе к внеш границам  основного диска
+
+                if len(self.list_bolts) == 0:
+                    r = (self.get_pic_radius()*3.779) - 12.77
+                    self.bolts_radius = r                    
+                    for i in range(1, n+1): 
+                        if i == 1:
+                            color = "white"
+                            main_id = "main-bolt"
+                        else:
+                            main_id = None                  
+                            color = "rgba(60, 65, 59, 0.829)" if (i%2 == 0) else "rgba(170, 147, 16, 0.884)"
+                        posX = cx + r * math.cos((tmp_deg*math.pi)/180)
+                        posY = cy + r * math.sin((tmp_deg*math.pi)/180)
+                        b = Bolt(posX, posY, radius=4, color=color, ex_id=main_id)
+                        b.deg = tmp_deg
+                        tmp_deg += delta                    
+                        self.list_bolts[b.id] = b
+                        document["disc"].appendChild(b.bolt)
+                x0 = self.list_bolts["main-bolt"].bolt.getClientRects()[0]['x']
+                y0 = self.list_bolts["main-bolt"].bolt.getClientRects()[0]['y']
+                self.list_bolts["main-bolt"].bolt.mX = x0 + window.scrollX
+                self.list_bolts["main-bolt"].bolt.mY = y0 + window.scrollY
+                
+            
+            def calculate_L_segment(self, n: int) -> float:
+                return (((math.radians(360 / n)) * self.bolts_radius)/3.779) if self.bolts_radius else None
+
+
+            def delete_bolts(self) -> None:
+                if self.list_bolts:
+                    for bolt in self.list_bolts:
+                        document["disc"].removeChild(document[bolt])
+                    self.list_bolts.clear()
+
+
+            def get_pic_radius(self):
+                radius = document["main_cirkle"].attrs["r"].split("mm")
+                return float(radius[0])
+
+            def get_radius(self):
+                return float(document["len-round-disc"].value)/(2*math.pi)
+
+            def set_radius(self, radius):
+                document["main_cirkle"].attrs["r"] = f"{radius}mm"
+                
+
+            def get_len_cirkle(self):
+                value_radius = float(document["radius"].value)
+                return (2*math.pi*value_radius)
+
+            def get_main_len_crcl(self) -> float:
+                return (2*math.pi*self.bolts_radius)
+
+            def set_step_rotate(self, step: str) -> None:
+                self.disk.style.animation = f"rotation infinite {step} linear"
+
+            def start(self):
+                self.on = True
+                self.set_step_rotate(self.step)
+                
+            def stop(self):
+                self.on = False
+                self.disk.style.animation = "rotation infinite 0s linear"
+        
+
+        class Inspector:
+            _obj = None
+
+            def __new__(cls, *args):
+                if cls._obj is None:
+                    cls._obj = super().__new__(cls)
+                return cls._obj
+
+            def __init__(self, disk: Disk, sensor: Sensor):
+                self.disk: Disk = disk
+                self.sensor: Sensor = sensor
+                self.inspector = None 
+                self.is_detect: bool = False
+                self.is_calc: bool = False
+                self.view_count = document["counter"]
+                self.view_total = document["S"]
+                self.totalS = 0.0
+                self.S = 0.0
+                self._reset = 1000.0
+                self._delta_mul = 18.40
+                self.count = 0 
+                self.tmp_id = "" 
+
+            @classmethod
+            def set_active_buttons(cls, b: bool) -> None:
+                ids: list = ["del-dots", "app-radius", "set-dots", "app-lendth"]
+                for btn in ids:
+                    document[btn].disabled = not b
+
+            @classmethod
+            def check_value(cls, value: str) -> bool:
+                try:
+                    float(value)
+                    return True
+                except ValueError:
+                    return False
+                
+            @property
+            def delta_mul(self) -> float:
+                return self._delta_mul
+
+            @delta_mul.setter
+            def delta_mul(self, value: str):
+                if self.check_value(value):
+                    self._delta_mul = float(value)
+                else:
+                    self._delta_mul = 1.0
+
+            @property
+            def reset(self) -> float:
+                return self._reset
+
+            @reset.setter
+            def reset(self, value: float) -> None:
+                if self.check_value(value):
+                    self._reset = float(value)
+
+            def clear(self) -> None:
+                ids: list = ["S", "counter"]
+                for i in ids:
+                    document[i].innerHTML = f"0.0"
+                self.count = 0
+                self.totalS = 0
+
+            def on_cut(self):
+                el = document.getElementById("yes-cut") 
+                el.style.opacity = 1
+                def cut():
+                   nonlocal el
+                   el.style.opacity = 0
+                timer.set_timeout(cut, 1400)
+                   
+
+            def detect(self, id: str) -> None:
+               if id == self.tmp_id:
+                  return    
+               self.count += (1 * self.delta_mul)
+               if self.totalS >= self.reset:
+                    self.clear()
+                    self.on_cut()
+               self.totalS += self.disk.L_segment
+               self.view_count.innerHTML = f"{str(self.count)[:6]} тиков"
+               self.view_total.innerHTML = str(self.totalS)[:6]
+               self.tmp_id = id
+
+
+            def get_new_coord(self) -> tuple:
+                r = self.disk.bolts_radius
+                x = 100.0 + r * math.cos((360*math.pi)/180)
+                y = 100.0 + r * math.sin((360*math.pi)/180)
+                return (x+31+window.scrollX+100, y+window.scrollY+100)
+               
+
+            def inspect(self):
+                def animate(t):
+                    self.inspector = window.requestAnimationFrame(animate)
+                    
+                    mainX = self.disk.list_bolts["main-bolt"].bolt.mX 
+                    mainY = self.disk.list_bolts["main-bolt"].bolt.mY
+                     
+                    for id, b in self.disk.list_bolts.items():
+                        
+                        bX = int(b.bolt.getClientRects()[0]['x']) + window.scrollX
+                        bY = int(b.bolt.getClientRects()[0]['y']) + window.scrollY
+                        
+                        if ((mainX-7)<= bX <= (mainX+7)) and ((mainY-10)<= bY <= (mainY+10)):  
+                            document[id].attrs["fill"] = "red"
+                            self.detect(id)                            
+                        else:                            
+                            document[id].attrs["fill"] = b.color                        
+
+                animate(1)
+
+
+            def stop_inspect(self):
+                window.cancelAnimationFrame(self.inspector)
+                self.inspector = None
+
+
+
+        dsk = Disk("disc")
+        sensor = Sensor()
+        inspector = Inspector(dsk, sensor)
+        
+
+
+        @bind(document["on"], "click")
+        def on(e):
+            if dsk.list_bolts:
+                inspector.inspect()
+                dsk.start()
+                inspector.set_active_buttons(False)
+           
+
+        @bind(document["off"], "click")
+        def off(e):
+            inspector.disk.stop()
+            inspector.stop_inspect()
+            inspector.set_active_buttons(True)
+
+        # расчитать радиус по длинне окружности
+        @bind(document["app-lendth"], "click")
+        def app_len(e):
+            radius = dsk.get_radius()
+            dsk.set_radius(radius)
+            document["radius"].value = radius
+            sensor.set_coord_X_translate(int(dsk.get_radius()))          
+            
+            
+        @bind(document["app-radius"], "click")
+        def app_radius(e):
+            len_crkl = dsk.get_len_cirkle()
+            document["len-round-disc"].value = len_crkl
+
+        @bind(document["set-dots"], "click")
+        def add_bolts(e):
+            num_dots = int(document["dots"].value)
+            dsk.append_bolts(num_dots)       
+
+            L_segment = dsk.calculate_L_segment(num_dots)
+            if L_segment:
+                dsk.L_segment = L_segment
+            document["main-radius"].innerHTML = f"{dsk.bolts_radius / 3.779}"
+            document["L-segment"].innerHTML = f"{dsk.L_segment}"
+            document["main-lendth"].innerHTML = f"{dsk.get_main_len_crcl() / 3.779}"
+
+        @bind(document["del-dots"], "click")
+        def del_bolts(e):
+            dsk.delete_bolts()
+
+        @bind(document["clear"], "click")
+        def clear_calculate(e):
+            inspector.clear()
+            
+        @bind(document["d-mul"], "click")
+        def set_delta_mul(e):
+            inspector.delta_mul = document["delta-mul"].value
+
+        @bind(document["speed-disc"], "change")
+        def set_speed(e):
+            step_animation = document["speed-disc"].value
+            document["speed"].innerHTML = step_animation
+            if dsk.on:
+                dsk.step = step_animation
+
+        @bind(document["total"], "click")
+        def set_cut_total(e):
+            value_total = document["set-total"].value
+            inspector.reset = value_total
+
+        
+
+    </script>
+
+</body>
+</html>

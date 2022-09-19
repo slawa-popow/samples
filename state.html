@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+    <title>Document</title>
+    
+
+  </head>
+  <body onload="brython(1)">
+    
+    <div class="svg">
+      
+     
+
+      <?xml version="1.0" standalone="no"?>
+<svg width=15cm" height="6cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <desc>Example line01 - lines expressed in user coordinates</desc>
+
+  <!-- Show outline of viewport using 'rect' element -->
+  
+  <!-- <circle id="my-circle" r="100" cx="100" cy="100" fill="orange" /> -->
+  <rect id="rect1" x="100" y="100" width="100" height="100" fill="orange"/> 
+  <rect id="rect2" x="200" y="200" width="10" height="150" fill="blue"/>     
+</svg>
+
+    </div>
+     <h1 id="h1"></h1>
+     <h1 id="h2"></h1>
+    <div >
+    <button id="push">ТОЛКАТЬ</button>
+    <button id="less">ОБРАТНО</button>
+    <script type="text/python">
+
+    from browser import document, window
+    from collections import deque
+    import math
+    
+    class SvgFigure:
+      pass
+
+
+    class Rect(SvgFigure):
+      def __init__(self, svg_obj: object, crd: str, max_path: float, id_view=None) -> None:        
+        self._x: str = svg_obj.attrs.get('x')
+        self._y: str = svg_obj.attrs.get('y')
+        self._width: str = svg_obj.attrs.get('width')
+        self._height: str = svg_obj.attrs.get('height')
+        self._fill: str = svg_obj.attrs.get('fill')
+        self._svg_obj = svg_obj 
+        self._id_animate = None
+        self.id_view = id_view
+        self.max_path = max_path
+        self.crd = crd
+
+      @property
+      def id_animate(self):
+        return self._id_animate
+
+      @id_animate.setter
+      def id_animate(self, value):
+        self._id_animate = value
+
+      @property
+      def x(self) -> str:
+        return self._x
+
+      @x.setter
+      def x(self, value) -> None:
+        self._x = str(value)
+        self._svg_obj.attrs['x'] = self._x        
+
+      @property
+      def y(self) -> str:
+        return self._y
+
+      @y.setter
+      def y(self, value) -> None:
+        self._y = str(value)
+        self._svg_obj.attrs['y'] = self._y
+
+      @property
+      def width(self) -> str:
+        return self._width
+
+      @width.setter
+      def width(self, value) -> None:
+        self._width = str(value)
+        self._svg_obj.attrs['width'] = self._width
+
+      @property
+      def height(self) -> str:
+        return self._height
+
+      @height.setter
+      def height(self, value) -> None:
+        self._height = str(value)
+        self._svg_obj.attrs['height'] = self._height
+
+      @property
+      def fill(self) -> str:
+        return self._fill
+
+      @fill.setter
+      def fill(self, value) -> None:
+        self._fill = str(value)
+        self._svg_obj.attrs['fill'] = self._fill
+
+      def get_attrs_rect(self) -> list:
+        return [self.x, self.y, self.width, self.height, self.fill]
+
+      def mov_r(self, step: float):
+        self.width = str(float(self.width) + step)
+        self._svg_obj.attrs['width'] = self.width
+
+      def mov_up(self, step: float):
+        self.y = str(float(self.y) - step)
+        self._svg_obj.attrs['y'] = self.y 
+
+      def mov_dwn(self, step: float):
+        self.y = str(float(self.y) + step)
+        self._svg_obj.attrs['y'] = str(float(self.y))
+
+      def get_coord(self):
+        coords = {'x':self.x, 'y':self.y, 'width':self.width, 'height':self.height}
+        return coords[self.crd]
+
+    class Movied:
+      def __init__(self, obj_svg, begin_method):    
+        self.obj_svg = obj_svg
+        self.method = begin_method
+        self.step = 0
+      def move(self, new_method=None):
+        if new_method is not None:
+            self.method = new_method
+        def anim(t):
+            self.obj_svg.id_animatie = window.requestAnimationFrame(anim)
+            self.method(self.step)
+        anim(1)
+
+    class Inspector:
+      def __init__(self, obj):
+        self.obj = obj
+        self.id_inspect = None
+        self.button = 0
+        
+        
+      def inspect(self):
+        r11 = Movied(self.obj, self.obj.mov_r)
+        r11.move()       
+        def anim(t):
+          self.obj.id_view.innerHTML = self.obj.y[:3]  
+          self.id_inspect = window.requestAnimationFrame(anim)
+          if self.button == 1:
+            r11.step = 0.5
+            r11.method = r11.obj_svg.mov_up
+            
+          if self.button == 0:
+            r11.step = 0  
+          if self.button == 2:
+            r11.step = 0.6 
+            r11.method = r11.obj_svg.mov_dwn
+        anim(1)
+
+
+    
+
+
+    print_h1 = document['h1'] 
+    print_h2 = document['h2'] 
+    rect_1 = document['rect1']
+    rect_2 = document['rect2']
+    obj_rect1 = Rect(rect_1, 'width', 900, print_h1)
+    obj_rect2 = Rect(rect_2, 'y', 50, print_h2)
+    insp = Inspector(obj_rect1)
+    insp.inspect()
+    
+    def func(e):
+      insp.button = 1
+
+    def fun(e):
+      insp.button = 2  
+
+    document["push"].bind("click", func)
+    document["less"].bind("click", fun)
+    
+     
+    </script>
+  </div>
+  </body>
+</html>

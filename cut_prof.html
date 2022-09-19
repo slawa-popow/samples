@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+    <style>
+         /* сброс стилей браузера */
+         html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+          margin: 0;
+          padding: 0;
+          border: 0;
+          font-size: 100%;
+          vertical-align: baseline;
+        }
+        article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+          display: block;
+        }
+        body {
+          line-height: 1.2;
+        }
+        ol { 
+          padding-left: 1.4em;
+          list-style: decimal;
+        }
+        ul {
+          padding-left: 1.4em;
+          list-style: square;
+        }
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+        } 
+        /* конец кода сброса стилей браузера */ 
+
+        #svg-profile {
+            background-color: rgba(219, 227, 228, 0.123);
+        }
+
+        @keyframes fallDown {
+            from {y: 0px;}
+            to {y: 200px;}
+        }    
+    </style>
+</head>
+<body onload="brython(1)"></body>
+
+<div id="svg-profile">
+    <?xml version="1.0" standalone="no"?>
+    <svg id="mySVG" width="1000" height="240" viewBox="600 -50 800 500"
+         xmlns="http://www.w3.org/2000/svg" version="1.1">
+         
+            <g id="Layer_1">
+             <title>Layer 1</title>
+             <rect fill="url(#svg_grdn)" stroke="black" x="0" y="0" width="10" height="20" id="profile" rx="2" stroke-width="0"/>
+            </g>
+            <defs>
+             <linearGradient id="svg_grdn" x1="0.4" y1="0" x2="0.4" y2="1" spreadMethod="pad">
+              <stop stop-color="#d83c15" stop-opacity="0.97266" offset="0.08984"/>
+              <stop stop-color="#ed784e" stop-opacity="0.98828" offset="0.32813"/>
+              <stop stop-color="#ef9675" stop-opacity="0.98828" offset="0.53516"/>
+              <stop stop-color="#7c1010" stop-opacity="0.96875" offset="0.62109"/>
+              <stop stop-color="#d65a44" stop-opacity="0.95703" offset="0.67969"/>
+              <stop stop-color="#ed784e" stop-opacity="0.98828" offset="0.6875"/>
+              <stop stop-color="#892c0d" stop-opacity="0.98438" offset="0.98828"/>
+              <stop stop-color="#db4711" stop-opacity="0.98828" offset="0.99609"/>
+              <stop stop-color="#ba2552" offset="1" stop-opacity="0.33203"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+              <stop stop-color="0" stop-opacity="0" offset="NaN"/>
+             </linearGradient>
+            </defs>
+    </svg>
+</div>
+<div class="buttons">
+    <button id="create-svg">create</button>
+    <button id="fall-of">fall of</button>
+    <button id="animate">animate</button>
+</div>
+
+
+    
+<script type="text/python">
+
+from browser import document, window, html, bind
+
+curr_profile = document["profile"]
+@bind(document["create-svg"], "click")
+def create_profile(e):    
+    
+    
+    def loop(t):
+        prfl = window.requestAnimationFrame(loop)
+       
+        coordX = float(curr_profile.attrs['width'])
+        coordX += 1.9
+        curr_profile.attrs['width'] = coordX
+        
+        if float(curr_profile.attrs['width']) >= 600:
+            new_x = curr_profile.attrs['width']
+            svgNS = "http://www.w3.org/2000/svg"
+            new_profile = document.createElementNS(svgNS,"rect")
+            new_profile.setAttributeNS(None, "id", "two-profile")
+            new_profile.setAttributeNS(None, "x", 300)
+            new_profile.setAttributeNS(None, "y", 0)
+            new_profile.setAttributeNS(None, "width", 300)
+            new_profile.setAttributeNS(None, "height", 20)
+            new_profile.setAttributeNS(None, "fill", "url(#svg_grdn)")
+            document["mySVG"].appendChild(new_profile)
+            
+            curr_profile.attrs['width'] = 300
+            animate_fall()
+    loop(1)
+
+def animate_fall():
+    s = document.getElementById("two-profile")
+    if s is None:
+        return None
+    s.style.animation = f"fallDown 0.7s cubic-bezier(.97,-0.09,.5,.76)"
+    p = document["mySVG"]
+    def anim(t):
+        ref = window.requestAnimationFrame(anim)
+        nonlocal s, p
+        fY = float(s.getBoundingClientRect()['y'])
+        print(str(fY)[:5])
+        if fY >= 110:
+            p.removeChild(s)
+            window.cancelAnimationFrame(ref)
+                     
+    anim(1)
+    
+@bind(document["animate"], "click")
+def anim(e):
+    animate_fall()
+
+
+@bind(document["fall-of"], "click")
+def fallOf(e):
+    p = document["mySVG"]
+    s = document.getElementById("two-profile")
+    if s:
+        p.removeChild(s)
+
+
+
+</script>
+
+    
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+
+    <style>
+        .buttons {
+            margin-top:100px;
+        }
+        .buttons button{
+            
+            padding: 15px;
+        }
+        
+    </style>
+  </head>
+
+  <body onload="brython(1)">
+    <svg id="disc-path" width="600" height="600" viewBox="-250 -250 900 900" transform-origin="300 300" xmlns="http://www.w3.org/2000/svg">
+        <circle id="disc" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"  cx="200" cy="200" r="150" ></circle>
+    </svg>
+    <div class="buttons">
+    <button id="on" style="background-color: rgba(27, 146, 16, 0.493);">включить счет</button>
+    <button id="off" style="background-color: rgba(214, 23, 16, 0.479);">стоп</button>
+    <button id="set-dots">установить болты</button>
+    <input id="dots" type="text" size="10" value="15">
+    </div>
+    <script type="text/python">
+    from browser import document, window, html, bind
+    from functools import wraps
+    import math
+
+
+    def get_center(svg_id) -> tuple:
+        """Принимает svg объект. Возвращает
+            координаты x, y центра объектa.
+        """
+        bb = svg_id.getBBox()
+        return (int(bb.x + bb.width / 2), int(bb.y + bb.height / 2))
+
+
+
+    class Bolt:
+        _id: int = 0
+
+        def __init__(self, pos_X: float, pos_Y: float, radius: float=10.0, color: str="orange", ex_id: str = None):
+            self._radius: float = radius
+            self._color: str = color
+            self._posX: float = pos_X
+            self._posY: float = pos_Y
+            self._width = self._height = radius
+            self._id: str = self.get_id() if ex_id is None else ex_id
+            self._bolt = self.create_svg()
+            self._deg = 0.0
+            self.mX = 0    
+            self.mY = 0
+
+        def create_svg(self):
+            svgNS = "http://www.w3.org/2000/svg"
+            new_bolt =  document.createElementNS(svgNS,"circle")
+            #new_bolt.setAttributeNS(None, "viewBox", f"0 0 600 600")
+            new_bolt.setAttributeNS(None, "id", self.id)
+            new_bolt.setAttributeNS(None, "cx", self.posX)
+            new_bolt.setAttributeNS(None, "cy", self.posY)
+            new_bolt.setAttributeNS(None, "r", f"{self.radius}")
+            new_bolt.setAttributeNS(None, "fill", self.color)
+            return new_bolt
+
+        @classmethod
+        def get_id(cls) -> str:
+            cls._id += 1
+            return f"bolt{cls._id}"
+
+
+        @property
+        def bolt(self):
+            return self._bolt
+
+        @bolt.setter
+        def bolt(self, value):
+            pass
+
+        @property
+        def deg(self) -> float:
+            return self._deg
+
+        @deg.setter
+        def deg(self, value: float) -> None:
+            self._deg = value
+
+
+        @property
+        def color(self) -> str:
+            return self._color
+
+        @color.setter
+        def color(self, value: str) -> None:
+            self._color = value
+
+        @property
+        def radius(self) -> float:
+            return self._radius
+
+        @radius.setter
+        def radius(self, value: float) -> None:
+            self._radius = value
+
+        @property
+        def id(self) -> str:
+            return self._id
+
+        @id.setter
+        def id(self, value: str) -> None:
+            self._id = value
+
+        @property
+        def posX(self) -> float:
+            return self._posX
+
+        @posX.setter
+        def posX(self, value: float) -> None:
+            self._posX = value
+
+        @property
+        def posY(self) -> float:
+            return self._posY
+
+        @posY.setter
+        def posY(self, value: float) -> None:
+            self._posY = value
+
+
+
+
+    class Disk:
+
+        def __init__(self, document_id: str) -> None:
+            self.disk = document[document_id]
+            self.step = 0.0
+            self.current_deg = 0.0
+            self.list_bolts: dict = dict()
+            self.bolts_radius: float = None
+            self.L_segment = None
+            self.rotate = None
+            self.transform_origin: tuple = (200, 200)
+            
+
+        def get_animation_obj(self):
+            return self.rotate
+
+        def set_animation_obj(self, obj):
+            self.rotate = obj
+
+        def get_pic_radius(self):
+            return float(self.disk.attrs["r"])
+            
+
+        def append_bolts(self, n: int) -> None:
+            tr_ori = self.transform_origin
+            cx, cy = float(tr_ori[0]), float(tr_ori[1])
+            delta = 360 / n
+            tmp_deg = 0
+            svg = document["disc-path"]
+            # перевод пиксели в мм.
+            # 1 мм - 3.779 пикселей, радиус основного диска умножаем на 3.779 минус радиус болта * 3.779
+            # чтобы болты были ближе к внеш границам  основного диска
+
+            if len(self.list_bolts) == 0:
+                r = (self.get_pic_radius())
+                self.bolts_radius = r 
+                                   
+                for i in range(1, n+1): 
+                    if i == 1:
+                        color = "green"
+                        main_id = "main-bolt"
+                    else:
+                        main_id = None                  
+                        color = "rgba(60, 65, 59, 0.829)" if (i%2 == 0) else "rgba(170, 147, 16, 0.884)"
+                    pt = svg.createSVGPoint()
+                    posX = cx + r * math.cos((tmp_deg*math.pi)/180)
+                    posY = cy + r * math.sin((tmp_deg*math.pi)/180)
+                    b = Bolt(posX, posY, radius=14, color=color, ex_id=main_id)
+                    svgP = pt.matrixTransform(svg.getScreenCTM().inverse())
+                    b.docX = svgP.x
+                    b.docY = svgP.y
+                    b.deg = tmp_deg
+                    tmp_deg += delta                    
+                    self.list_bolts[b.id] = b
+                    document["disc-path"].appendChild(b.bolt)
+            x0 = self.list_bolts["main-bolt"].bolt.getClientRects()[0]['x']
+            y0 = self.list_bolts["main-bolt"].bolt.getClientRects()[0]['y']
+            self.list_bolts["main-bolt"].bolt.mX = x0 + window.scrollX
+            self.list_bolts["main-bolt"].bolt.mY = y0 + window.scrollY
+            #print(self.list_bolts["main-bolt"].bolt.mX, self.list_bolts["main-bolt"].bolt.mY)
+
+        def delete_bolts(self) -> None:
+            if self.list_bolts:
+                for bolt in self.list_bolts:
+                    self.disk.removeChild(document[bolt])
+                self.list_bolts.clear()
+
+
+        def set_radius(self, radius):
+            self.disk.attrs["r"] = f"{radius}"
+           
+
+        def rotate_disk(self):
+            self.current_deg += self.step
+            document["disc-path"].attrs["transform"] = f"rotate({int(self.current_deg)})"                
+            if self.current_deg >= 360:
+                self.current_deg = 0
+        
+        def on_animation(self, step: float):
+            self.step = step
+            def anim(t):
+                animate = window.requestAnimationFrame(anim)
+                self.set_animation_obj(animate)
+                self.rotate_disk()                
+            anim(1)
+
+        def start(self, step: float):
+            if self.get_animation_obj() is None:
+                self.on_animation(step)
+           
+            
+        def stop(self):
+            window.cancelAnimationFrame(self.get_animation_obj())
+            self.rotate = None
+
+
+
+    
+
+    class Inspector:
+        _obj = None
+
+        def __new__(cls, *args):
+            if cls._obj is None:
+                cls._obj = super().__new__(cls)
+            return cls._obj
+
+        def __init__(self, disk: Disk):
+            self.disk: Disk = disk
+            self.inspector = None 
+            self.totalS = 0.0
+            self.S = 0.0
+            self.delta_mul = 1.0
+            self.count = 0 
+            self.tmp_id = "" 
+            
+            
+        
+        def inspect(self):
+            
+            def animate(t):
+                self.inspector = window.requestAnimationFrame(animate)
+                
+                mainX = self.disk.list_bolts["main-bolt"].bolt.mX 
+                mainY = self.disk.list_bolts["main-bolt"].bolt.mY 
+                for id, b in self.disk.list_bolts.items():
+                    
+                    
+                    bX = int(b.bolt.getClientRects()[0]['x']) + window.scrollX
+                    bY = int(b.bolt.getClientRects()[0]['y']) + window.scrollY
+                    print(id,[int(bX), int(bY)], f"main - {(mainX, mainY)}")
+                    if ((mainX-6)<= bX <= (mainX+6)) and ((mainY-8)<= bY <= (mainY+8)): 
+                        document[id].attrs["fill"] = "red"
+                                                  
+                    else:                            
+                        document[id].attrs["fill"] = b.color                        
+                
+            animate(1)
+            
+
+
+        def stop_inspect(self):
+            window.cancelAnimationFrame(self.inspector)
+            self.inspector = None
+            
+    
+    dsk = Disk("disc")
+    inspector = Inspector(dsk)
+
+    @bind(document["on"], "click")
+    def on(e):
+        if dsk.get_animation_obj() is None:
+            if inspector.inspector is None:
+                inspector.inspect()
+                dsk.start(1.1)
+        
+
+    @bind(document["off"], "click")
+    def off(e):
+        inspector.stop_inspect()
+        dsk.stop()
+
+    @bind(document["set-dots"], "click")
+    def add_bolts(e):
+        num_dots = int(document["dots"].value)
+        dsk.append_bolts(num_dots)       
+
+        
+
+    </script>
+  </body>
+</html>

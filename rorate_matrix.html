@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+    <style>
+        .buttons {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+        .buttons button {
+            margin-left: 30px;
+        }
+        .content-svg .tablo,span{
+            background-color: rgba(23, 82, 134, 0.705);
+            color: white;
+            font: 0.9em serif;
+            margin-left: 40px;
+        }
+    </style>
+  </head>
+  <body onload="brython(1)">
+    <div id="content-svg">
+      <svg
+        viewBox="0 0 568 428"
+        height="300"
+        width="300"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:bx="https://boxy-svg.com"
+      >
+        <defs>
+          <linearGradient id="gradient-2" bx:pinned="true"></linearGradient>
+          <radialGradient
+            gradientUnits="userSpaceOnUse"
+            cx="155.289"
+            cy="247.81"
+            r="45.673"
+            id="gradient-0"
+          >
+            <stop offset="0" style="stop-color: rgba(216, 216, 216, 1)"></stop>
+            <stop offset="1" style="stop-color: rgba(165, 165, 165, 1)"></stop>
+          </radialGradient>
+          <linearGradient
+            gradientUnits="userSpaceOnUse"
+            x1="155.289"
+            y1="196.367"
+            x2="155.289"
+            y2="299.252"
+            id="gradient-1"
+            gradientTransform="matrix(0.011402, 0.999935, -0.849713, 0.009688, 362.513092, 92.645691)"
+          >
+            <stop offset="0" style="stop-color: rgb(204, 204, 204)"></stop>
+            <stop offset="0.465" style="stop-color: rgb(222, 222, 222)"></stop>
+            <stop offset="1" style="stop-color: rgb(204, 204, 204)"></stop>
+          </linearGradient>
+        </defs>
+        <g
+          id="dotter"
+          transform="translate(0 20)"
+          transform="matrix(0.314767, 0, 0, 0.284702, -31.807369, -24.313934)"
+        >
+          <rect
+            style="
+              stroke: rgb(0, 0, 0);
+              fill: url(#gradient-1);
+              stroke-dashoffset: 3px;
+              paint-order: fill;
+            "
+            x="109.616"
+            y="196.367"
+            width="91.346"
+            height="102.885"
+            rx="8"
+            ry="8"
+            id="flag-box"
+          ></rect>
+          <g
+            id="flag-stop-saw"
+            transform-origin="161.52154 214.5151"            
+          >
+            <ellipse
+              style="stroke: rgb(0, 0, 0); fill: rgb(91, 99, 90)"
+              cx="161.876"
+              cy="111.727"
+              rx="24.843"
+              ry="22.956"
+            ></ellipse>
+            <rect
+              style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0)"
+              x="148.353"
+              y="117.703"
+              width="16.352"
+              height="104.404"
+              rx="8.2"
+              ry="8.2"
+              transform="matrix(0.997564, 0.069756, -0.069756, 0.997564, 14.120091, -18.052313)"
+              
+            ></rect>
+          </g>
+        </g>
+      </svg>
+
+      <div class="buttons">
+        <button id="plus">+</button>
+        <button id="minus">--</button>
+        <button id="anim">animation</button>
+      </div>
+      <div class="tablo"><span>...</span></div>
+    </div>
+
+    <script type="text/python">
+
+    from browser import document, window, html, bind
+    from functools import wraps
+    from typing import Any, Callable
+
+    flag = document["flag-stop-saw"]
+    step = 0
+    RAF = None
+    def checkDeg(func):
+        @wraps(func)
+        def wrapper(e):
+            global step, RAF
+            
+            box = document["flag-box"]
+            if 10<=step <= 25:
+                box.style["fill"] = "red"
+            elif 25<=step<=60:
+                box.style["fill"] = "blue"
+            else:
+                box.style["fill"] = "rgb(216, 216, 216)"
+            if step >= 355:
+                step = 0
+                window.cancelAnimationFrame(RAF)
+            func(e)
+        return wrapper
+    
+    def rAf(func) -> Callable:
+        @wraps(func)
+        def wrapper(t):
+            raf = window.requestAnimationFrame(wrapper)
+            global RAF
+            RAF = raf
+            func(t)
+            
+            
+        return wrapper
+
+    @rAf
+    @checkDeg
+    def startAnim(*args):
+        global step
+        step += 0.5   
+        flag.attrs["transform"] = f"rotate({step})"
+        print('startAnim:', float(args[0])/1000)
+
+        
+
+    def get_coord_for_anim_rotate(svg_id: str) -> str:
+        starl = document[svg_id]
+        bb = starl.getBBox()
+        return f"X = {bb.x + bb.width / 2},  Y = {(bb.y + bb.height)}"
+
+    
+
+    @bind(document["plus"], "click")
+    @checkDeg
+    def plusDeg(e):
+        global step
+        step += 5   
+        flag.attrs["transform"] = f"rotate({step})"
+
+
+    @bind(document["minus"], "click")
+    @checkDeg
+    def minudDeg(e):
+        global step
+        step -=5
+        flag.attrs["transform"] = f"rotate({step})"
+
+    @bind(document["anim"], "click")
+    def startA(e):
+        startAnim(1)
+        
+        
+        
+
+    </script>
+  </body>
+</html>

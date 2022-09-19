@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+    <title>Document</title>
+    <script type="text/javascript">
+      function start_page(e){
+        let h1 = document.querySelector("#h")
+        h1.innerHTML = "start"
+        brython(1)
+        h1.innerHTML = ""
+      }
+    </script>
+
+  </head>
+  <body onload="start_page()">
+    
+    <div class="svg">
+      
+     
+
+      <?xml version="1.0" standalone="no"?>
+<svg width=15cm" height="6cm" viewBox="0 0 1200 400"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <desc>Example line01 - lines expressed in user coordinates</desc>
+
+  <!-- Show outline of viewport using 'rect' element -->
+  
+  <circle id="my-circle" r="90" cx="300" cy="250" fill="orange" />
+  <animate id="anim"
+      xlink:href="#my-circle"
+      attributeName="cx"
+      from="300"
+      to="1000"
+      dur="1s"
+      begin="indefinite"
+      fill="freese"
+      
+</svg>
+
+    </div>
+     <h1 id="h"></h1>
+    <div >
+    <button id="push">PUSH</button>
+   
+    <script type="text/python">
+    from browser import document, html
+
+    def func(e):
+      crl = document['anim']
+      prnt = document['h']
+      crl.beginElement()
+      prnt.innerHTML = crl['begin'] 
+
+    document["push"].bind("click", func)
+     
+    </script>
+  </div>
+  </body>
+</html>

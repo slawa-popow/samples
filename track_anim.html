@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+    <title>Document</title> 
+    <style>
+           /* сброс стилей браузера */
+         html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+          margin: 0;
+          padding: 0;
+          border: 0;
+          font-size: 100%;
+          vertical-align: baseline;
+        }
+        article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+          display: block;
+        }
+        body {
+          line-height: 1.2;
+        }
+        ol { 
+          padding-left: 1.4em;
+          list-style: decimal;
+        }
+        ul {
+          padding-left: 1.4em;
+          list-style: square;
+        }
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+        }  
+        /* конец кода сброса стилей браузера */ 
+        html {
+          background-color: #f6f6f6;
+        }
+        body {
+         
+	       
+          background-color: rgba(229, 233, 235, 0.212);
+        }
+      .buttons .speed_info{
+        font-size: 0.8em;
+        color: rgb(90, 86, 86);
+      }
+      .buttons .speed_info h2 {
+        font-size: 0.9em;
+        color: #423636cc;
+      }  
+
+      .buttons {margin-top: 40px;}
+      .buttons button{
+        margin: 8px 4px;
+        border-radius:6px;
+        display:inline-block;
+        font-family:Arial;
+        font-size:0.7em;
+        font-weight:bold;
+        padding:8px 4px;
+        text-decoration:none;
+      }
+      .buttons #on-traktor {
+        box-shadow:inset 0px 1px 0px 0px #a4e271;
+        background:linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+        background-color:#89c403;        
+        border:1px solid #74b807;       
+        cursor:pointer;
+        color:#ffffff;        
+        text-shadow:0px 1px 0px #528009;       
+      }
+      .buttons #on-traktor:hover {
+        position:relative;
+        top:1px;
+      }
+      .buttons #on-traktor:active {
+        background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+        background-color:#77a809;
+      }
+
+      .buttons #off-traktor {
+        box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+        background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+        background-color:#fc8d83;        
+        border:1px solid #d83526;       
+        cursor:pointer;
+        color:#ffffff;        
+        text-shadow:0px 1px 0px #b23e35;       
+      }
+      .buttons #off-traktor:hover {
+        position:relative;
+        top:1px;
+      }
+      .buttons #off-traktor:active {
+        background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+        background-color:#e4685d;
+      }
+
+      .buttons #tracksDown, #tracksUp {
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        background-color:#ffffff;        
+        border:1px solid #dcdcdc;       
+        cursor:pointer;
+        color:#666666;       
+        text-shadow:0px 1px 0px #ffffff;
+      }
+      .buttons #tracksDown:hover, #tracksUp:hover {
+      position:relative;
+      top:2px;
+    }
+    .buttons #tracksDown:active, #tracksUp:active {
+      background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+      background-color:#f6f6f6;
+    }
+
+      
+    
+      @keyframes marchingants {to {stroke-dashoffset: 20;}}
+      @keyframes lift_up {
+        from {transform: translate(0, 32px);}
+        to {transform: translate(0, 0);}
+      }
+      @keyframes lift_dwn {
+        from {transform: translate(0, 0);}
+        to {transform: translate(0, 32px);}
+      }
+      @keyframes rotation {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+      }
+      #svg_star_up_right, #svg_star_dwn_right {        
+        transform-origin: 55px 47px;
+      }
+      #svg_star_up_left, #svg_star_dwn_left{        
+        transform-origin: 316px 47px;
+      }
+     
+     
+    </style>
+
+  </head>
+  <body onload="brython(1)">
+    <div id="extrusion_line">
+      <?xml version="1.0" standalone="no"?>
+<svg id="track_profile" width="1360" height="130"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"> 
+      
+      <g>
+        <title>Тянущее</title>
+        
+        <g id="svg_tractor_up" transform="translate(0 32)">
+          <path
+            fill="#ffffff"
+            stroke-dasharray="30 5"
+            stroke-width="15"
+            stroke="orange"
+            opacity="undefined"
+            stroke-dashoffset="2000"
+            d="m185.75732,86.12122c-95.43987,0 -175.05277,8.18604 -174.25486,-39.18233c0.7979,-47.36837 78.815,-37.73114 174.25486,-37.73114c95.43987,0 172.78971,-11.81403 172.74616,38.45674c-0.04356,50.27077 -77.30629,38.45674 -172.74616,38.45674z"
+            id="svg_tracks_up"
+          />
+          <path
+            fill="#C48157"
+            stroke="black"
+            stroke-width="3"
+            d="m70.55604,29.30624l1.62555,-8.65964c-1.313,-0.7114 -2.67958,-1.2804 -4.07296,-1.7746l-6.40796,6.45232c-1.90982,-0.37419 -3.86664,-0.47937 -5.82342,-0.36665l-4.38636,-7.15935c-1.52645,0.31097 -3.03313,0.74443 -4.51721,1.27064l-0.95425,8.56684c-1.80792,0.91869 -3.52624,2.06648 -5.10656,3.4252l-8.22911,-2.33014c-0.51989,0.58755 -1.0422,1.17315 -1.52618,1.80414s-0.91029,1.27999 -1.33986,1.93253l4.84096,6.63185c-0.92004,1.8787 -1.56092,3.81946 -1.94362,5.7746l-8.18023,3.45017c-0.06875,1.49831 -0.03832,2.98956 0.12121,4.46075l8.30783,1.69092c0.48908,1.90599 1.23839,3.73561 2.26144,5.42656l-4.35727,7.52072c0.92612,1.10016 1.91748,2.15587 3.04121,3.11949l7.91103,-3.99699c1.72309,1.07889 3.55986,1.90702 5.47098,2.45028l1.42404,8.10218c1.50684,0.20854 3.02786,0.33293 4.55611,0.31764l3.83485,-7.84654c2.05061,-0.30795 4.07442,-0.8739 6.01976,-1.69617l6.61149,4.94758c1.3576,-0.78778 2.66852,-1.67488 3.92405,-2.65474l-2.08319,-8.06741c0.68627,-0.70472 1.34888,-1.44061 1.95917,-2.23629c0.66114,-0.86197 1.23217,-1.75692 1.75778,-2.66238l8.79098,-0.61819c0.59765,-1.43551 1.08188,-2.88883 1.45319,-4.35522l-7.1367,-4.50647c0.18745,-1.9308 0.11227,-3.85031 -0.20461,-5.71505l6.86638,-6.03289c-0.45674,-1.3814 -1.05047,-2.71254 -1.72655,-4.00602l-8.85431,1.25915c-1.08854,-1.45547 -2.41389,-2.76215 -3.92765,-3.91881l0,0.00001l-0.00001,0l0,-0.00001zm-0.27211,16.06511l-0.41132,4.35302l-4.21287,-0.04785c-0.38245,1.22019 -0.96392,2.41706 -1.80908,3.51895c-3.69118,4.81246 -10.46696,6.10802 -15.13418,2.89597c-4.66741,-3.21218 -5.45901,-9.71572 -1.76783,-14.52818c3.69022,-4.81121 10.46562,-6.1092 15.13303,-2.89701c2.33235,1.60516 3.69364,4.03028 4.01573,6.65763l4.18652,0.04748l-0.00001,0l0,0.00001z"
+            id="svg_star_up_right"
+          />
+          <path
+            fill="#C48157"
+            stroke="black"
+            stroke-width="3"
+            d="m341.19726,47.76191l8.35143,-3.84429c-0.16418,-1.42435 -0.48146,-2.80606 -0.87839,-4.16435l-9.27725,-1.11809c-0.80298,-1.68351 -1.86334,-3.24493 -3.10977,-4.67823l3.53636,-7.5696c-1.16282,-0.987 -2.41862,-1.88685 -3.74037,-2.71485l-7.87759,4.30418c-1.8473,-0.84549 -3.83759,-1.48765 -5.92693,-1.90007l-2.84684,-7.67591c-0.8074,-0.05306 -1.61455,-0.10912 -2.43794,-0.10912s-1.62826,0.05477 -2.43807,0.10912l-2.81863,7.60792c-2.14534,0.39921 -4.17958,1.04883 -6.07436,1.90475l-7.75491,-4.24087c-1.32008,0.828 -2.57582,1.72785 -3.73856,2.71485l3.43905,7.36051c-1.34038,1.49512 -2.46257,3.14476 -3.30543,4.92269l-8.98437,1.08143c-0.39525,1.35638 -0.7142,2.73662 -0.87669,4.16418l8.0637,3.71316c0.09135,1.95463 0.4637,3.84897 1.12304,5.63286l-6.08282,5.85364c0.70759,1.27732 1.49539,2.51606 2.40673,3.67823l8.95558,-1.67328c1.46833,1.39046 3.14125,2.60872 4.98698,3.6162l-0.33945,7.97476c1.4708,0.57734 2.99899,1.06052 4.57384,1.44674l5.66568,-6.33834c1.00526,0.11169 2.02323,0.18693 3.06153,0.18693c1.12479,0 2.22479,-0.08844 3.30706,-0.21785l5.69519,6.37351c1.57732,-0.38577 3.10318,-0.86893 4.57383,-1.4463l-0.346,-8.11797c1.75922,-0.99124 3.35443,-2.17712 4.76079,-3.51602l9.18848,1.71593c0.91135,-1.16199 1.69925,-2.3994 2.40659,-3.6778l-6.27983,-6.04529c0.60325,-1.68969 0.94023,-3.47341 1.03833,-5.31333l-0.00001,0l0,-0.00001l0.00001,0zm-13.8807,9.23431l-3.95956,2.24343l-2.43539,-3.25661c-1.26693,0.42413 -2.63092,0.68202 -4.06879,0.68202c-6.27981,0 -11.36901,-4.43104 -11.36901,-9.8957c0,-5.46489 5.0892,-9.89421 11.36901,-9.89421c6.27817,0 11.36923,4.42932 11.36923,9.89421c0,2.73086 -1.27108,5.19952 -3.32571,6.99067l2.42023,3.2362l0,-0.00001l-0.00001,0z"
+            id="svg_star_up_left"
+          />
+          <rect
+            id="svg_2_up"
+            height="21.04236"
+            width="176.18186"
+            y="35.32931"
+            x="98.8271"
+            stroke="#000000"
+            fill="#444444"
+            rx="10"
+          />
+          <rect
+            fill="#444444"
+            stroke="#000000"
+            x="160.10775"
+            y="28.07332"
+            width="58.21661"
+            height="37.73114"
+            id="svg_3_up"
+            rx="20"
+          />
+        </g>
+
+
+        <rect stroke-width="0" id="profile" height="20" width="200" y="126" x="0" stroke="black" fill="url(#svg_grdn)"/>
+        </g>
+        <defs>
+          <linearGradient spreadMethod="pad" y2="1" x2="0.4" y1="0" x1="0.4" id="svg_grdn">
+          <stop offset="0.08984" stop-opacity="0.97266" stop-color="#d83c15"/>
+          <stop offset="0.32813" stop-opacity="0.98828" stop-color="#ed784e"/>
+          <stop offset="0.53516" stop-opacity="0.98828" stop-color="#ef9675"/>
+          <stop offset="0.62109" stop-opacity="0.96875" stop-color="#7c1010"/>
+          <stop offset="0.67969" stop-opacity="0.95703" stop-color="#d65a44"/>
+          <stop offset="0.6875" stop-opacity="0.98828" stop-color="#ed784e"/>
+          <stop offset="0.98828" stop-opacity="0.98438" stop-color="#892c0d"/>
+          <stop offset="0.99609" stop-opacity="0.98828" stop-color="#db4711"/>
+          <stop stop-opacity="0.33203" offset="1" stop-color="#ba2552"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+          </linearGradient>
+        </defs>
+
+
+        <g id="svg_tractor_dwn" transform="translate(0 145)">
+          <path
+            fill="#ffffff"
+            stroke-dasharray="30 5"
+            stroke-width="15"
+            stroke="orange"
+            opacity="undefined"
+            stroke-dashoffset="2000"
+            d="m185.75732,86.12122c-95.43987,0 -175.05277,8.18604 -174.25486,-39.18233c0.7979,-47.36837 78.815,-37.73114 174.25486,-37.73114c95.43987,0 172.78971,-11.81403 172.74616,38.45674c-0.04356,50.27077 -77.30629,38.45674 -172.74616,38.45674z"
+            id="svg_tracks_dwn"
+          />
+          <path
+            fill="#C48157"
+            stroke="black"
+            stroke-width="3"
+            d="m70.55604,29.30624l1.62555,-8.65964c-1.313,-0.7114 -2.67958,-1.2804 -4.07296,-1.7746l-6.40796,6.45232c-1.90982,-0.37419 -3.86664,-0.47937 -5.82342,-0.36665l-4.38636,-7.15935c-1.52645,0.31097 -3.03313,0.74443 -4.51721,1.27064l-0.95425,8.56684c-1.80792,0.91869 -3.52624,2.06648 -5.10656,3.4252l-8.22911,-2.33014c-0.51989,0.58755 -1.0422,1.17315 -1.52618,1.80414s-0.91029,1.27999 -1.33986,1.93253l4.84096,6.63185c-0.92004,1.8787 -1.56092,3.81946 -1.94362,5.7746l-8.18023,3.45017c-0.06875,1.49831 -0.03832,2.98956 0.12121,4.46075l8.30783,1.69092c0.48908,1.90599 1.23839,3.73561 2.26144,5.42656l-4.35727,7.52072c0.92612,1.10016 1.91748,2.15587 3.04121,3.11949l7.91103,-3.99699c1.72309,1.07889 3.55986,1.90702 5.47098,2.45028l1.42404,8.10218c1.50684,0.20854 3.02786,0.33293 4.55611,0.31764l3.83485,-7.84654c2.05061,-0.30795 4.07442,-0.8739 6.01976,-1.69617l6.61149,4.94758c1.3576,-0.78778 2.66852,-1.67488 3.92405,-2.65474l-2.08319,-8.06741c0.68627,-0.70472 1.34888,-1.44061 1.95917,-2.23629c0.66114,-0.86197 1.23217,-1.75692 1.75778,-2.66238l8.79098,-0.61819c0.59765,-1.43551 1.08188,-2.88883 1.45319,-4.35522l-7.1367,-4.50647c0.18745,-1.9308 0.11227,-3.85031 -0.20461,-5.71505l6.86638,-6.03289c-0.45674,-1.3814 -1.05047,-2.71254 -1.72655,-4.00602l-8.85431,1.25915c-1.08854,-1.45547 -2.41389,-2.76215 -3.92765,-3.91881l0,0.00001l-0.00001,0l0,-0.00001zm-0.27211,16.06511l-0.41132,4.35302l-4.21287,-0.04785c-0.38245,1.22019 -0.96392,2.41706 -1.80908,3.51895c-3.69118,4.81246 -10.46696,6.10802 -15.13418,2.89597c-4.66741,-3.21218 -5.45901,-9.71572 -1.76783,-14.52818c3.69022,-4.81121 10.46562,-6.1092 15.13303,-2.89701c2.33235,1.60516 3.69364,4.03028 4.01573,6.65763l4.18652,0.04748l-0.00001,0l0,0.00001z"
+            id="svg_star_dwn_right"
+          />
+          <path
+            fill="#C48157"
+            stroke="black"
+            stroke-width="3"
+            d="m341.19726,47.76191l8.35143,-3.84429c-0.16418,-1.42435 -0.48146,-2.80606 -0.87839,-4.16435l-9.27725,-1.11809c-0.80298,-1.68351 -1.86334,-3.24493 -3.10977,-4.67823l3.53636,-7.5696c-1.16282,-0.987 -2.41862,-1.88685 -3.74037,-2.71485l-7.87759,4.30418c-1.8473,-0.84549 -3.83759,-1.48765 -5.92693,-1.90007l-2.84684,-7.67591c-0.8074,-0.05306 -1.61455,-0.10912 -2.43794,-0.10912s-1.62826,0.05477 -2.43807,0.10912l-2.81863,7.60792c-2.14534,0.39921 -4.17958,1.04883 -6.07436,1.90475l-7.75491,-4.24087c-1.32008,0.828 -2.57582,1.72785 -3.73856,2.71485l3.43905,7.36051c-1.34038,1.49512 -2.46257,3.14476 -3.30543,4.92269l-8.98437,1.08143c-0.39525,1.35638 -0.7142,2.73662 -0.87669,4.16418l8.0637,3.71316c0.09135,1.95463 0.4637,3.84897 1.12304,5.63286l-6.08282,5.85364c0.70759,1.27732 1.49539,2.51606 2.40673,3.67823l8.95558,-1.67328c1.46833,1.39046 3.14125,2.60872 4.98698,3.6162l-0.33945,7.97476c1.4708,0.57734 2.99899,1.06052 4.57384,1.44674l5.66568,-6.33834c1.00526,0.11169 2.02323,0.18693 3.06153,0.18693c1.12479,0 2.22479,-0.08844 3.30706,-0.21785l5.69519,6.37351c1.57732,-0.38577 3.10318,-0.86893 4.57383,-1.4463l-0.346,-8.11797c1.75922,-0.99124 3.35443,-2.17712 4.76079,-3.51602l9.18848,1.71593c0.91135,-1.16199 1.69925,-2.3994 2.40659,-3.6778l-6.27983,-6.04529c0.60325,-1.68969 0.94023,-3.47341 1.03833,-5.31333l-0.00001,0l0,-0.00001l0.00001,0zm-13.8807,9.23431l-3.95956,2.24343l-2.43539,-3.25661c-1.26693,0.42413 -2.63092,0.68202 -4.06879,0.68202c-6.27981,0 -11.36901,-4.43104 -11.36901,-9.8957c0,-5.46489 5.0892,-9.89421 11.36901,-9.89421c6.27817,0 11.36923,4.42932 11.36923,9.89421c0,2.73086 -1.27108,5.19952 -3.32571,6.99067l2.42023,3.2362l0,-0.00001l-0.00001,0z"
+            id="svg_star_dwn_left"
+          />
+          <rect
+            id="svg_2_dwn"
+            height="21.04236"
+            width="176.18186"
+            y="35.32931"
+            x="98.8271"
+            stroke="#000000"
+            fill="#444444"
+            rx="10"
+          />
+          <rect
+            fill="#444444"
+            stroke="#000000"
+            x="160.10775"
+            y="28.07332"
+            width="58.21661"
+            height="37.73114"
+            id="svg_3_dwn"
+            rx="20"
+          />
+        </g>
+      </g>
+
+      <g id="cut-table">
+        <title>Layer 1</title>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m126.35999,443.18497l0,-1.49l1.49,1.49l-1.49,0z" id="svg_19"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m146.26,402.38996l0,-1.49l1.49,1.49l-1.49,0z" id="svg_20"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m79.59499,386.46998l0,-1.49l1.49,1.49l-1.49,0z" id="svg_21"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m61.685,392.43998l0,-1.49l1.49,1.49l-1.49,0z" id="svg_23"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m61.685,390.44996l0,-1.49l1.49,1.49l-1.49,0z" id="svg_24"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m179.09499,422.28998l0,-1.49l1.49,1.49l-1.49,0z" id="svg_25"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m189.04499,428.25999l0,-1.49l1.49,1.49l-1.49,0z" id="svg_26"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m186.05999,412.33997l0,-1.49l1.49,1.49l-1.49,0z" id="svg_27"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m94.52,393.34185l0.745,-1.30375l0.745,1.30375l-1.49,0z" id="svg_28"/>
+        <path fill="url(#svg_18)" stroke="#000" stroke-width="0" opacity="NaN" d="m321.33368,244.73034l0,-1.45772l1.40134,1.45772l-1.40134,0z" id="svg_22"/>
+        <g id="svg_12">
+         <rect fill="url(#svg_3)" stroke="#000" x="15.19275" y="300.22772" width="357.80692" height="13.60145" id="svg_5" stroke-width="0"/>
+         <g id="press">
+          <path fill="#191919" stroke="#000" stroke-width="0" d="m61.45718,102.51823l28.80093,0l0,15.28171l-28.80093,0l0,-15.28171z" id="svg_124"/>
+          <path fill="#191919" stroke="#000" stroke-width="0" d="m117.65452,102.54212l28.40641,0l0,15.28171l-28.40641,0l0,-15.28171z" id="svg_125"/>
+          <path fill="#7f7f00" stroke="#000" stroke-width="0" d="m118.36073,53.79005c0,5.93445 -6.62395,10.74527 -14.795,10.74527m14.795,-10.74527l0,0c0,5.93445 -6.62395,10.74527 -14.795,10.74527c-8.17105,0 -14.795,-4.81081 -14.795,-10.74527m0,0l0,0c0,-5.93444 6.62395,-10.74527 14.795,-10.74527c8.17105,0 14.795,4.81082 14.795,10.74527l0,42.98109c0,5.93444 -1.49502,3.79243 -14.795,4.42451c-13.29999,0.63207 -14.795,1.50993 -14.795,-4.42451l0,-42.98109z" id="svg_127"/>
+          <path fill="#7f7f00" stroke="#000" stroke-width="0" d="m51.76932,88.48469l102.97322,0l0,13.84905l-102.97322,0l0,-13.84905z" id="svg_126"/>
+         </g>
+         <g id="traverse">
+          <path fill="url(#svg_3)" stroke="#000" stroke-width="0" opacity="undefined" d="m152.70422,175.87616l0.92092,108.49609l-19.47716,0.15312l-0.92092,-108.49609l19.47716,-0.15312z" id="svg_4"/>
+          <rect fill="url(#svg_3)" stroke="#000" stroke-width="0" x="109.40122" y="278.4661" width="74.51846" height="55.2007" id="svg_16" rx="4"/>
+          <g id="saw-up-dwn">
+           <rect fill="url(#svg_3)" stroke="#000" stroke-width="0" x="113.00688" y="221.87351" width="18.14853" height="11.62874" id="svg_119"/>
+           <rect fill="#7f3f00" stroke="#000" stroke-width="0" x="340.90202" y="542.57731" width="44.98572" height="61.9927" id="svg_35" transform="matrix(0.00212023, 0.72632, -0.591413, 0.00260388, 483.592, -37.3893)" rx="5"/>
+           <path fill="#ff7f00" stroke="#000" stroke-width="0" opacity="undefined" d="m107.82964,249.00724c-0.65393,0 -1.13529,-7.20103 -1.13529,-43.60777c0,-36.40673 0.48137,-45.06136 1.13529,-45.06136c0.65393,0 1.23191,8.65463 1.23191,45.06136c0,36.40673 -0.57799,43.60777 -1.23191,43.60777z" id="svg_130"/>
+          </g>
+          <path fill="#333333" stroke="#000" stroke-width="0" d="m120.12026,176.6488c0,10.58331 -5.0342,19.16278 -11.24419,19.16278m11.24419,-19.16278l0,0c0,10.58331 -5.0342,19.16278 -11.24419,19.16278c-6.20999,0 -11.24419,-8.57945 -11.24419,-19.16278m0,0l0,0c0,-10.5833 5.18929,-9.89046 11.39928,-9.89046c6.20999,0 11.0891,-0.69284 11.0891,9.89046l0,76.65114c0,10.5833 -5.0342,19.16274 -11.24419,19.16274c-6.20999,0 -11.24419,-8.57945 -11.24419,-19.16274l0,-76.65114l-0.00001,0z" id="svg_118"/>
+          <rect fill="#333333" stroke="#000" x="16.04877" y="164.6841" width="175.05925" height="13.07385" id="svg_6" stroke-width="0"/>
+         </g>
+        </g>
+       </g>
+       <defs>
+        <linearGradient id="svg_3" x1="0.50781" y1="0" x2="0.51953" y2="1">
+         <stop stop-color="#cccccc" stop-opacity="0.99609" offset="0"/>
+         <stop stop-color="#7f7f7f" stop-opacity="0.99609" offset="0.32813"/>
+         <stop stop-color="#666666" stop-opacity="0.99609" offset="0.44922"/>
+         <stop stop-color="#666666" stop-opacity="0.99609" offset="0.57813"/>
+         <stop stop-color="#999999" stop-opacity="0.99609" offset="0.81641"/>
+         <stop stop-color="#b2b2b2" stop-opacity="0.99609" offset="1"/>
+        </linearGradient>
+        <linearGradient id="svg_18" x1="0.49219" y1="0" x2="0.48047" y2="1">
+         <stop stop-color="#cccccc" stop-opacity="0.99609" offset="0"/>
+         <stop stop-color="#7f7f7f" stop-opacity="0.99609" offset="0.32813"/>
+         <stop stop-color="#666666" stop-opacity="0.99609" offset="0.44922"/>
+         <stop stop-color="#666666" stop-opacity="0.99609" offset="0.57813"/>
+         <stop stop-color="#999999" stop-opacity="0.99609" offset="0.81641"/>
+         <stop stop-color="#b2b2b2" stop-opacity="0.99609" offset="1"/>
+        </linearGradient>
+       </defs>
+
+    </svg>
+  </div>
+  <div class="buttons">
+    <button id="tracksUp">Поднять гусеницы</button>
+    <button id="tracksDown">Опустить гусеницы</button>
+    <button id="on-traktor">Включить тянущее</button>
+    <button id="off-traktor">Отключить тянущее</button>
+    <div>
+      <div class="speed_info">
+        <span>Отладочные параметры:</span>
+        <h2 id="h-2"></h2>
+      </div>
+      <button id="more_speed">+</button>
+      <button id="less_speed">-</button>
+    </div>
+  </div>
+    <script type="text/python">
+    from browser import document, window, html, bind
+
+    widthSize = window.screen.width
+  
+    bod = document.querySelector("body")
+    bod.style.width = f"{widthSize}px"
+    bod.style.maxWidth = f"{widthSize-5}px"
+    bod.style.margin = f"{0} auto"
+    svgi = document["track_profile"]
+    svgi.width = widthSize - 10
+    svgi.attrs['viewBox'] = f"{widthSize} {0} {widthSize} {380}"
+    cut_table = document["cut-table"].attrs["transform"] = f"translate({350} {-20})" 
+
+    document["press"].attrs["transform"] = f"translate({0} {28})"
+    document["saw-up-dwn"].attrs["transform"] = f"translate({0} {-30})"
+
+    document["h-2"].innerHTML = f"size: {widthSize},  width: {bod.style.maxWidth}, margin: {bod.style.margin}, svg:|width: {svgi.width}, viewBox: {svgi.attrs['viewBox']}|"
+    
+
+
+    def get_coord_for_anim_rotate(svg_id: str) -> str:
+      """Принимает id svg объекта. Возвращает
+         координаты x, y центра этих объектов.
+         Нужно для нахождения центра изображения для 
+         вращения."""
+
+      if not isinstance(svg_id, str):
+        return f"Аргумент 'svg_id' не является строкой."
+      starl = document[svg_id]
+      bb = starl.getBBox()
+      return f"X = {bb.x + bb.width / 2},  Y = {bb.y + bb.height / 2}"
+
+
+    # print('down star r', get_coord_for_anim_rotate('svg_star_dwn_right'))
+    # print('down star l', get_coord_for_anim_rotate('svg_star_dwn_left'))  
+
+
+    class Tractor:
+      """Класс объекта тянущего устр-ва"""
+
+      __calc_speed: dict = {30:19.5, 40:36, 50:50, 60:80, 70:100, 80:140, 90:180,
+                      100:210, 110:275, 120:330, 130:410, 140:510, 150:550
+      }
+
+      @classmethod
+      def calculate_speed(cls, value: float) -> float:
+        return float(cls.__calc_speed[int(value)])
+
+      @classmethod
+      def check_ids(cls, svg_ids: list) -> None:
+        if not isinstance(svg_ids, list) or \
+          (not all(map(lambda x: isinstance(x, str), svg_ids))):
+          raise AttributeError('В списке данные не являются строками, или это не список.')
+
+      def __init__(self, id_up_tracks: list, id_dwn_tracks: list, begin_speed: int=0) -> None:
+        self.check_ids(id_up_tracks)
+        self.check_ids(id_dwn_tracks)
+        self.svg_id_objs_up: dict = {i:document[i] for i in id_up_tracks}
+        self.svg_id_objs_dwn: dict = {j:document[j] for j in id_dwn_tracks}
+        self._saved_speed: int = begin_speed
+        self.speed = begin_speed
+        self._lift_up: bool = False
+        self._lift_dwn: bool = True
+        self.real_pos_Y = self.get_Y_position_up_track()
+        self.to_up() 
+        self.something = None
+
+      @property
+      def speed(self) -> int:
+        return float(self.svg_id_objs_up['svg_tracks_up'].style.animation.split()[0][:-1])
+
+      @speed.setter
+      def speed(self, value: int) -> None:
+        if value:
+          self._saved_speed = value 
+        stars: str = f"rotation infinite {value//8}s linear"
+        track: str = f"marchingants infinite {value}s linear"        
+        self.svg_id_objs_up['svg_tracks_up'].style.animation = track + ' reverse'
+        self.svg_id_objs_dwn['svg_tracks_dwn'].style.animation = track
+        self.svg_id_objs_up['svg_star_up_right'].style.animation = stars + ' reverse'
+        self.svg_id_objs_up['svg_star_up_left'].style.animation = stars + ' reverse'
+        self.svg_id_objs_dwn['svg_star_dwn_left'].style.animation = stars
+        self.svg_id_objs_dwn['svg_star_dwn_right'].style.animation = stars
+
+      @property
+      def lift_up(self) -> bool:
+        return self._lift_up
+
+      @lift_up.setter
+      def lift_up(self, value: bool) -> None:
+        pass
+
+      @property
+      def lift_dwn(self) -> bool:
+        return self._lift_dwn
+
+      @lift_dwn.setter
+      def lift_dwn(self, value: bool) -> None:
+        pass
+
+      def to_up(self) -> None:
+        if self._lift_dwn:
+          self.svg_id_objs_up['svg_tractor_up'].style.animation = \
+            "lift_up 1s ease-in-out  alternate forwards"
+          self._lift_dwn = False
+          self._lift_up = True
+
+      def to_down(self) -> None:
+        if self._lift_up:
+          self.svg_id_objs_up['svg_tractor_up'].style.animation = \
+            "lift_dwn 1s ease-in-out  alternate forwards"
+          self._lift_up = False
+          self._lift_dwn = True      
+
+      def stop(self) -> None:
+        self._saved_speed = self.speed
+        self.speed = 0
+
+      def start(self, value=None) -> None:
+        self.speed = value if value else self._saved_speed
+
+      def get_Y_position_up_track(self) -> float:
+        up_trac_pos = float(self.svg_id_objs_up['svg_tractor_up'].getBoundingClientRect()['y'])
+        down_trac_pos = float(self.svg_id_objs_dwn['svg_tractor_dwn'].getBoundingClientRect()['y'])
+        return up_trac_pos - down_trac_pos
+    
+
+    trct_up: list = ["svg_tractor_up",
+                     "svg_tracks_up",
+                     "svg_star_up_right",
+                     "svg_star_up_left"
+            ]
+    trct_dwn: list = ["svg_tractor_dwn",
+                      "svg_tracks_dwn",
+                      "svg_star_dwn_right",
+                      "svg_star_dwn_left"
+            ]
+    
+    tractor = Tractor(trct_up, trct_dwn)
+    
+    @bind(document["tracksUp"], "click")
+    def tractorUp(e):
+      tractor.to_up()
+    
+    @bind(document["tracksDown"], "click")
+    def tractorDwn(e):
+      tractor.to_down()
+
+    @bind(document["on-traktor"], "click")
+    def tractorOn(e):
+      tractor.start(50)
+      if not tractor.something:      
+        push_profile(tractor)
+
+    @bind(document["off-traktor"], "click")
+    def tractorStop(e):
+      tractor.stop()
+      window.cancelAnimationFrame(tractor.something)
+      tractor.something = None
+    
+    
+    def push_profile(tractor):         
+      def anim(t):
+        tractor.something = window.requestAnimationFrame(anim)
+        step = tractor.speed / 58
+        profile = document['profile']
+        profile_width = document['profile'].attrs['width']
+        p_width = float(profile_width)
+        if tractor.lift_up:
+          step = 0
+        else:         
+          if (tractor.real_pos_Y - 3) <= tractor.get_Y_position_up_track() <= (tractor.real_pos_Y + 6):
+            p_width += step
+        profile.attrs['width'] = p_width
+        if float(profile_width) >= 1000:
+          profile.attrs['width'] = 80 
+        document["h-2"].innerHTML = f"рабочая позиция верхн. гусеницы: {str(tractor.real_pos_Y)[:4]}, текущ. позиция верх. гусеницы: {str(tractor.get_Y_position_up_track())[:4]}  скорость: {str(tractor.speed)[:4]}, время: {str(t/1000)[:4]} сек. длинна профиля: {str(profile.attrs['width'])[:5]}"      
+      anim(1)
+      
+    
+    </script>
+  </body>
+</html>
