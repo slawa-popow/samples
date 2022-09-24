@@ -313,6 +313,10 @@
 
     trm = Termostat(("termostat-1", "tube-1"))
     animation = None
+
+    # создание пользовательского события по достижении темперетуры
+    temp_event = window.Event.new("ok_temp")
+
     def chcolor(trm, step):
         r = 216
         g = 216
@@ -320,13 +324,18 @@
         t = 0
         global animation
         def animate(tm):
-            global animation
+            global animation, temp_event
             nonlocal r, g, b, t, step
             animation = window.requestAnimationFrame(animate)
             trm.temp = int(t*1.5)
             g -= step
             b -= step
             t += step
+
+            # вызвать событие по достижении более 120 градусов
+            if (t*1.5) >= 120:
+                document.dispatchEvent(temp_event)
+
             trm.color = (r, g, b)
             if (g < 1) and (b < 1):
                 step = 0
@@ -349,8 +358,15 @@
         global animation
         window.cancelAnimationFrame(animation)
         trm.color = trm.cold_color()
-        trm.temp = 0
+        
         animation = None
+
+    # обработчик события по достижении 120 градусов
+    def okay(e):
+        trm.temp = "событие"
+
+    # следить за событием "ok_temp"
+    document.addEventListener("ok_temp", okay)
 
 </script>
 
