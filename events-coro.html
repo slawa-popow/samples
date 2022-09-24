@@ -252,14 +252,14 @@
             self.info = document.querySelector(".info")
 
             # цвет холодной термопары. цвет беру прямо из объектa
-            self._cold_fill = self._svg_fill_obj.style["fill"]
+            self._cold_fill: tuple = (216, 216, 216)
 
             # текущий изменяющийся цвет корпуса. сначала равен холодному (серый)
             self._fill = self._cold_fill
 
             # явно цвет горячей термопары. из серого в красный делаем уменьшением до нуля 2 и 3 числа
             # например: rgb(216, 0, 0) - красный. rgb(216, 216, 216) - серый
-            self._heat_fill = f"rgb(216, 0, 0)"
+            self._heat_fill: tuple = (216, 0, 0)
 
             # температура при которой сработает выходное реле. Равно нан пока.
             self._max_temp = None
@@ -273,7 +273,7 @@
             # текст текущее значение температуры
             self._value_text = self._svg_g_obj.select("text")[1]
 
-            
+
 
         @property
         def color(self) -> str:
@@ -294,19 +294,58 @@
             else:
                 self.info.innerHTML = "--"
 
-            
+
+        @property
+        def temp(self) -> str:
+            """текущая температура"""
+
+            return self._value_text.text
+
+
+        @temp.setter
+        def temp(self, value: int) -> None:
+            self._value_text.text = f"t = {str(value)}"
+            # self._value_text.style["fill"] = "green"
+
+        def cold_color(self) -> tuple:
+            return self._cold_fill
 
 
     trm = Termostat(("termostat-1", "tube-1"))
-    
+    animation = None
+    def chcolor(trm, step):
+        r = 216
+        g = 216
+        b = 216
+        global animation
+        def animate(t):
+            global animation
+            nonlocal r, g, b, step
+            animation = window.requestAnimationFrame(animate)
+            g -= step
+            b -= step
+            trm.color = (r, g, b)
+            if (g < 1) and (b < 1):
+                step = 0
+                window.cancelAnimationFrame(animation)
+                trm.color = trm.cold_color()
+                animation = None
+        animate(1)
+        
+
 
     @bind(document["start-heat"], "click")
     def newfill(e):
-        trm.color = (216, 0, 0)
+        global animation
+        if animation is None:
+            chcolor(trm, 0.5)
 
     @bind(document["stop-heat"], "click")
     def oldfill(e):
-        trm.color = (216, 216, 216)
+        global animation
+        window.cancelAnimationFrame(animation)
+        trm.color = trm.cold_color()
+        animation = None
 
 </script>
 
