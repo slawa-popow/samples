@@ -265,7 +265,7 @@
             self._max_temp = None
 
             # текущая температура
-            self._current_temp = None
+            self._current_temp = 0
 
             # текст имя термопары #n. объект. первый из списка дочерних текстовых элементов. для доступа к самому тексту: self._name_text.text 
             self._name_text = self._svg_g_obj.select("text")[0]
@@ -299,7 +299,7 @@
         def temp(self) -> str:
             """текущая температура"""
 
-            return self._value_text.text
+            return self._current_temp
 
 
         @temp.setter
@@ -317,18 +317,22 @@
         r = 216
         g = 216
         b = 216
+        t = 0
         global animation
-        def animate(t):
+        def animate(tm):
             global animation
-            nonlocal r, g, b, step
+            nonlocal r, g, b, t, step
             animation = window.requestAnimationFrame(animate)
+            trm.temp = int(t*1.5)
             g -= step
             b -= step
+            t += step
             trm.color = (r, g, b)
             if (g < 1) and (b < 1):
                 step = 0
                 window.cancelAnimationFrame(animation)
                 trm.color = trm.cold_color()
+                trm.temp = 0
                 animation = None
         animate(1)
         
@@ -345,6 +349,7 @@
         global animation
         window.cancelAnimationFrame(animation)
         trm.color = trm.cold_color()
+        trm.temp = 0
         animation = None
 
 </script>
