@@ -216,6 +216,9 @@
 <div class="bcontent"></div>
 <script type="text/python">
     from browser import document, window, html, bind
+    from typing import Generator, Coroutine, Any
+    from collections import deque
+
 
     # айди svg: g#1 - "termostat-1"; корпус термопары #1 - "tube-1"; 
     #              текст номер термопары - "termo1"; текст текущ. температура - "value-temp1" ;
@@ -236,10 +239,11 @@
     class Termostat:
         """Класс svg группы термопары"""
 
-        __slots__: tuple = ("_id_g", "_fill", "_cold_fill", "_heat_fill", "_svg_g_obj", "_max_temp", 
+        __slots__: tuple = ("_id_g", "_fill", "_cold_fill", "_heat_fill", "_svg_g_obj", "_max_temp", "evnt" 
                             "_current_temp", "_name_text", "_value_text", "_svg_fill_obj", "info", "_id_fill"
                         )
-
+        # объект span class ".info" вывод сообщений
+        label_info = document.querySelector(".info")
 
         def __init__(self, id_svg: tuple) -> None:
             self._id_g, self._id_fill = id_svg
@@ -249,7 +253,7 @@
             self._svg_fill_obj = document[self._id_fill]
 
             # объект <span> .info
-            self.info = document.querySelector(".info")
+            self.info = self.__class__.label_info
 
             # цвет холодной термопары. цвет беру прямо из объектa
             self._cold_fill: tuple = (216, 216, 216)
@@ -273,7 +277,27 @@
             # текст текущее значение температуры
             self._value_text = self._svg_g_obj.select("text")[1]
 
+            #имя события
+            self.evnt = window.Event.new("yes_" + self.get_id())
 
+
+        @classmethod
+        def valid_value(cls, value: Any) -> float:
+            result = 0.0
+            try:
+                result = float(value)
+                cls.label_info.innerHTML = "--"
+            except ValueError:
+                cls.label_info.innerHTML = "введено не числовое значение."                
+            finally:
+                return result
+
+        @property
+        def max_temp(self) -> int:
+            return self._max_temp
+
+        @max_temp.setter(self, value: Any) -> None:
+            self._max_temp = self.valid_value(value)
 
         @property
         def color(self) -> str:
@@ -286,13 +310,9 @@
         def color (self, value: tuple) -> None:
             """установить цвет термопаты. принимает кортеж rgb чисел."""
 
-            try:
-                r, g, b = value
-                self._svg_fill_obj.style["fill"] = f"rgb({int(r)}, {int(g)}, {int(b)})"
-            except ValueError:
-                self.info.innerHTML = "не числовые значения кода rgb."
-            else:
-                self.info.innerHTML = "--"
+            r, g, b = (self.valid_value(i) for i in value)
+            self._svg_fill_obj.style["fill"] = f"rgb({int(r)}, {int(g)}, {int(b)})"
+    
 
 
         @property
@@ -306,12 +326,92 @@
         def temp(self, value: int) -> None:
             self._value_text.text = f"t = {str(value)}"
             # self._value_text.style["fill"] = "green"
+            self._current_temp = value
+
+        
+        @property
+        def max_temp(self) -> float:
+            return self._max_temp
+
+        @max_temp.setter
+        def max_temp(self, value: float) -> None:
+            self._max_temp = value
+
 
         def cold_color(self) -> tuple:
+            """ вернуть холодный цвет"""
             return self._cold_fill
 
+        def get_id(self) -> str:
+            return self._id_g
 
-    trm = Termostat(("termostat-1", "tube-1"))
+        def __call__(self) -> Coroutine:
+            
+            r = g = b = 216
+            step = 0.3
+            # начало сопрограммы
+            # yield
+
+            while True:
+                temp = yield self.max_temp
+                if temp is None:
+                    break
+                self.temp = temp
+                r -= step
+                g -= step
+                b -= step
+                self.color = (r, g, b)
+                if (r < 1) and (g < 1) and (b < 1):
+                    step = 0
+
+            return self.evnt
+    
+    # ----------------------------------------------------------------------------------------
+
+    class Grouper:
+        """ Класс делегирующего генератора"""            
+
+        def __init__(self, sub_gens: tuple) -> None:
+            self.sub_gens: deque = deque(sub_gens)
+            """for obj in sub_gens:
+                coro = obj()
+                coro.send(None)
+                self.sub_gens.append(coro)"""
+            
+        def group(self) -> None:
+            event_sensor = None
+            while True:
+                for coro in self.sub_gens:
+                    event_coro = yield from coro()
+                    document.dispatchEvent(event_coro)
+                
+
+
+
+
+
+    sensor1 = Termostat(("termostat-1", "tube-1"))
+    sensor2 = Termostat(("termostat-2", "tube-2"))
+
+    # нагреть до #1
+    @bind(document["set-temp-sensor1"], "click")
+    def heat1_to(e):
+        val = document["value-temp-sensor1"].value
+        sensor1.max_temp = sensor1.valid_value(val)
+    
+
+    # нагреть до #2
+    @bind(document["set-temp-sensor2"], "click")
+    def heat2_to(e):
+        val = document["value-temp-sensor2"].value
+        sensor2.max_temp = sensor2.valid_value(val)
+
+
+
+
+
+
+    """
     animation = None
 
     # создание пользовательского события по достижении темперетуры
@@ -367,6 +467,9 @@
 
     # следить за событием "ok_temp"
     document.addEventListener("ok_temp", okay)
+    """
+
+
 
 </script>
 
