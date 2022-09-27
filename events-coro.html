@@ -193,7 +193,7 @@
             <button id="set-temp-sensor1">#1 нагреть до:</button>
         </td>
         <td>
-            <input id="value-temp-sensor1" type="text" size="10" value="150">
+            <input id="value-temp-sensor1" type="text" size="10" value="65">
         </td>
     </tr>
     <tr>
@@ -201,7 +201,7 @@
             <button id="set-temp-sensor2">#2 нагреть до:</button>
         </td>
         <td>
-            <input id="value-temp-sensor2" type="text" size="10" value="272">
+            <input id="value-temp-sensor2" type="text" size="10" value="172">
         </td>
     </tr>
     <tr>
@@ -293,7 +293,7 @@
             result = 0.0
             try:
                 result = float(value)
-                cls.label_info.innerHTML = "--"
+                cls.label_info.innerHTML = "-..-"
             except ValueError:
                 cls.label_info.innerHTML = "введено не числовое значение."                
             finally:
@@ -312,7 +312,7 @@
         def color(self) -> str:
             """цвет копуса термопары"""
             clr = self._svg_fill_obj.style["fill"].lstrip("rgb(").rstrip(")").split(", ")
-            return tuple(float(i) for i in clr)
+            return tuple(int(i) for i in clr)
 
 
         @color.setter
@@ -333,7 +333,6 @@
 
         @temp.setter
         def temp(self, value: int) -> None:
-
             # записать в текст svg и в атрибут текущую температуру 
             self._value_text.text = f"t = {str(value)}"
             self._current_temp = value
@@ -360,20 +359,29 @@
         def __call__(self) -> Coroutine:
             """вызываемый объект - генераторный метод. """
             # начало сопрограммы. 
-           
+            # этот йилд дергаем при инициации объекта-сопрограммы первый раз ( send(None) or next(obj) )
             yield
                
+            # это портал с вызывающей стороной. между этим объектом и вызывающей стороной
+            # блокирован метод делегирующего генератора
+            # мы в нашем случае только получаем, отдаем Нан.
             temp = yield
 
+            # получили значение [self.step объекта класса Inspect из метода inspect() в строчке с send]
+            # просто записываем значение в атрибут текущей температуры и постепенно перекрашиваем корпус термопар в красный
             self.temp += temp
-            step = 1
+            step = temp * 0.01
             r, g, b = self.color
             g -= step
             b -= step
             self.color = (r, g, b)
-            if (r < 1) and (g < 1) and (b < 1):
+
+            # если корпус ваще нагрелся до красна то останавливаем перекрашивание в красный
+            if (g < 1) and (b < 1):
                 step = 0
 
+            # если в сумме текущее значение температуры больше
+            # занесенного нами из поля ввода, то возвращаем не Нан, а объект события 
             return self.evnt if self.temp >= self.max_temp else None
                 
 
@@ -388,8 +396,13 @@
         def __init__(self, *args) -> None:
             self._gens: tuple = tuple(args)
             
+            # регестрируем имя события и метод его обработки 
+            # имя события см. атрибут evnt_name, в том же классе Termostat и соотв. метод
+            # Конечно лучше все-таки сделать через интерфейс. Ввиду того что этот код чисто для эксперементов с сознанием,
+            # то пока так.
             for obj in self._gens:
                 document.addEventListener(obj.evnt_name, obj.do_event)
+
         
         def null_states_obj(self) -> None:
             for obj in self._gens:
@@ -398,32 +411,45 @@
 
             
         def group(self) -> Coroutine:
+
+            # временный список из которого будем удалять объекты после их отработки
             self.sub_gens: list = list(self._gens)
+
             while True:
-                
                 gens: list = list(self.sub_gens)
                 
                 for coro in gens:
 
+                    # при каждой итерации цикла устанавливаем канал между
+                    # coro (вызываемый обЪект-генератораная ф-ция (метод)) и 
+                    # вызывающей стороной (строчка с send в inspect())
                     event_coro = yield from coro()
 
                     if event_coro:
 
+                        # если вернулось не Нан, то это заряженный объект события
+                        # стреляем зарегестрированным событием (говорим менеджеру по событиям, что произошло событие)
                         document.dispatchEvent(event_coro)
+
+                        # удаляем объект субгенератора из списка (т-к он отработал отчитавшись объектом события)
                         self.sub_gens.remove(coro)
 
                     
                     if len(self.sub_gens) == 0:
-                        
+
+                        # если список ваще пуст, то вызываем исключение и идем обратно в зад (в вызывающую сторону)
+                        # где и обрабатываем это исключение. 
                         raise GeneratorExit("Grouper 'GeneratorExit' group.close()")
 
+
+    # ----------------------------------------------------------------------------------------------
 
     class Inspector:
 
         def __init__(self, grouper: Grouper) -> None:
             self.sub_gen = grouper
             self.grouper = None
-            self.step: float = 1
+            self.step: float = 1.0
             self.init()
         
         def init(self) -> None:
@@ -450,7 +476,7 @@
                 self.init()
 
             try:
-                # открывается канал с субгенераторами, отправляем каждому значение
+                # открывается канал с субгенераторами, отправляется каждому значение step
                 self.grouper.send(self.step) 
                              
                 window.setTimeout(self.inspect)
@@ -460,7 +486,9 @@
                 # вызов метода после отработки делегирующего генератора, он бросит исключение 
                 self.sub_gen.null_states_obj()
                 print(ge)
-            
+    
+                
+    # -----------------------------------------------------------------------------------------------
 
 
     sensor1 = Termostat(("termostat-1", "tube-1"))
@@ -470,15 +498,18 @@
     # нагреть до #1
     @bind(document["set-temp-sensor1"], "click")
     def heat1_to(e):
-        val = document["value-temp-sensor1"].value
-        sensor1.max_temp = sensor1.valid_value(val)
+        sensor1.max_temp = document["value-temp-sensor1"].value
+         
     
-
     # нагреть до #2
     @bind(document["set-temp-sensor2"], "click")
     def heat2_to(e):
-        val = document["value-temp-sensor2"].value
-        sensor2.max_temp = sensor2.valid_value(val)
+        sensor2.max_temp = document["value-temp-sensor2"].value
+
+
+    # в этом обработчике зеленой кнопки создаем объекты делегирующего и обработчика субгенераторов
+    # иначе при повторном нажатии после первого раза пришлось бы что-то лепить для пересоздания этих объектов
+    # т-к итераторы не вечные. Как презервативы - одноразовые
 
     @bind(document["start-heat"], "click")
     def begin_heat(e):
@@ -488,6 +519,7 @@
 
 
 
+    # -------------------------------------------------------------------------------------------------
 
     """
     animation = None
