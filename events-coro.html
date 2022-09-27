@@ -38,7 +38,7 @@
             margin: 20px 0;
             padding: 20 20px;
             width: 500px;
-            height: 400px;
+            height: 500px;
             border: 1px solid rgba(72, 114, 230, 0.493);
             float: left; 
             
@@ -158,13 +158,13 @@
           <path style="fill: rgb(216, 216, 216); stroke: rgba(0, 0, 0, 0.56);" d="M 22 38 H 37 V 133 A 5 5 0 0 1 32 138 H 27 A 5 5 0 0 1 22 133 V 38 Z" id="tube-1" bx:shape="rect 22 38 15 100 0 0 5 5 1@8a75a968"></path>
           <rect x="27" y="13" width="4.488" height="25" style="stroke-width: 0px; stroke: rgb(9, 9, 9); fill: rgba(61, 61, 61, 0.96);" bx:origin="0.5 0.48059"></rect>
           <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 7px; white-space: pre;" x="51.156" y="41.925" id="termo1">термопара #1<tspan x="51.15599822998047" dy="1em">​</tspan></text>
-          <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 7px; white-space: pre;" x="51.156" y="55.375" id="value-temp1">t = 10 </text>
+          <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 7px; white-space: pre;" x="51.156" y="55.375" id="value-temp1">t&deg;С = 10 </text>
         </g>
         <g id="termostat-2">
           <path style="fill: rgb(216, 216, 216); stroke: rgba(0, 0, 0, 0.56);" d="M 119.61 37.616 H 134.61 V 132.616 A 5 5 0 0 1 129.61 137.616 H 124.61 A 5 5 0 0 1 119.61 132.616 V 37.616 Z" id="tube-2" bx:shape="rect 119.61 37.616 15 100 0 0 5 5 1@5d70c48e"></path>
           <rect x="124.61" y="12.616" width="4.488" height="25" style="stroke-width: 0px; stroke: rgb(9, 9, 9); fill: rgba(61, 61, 61, 0.96);" bx:origin="0.5 0.48059"></rect>
           <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 7px; white-space: pre;" x="51.156" y="41.925" id="termo2" transform="matrix(1, 0, 0, 1, 97.610428, -0.384293)">термопара #2<tspan x="51.15599822998047" dy="1em">​</tspan></text>
-          <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 7px; white-space: pre;" x="148.766" y="54.991" id="value-temp2">t = 10 </text>
+          <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 7px; white-space: pre;" x="148.766" y="54.991" id="value-temp2">t&deg;С = 10 </text>
         </g>
       </svg>
 </div>
@@ -205,8 +205,16 @@
         </td>
     </tr>
     <tr>
-        <td><button id="set-time-heat">время нагрева сек.:</button></td>
+        <td><button id="set-time-heat"> нагрев &deg;С/сек.:</button></td>
         <td><input id="value-time-heat" type="text" size="10" value="10"></td>
+    </tr>
+    <tr>
+        <td><button id="power1">Pвт нагревателя#1</button></td>
+        <td><input id="value-power1" type="text" size="10" value="500"></td>
+    </tr>
+    <tr>
+        <td><button id="power2">Pвт нагревателя#2</button></td>
+        <td><input id="value-power2" type="text" size="10" value="1000"></td>
     </tr>
     <tr>
         <td colspan="2"><span class="info">--</span></td>
@@ -217,8 +225,7 @@
 <script type="text/python">
     from browser import document, window, html, bind
     from typing import Generator, Coroutine, Any
-    from collections import deque
-    
+    import time
 
 
     # айди svg: g#1 - "termostat-1"; корпус термопары #1 - "tube-1"; 
@@ -230,11 +237,30 @@
     #               #set-temp-sensor1 - нагреть тепмопару #1 до температуры;
     #               #set-temp-sensor2 - нагреть тепмопару #2 до температуры;
     #               #set-time-heat - время нагрева термопар до 300 градусов (макс.);
+    #               #power1 - мощность нагревателя1; power2 - мощность нагревателя2
     #
     # айди полей ввода: #value-temp-sensor1 - макс. нагрев термопары #1;
     #                   #value-temp-sensor2 - макс. нагрев термопары #2;
     #                   #value-time-heat - ввод времени нагрева термопар;
+    #                   #value-power1 - ввод мощности нагревателя1; value-power2 - нагревателя2
 
+
+    for btn in ["power2", "power1", "value-power2", "value-power1", "set-time-heat", "value-time-heat"]:
+        document[btn].disabled = True
+
+
+    # ----------------------------------------------------------------------------------------------
+
+    class Power:
+        """Нагреватель"""
+
+        def __init__(self, watt: float) -> None:
+            self.watt = watt
+
+        def heat(self) -> Coroutine:
+            pass
+
+    # -----------------------------------------------------------------------------------------------
 
 
     class Termostat:
@@ -268,7 +294,7 @@
             self._heat_fill: tuple = (216, 0, 0)
 
             # температура при которой сработает выходное реле. Равно нан пока.
-            self._max_temp = 200
+            self._max_temp = 100
 
             # текущая температура
             self._current_temp = 20
@@ -334,7 +360,7 @@
         @temp.setter
         def temp(self, value: int) -> None:
             # записать в текст svg и в атрибут текущую температуру 
-            self._value_text.text = f"t = {str(value)}"
+            self._value_text.text = f"t\u2103 = {str(value)}"
             self._current_temp = value
 
 
@@ -360,33 +386,35 @@
             """вызываемый объект - генераторный метод. """
             # начало сопрограммы. 
             # этот йилд дергаем при инициации объекта-сопрограммы первый раз ( send(None) or next(obj) )
+
             yield
                
             # это портал с вызывающей стороной. между этим объектом и вызывающей стороной
             # блокирован метод делегирующего генератора
             # мы в нашем случае только получаем, отдаем Нан.
+
             temp = yield
 
             # получили значение [self.step объекта класса Inspect из метода inspect() в строчке с send]
             # просто записываем значение в атрибут текущей температуры и постепенно перекрашиваем корпус термопар в красный
+
             self.temp += temp
-            step = temp * 0.01
+            step = temp*0.0005
             r, g, b = self.color
-            g -= step
-            b -= step
-            self.color = (r, g, b)
 
             # если корпус ваще нагрелся до красна то останавливаем перекрашивание в красный
             if (g < 1) and (b < 1):
                 step = 0
 
+            g -= step
+            b -= step
+            self.color = (r, g, b)
+
             # если в сумме текущее значение температуры больше
-            # занесенного нами из поля ввода, то возвращаем не Нан, а объект события 
+            # занесенного нами из поля ввода, то возвращаем объект события, иначе Нан.
+
             return self.evnt if self.temp >= self.max_temp else None
-                
-
-
-            
+                   
     
     # ----------------------------------------------------------------------------------------
 
@@ -400,6 +428,7 @@
             # имя события см. атрибут evnt_name, в том же классе Termostat и соотв. метод
             # Конечно лучше все-таки сделать через интерфейс. Ввиду того что этот код чисто для эксперементов с сознанием,
             # то пока так.
+
             for obj in self._gens:
                 document.addEventListener(obj.evnt_name, obj.do_event)
 
@@ -423,12 +452,14 @@
                     # при каждой итерации цикла устанавливаем канал между
                     # coro (вызываемый обЪект-генератораная ф-ция (метод)) и 
                     # вызывающей стороной (строчка с send в inspect())
+
                     event_coro = yield from coro()
 
                     if event_coro:
 
                         # если вернулось не Нан, то это заряженный объект события
                         # стреляем зарегестрированным событием (говорим менеджеру по событиям, что произошло событие)
+
                         document.dispatchEvent(event_coro)
 
                         # удаляем объект субгенератора из списка (т-к он отработал отчитавшись объектом события)
@@ -439,24 +470,33 @@
 
                         # если список ваще пуст, то вызываем исключение и идем обратно в зад (в вызывающую сторону)
                         # где и обрабатываем это исключение. 
+
                         raise GeneratorExit("Grouper 'GeneratorExit' group.close()")
+
 
 
     # ----------------------------------------------------------------------------------------------
 
     class Inspector:
 
+        # для остановки/запуска генератора
+        stopper: bool = False
+
         def __init__(self, grouper: Grouper) -> None:
             self.sub_gen = grouper
             self.grouper = None
-            self.step: float = 1.0
+            self.step: float = 0.5
+            self.sec = None
             self.init()
         
         def init(self) -> None:
-            
             self.grouper = self.sub_gen.group()           
             next(self.grouper) 
-           
+            self.__class__.stop(False)
+
+        @classmethod
+        def stop(cls, b: bool) -> None:
+            cls.stopper = b
 
 
         def inspect(self) -> None:
@@ -467,19 +507,35 @@
                GeneratorExit, здесь его обрабатываем. Этот метод ставится в event loop макрозадач браузера
                посредством вызова  window.setTimeout(self.inspect) с нулевой задержкой."""
 
+            
+            if self.sec is None:
+               self.sec = time.time()
+
             try:
                 next(self.grouper)
             except StopIteration:
 
                 # выбросится StopIteration если повторно нажать [включить нагрев]
                 # обрабатываем путем повторной инициализации генераторной ф-ции (метода)
+
                 self.init()
 
             try:
+
                 # открывается канал с субгенераторами, отправляется каждому значение step
-                self.grouper.send(self.step) 
-                             
-                window.setTimeout(self.inspect)
+                if self.sec and ((time.time() - self.sec) >= 0.25):
+                    self.step = 0.5
+                    self.sec = None
+                else:
+                    self.step = 0.0
+
+                # если булев атрибут класса - ложь, то не занимаем очередь задач и закрываем делегат-генератор. 
+                self.grouper.send(self.step)
+                if not self.__class__.stopper:
+                    window.setTimeout(self.inspect)
+                else:
+                    self.grouper.close()
+                    print("delegate-gen close")
                
             except GeneratorExit as ge:
 
@@ -517,69 +573,11 @@
         inspector = Inspector(grp)
         inspector.inspect()
 
-
+    @bind(document["stop-heat"], "click")
+    def end_heat(e):
+        Inspector.stop(True)
 
     # -------------------------------------------------------------------------------------------------
-
-    """
-    animation = None
-
-    # создание пользовательского события по достижении темперетуры
-    temp_event = window.Event.new("ok_temp")
-
-    def chcolor(trm, step):
-        r = 216
-        g = 216
-        b = 216
-        t = 0
-        global animation
-        def animate(tm):
-            global animation, temp_event
-            nonlocal r, g, b, t, step
-            animation = window.requestAnimationFrame(animate)
-            trm.temp = int(t*1.5)
-            g -= step
-            b -= step
-            t += step
-
-            # вызвать событие по достижении более 120 градусов
-            if (t*1.5) >= 120:
-                document.dispatchEvent(temp_event)
-
-            trm.color = (r, g, b)
-            if (g < 1) and (b < 1):
-                step = 0
-                window.cancelAnimationFrame(animation)
-                trm.color = trm.cold_color()
-                trm.temp = 0
-                animation = None
-        animate(1)
-        
-
-
-    @bind(document["start-heat"], "click")
-    def newfill(e):
-        global animation
-        if animation is None:
-            chcolor(trm, 0.5)
-
-    @bind(document["stop-heat"], "click")
-    def oldfill(e):
-        global animation
-        window.cancelAnimationFrame(animation)
-        trm.color = trm.cold_color()
-        
-        animation = None
-
-    # обработчик события по достижении 120 градусов
-    def okay(e):
-        trm.temp = "событие"
-
-    # следить за событием "ok_temp"
-    document.addEventListener("ok_temp", okay)
-    """
-
-
 
 </script>
 
