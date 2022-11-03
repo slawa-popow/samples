@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ru-Ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,300,700&subset=latin,Cyrillic"
+      rel="stylesheet"
+      type="text/css"
+    /> 
+    <title>5 линия документация</title>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+    ></script>
+
+    <style>
+        /* сброс стилей браузера */
+        * {
+        box-sizing: border-box; 
+        }
+        html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            vertical-align: baseline;
+        }
+        article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1.2;
+        }
+        ol { 
+            padding-left: 1.4em;
+            list-style: decimal;
+        }
+        ul {
+            padding-left: 1.4em;
+            list-style: square;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        } 
+        /* конец кода сброса стилей браузера */
+         .clear:after {
+            content: " ";
+            display: table;
+            clear: both;
+        }
+
+        .clear {
+            zoom: 1;	
+        } 
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: rgb(240, 240, 240);	
+        }
+
+
+        header {
+            background-color:rgb(40, 97, 136); 
+            padding-bottom: 30px;
+            position: relative;
+        }
+        header .title-head {
+            padding: 30px 0 30px 20px;
+        }
+        header .title-head h1 {
+            font-size: 2em;	
+            color: rgba(255, 255, 255, 0.884);
+            font-weight: bold;
+        }
+        header .title-head h4 {
+            font-size: 1em;
+            background-color: rgba(255, 255, 255, 0.884);	
+            color: rgba(29, 29, 28, 0.884);
+            font-weight: bold;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        header .title-head span {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.884);
+        }
+        header h2, h3 {
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+            -ms-hyphens: auto;
+            hyphens: auto;
+            word-wrap: break-word;
+        } 
+        nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgb(25,25,25);
+            border-top: 2px solid rgba(255, 255, 255, 0.637);	
+            border-left: none;
+            border-right: none;
+
+        }
+        nav .ul ul {
+            padding: 0;
+            margin: 0;	
+        }
+        nav .ul li {
+            float: left;
+            padding: 0;
+            margin: 0;
+            list-style: none;	
+        }
+        nav .ul a {
+            float: left;
+            font-size: .8em;	
+            color: white;
+            font-weight: normal;
+            text-decoration: none;
+            padding: 10px;
+            border-right: 1px dotted rgba(255,255,255,.75);
+            transition: all .3s;
+        }
+        nav .ul li:last-of-type a {
+            border-right: none;	
+        }
+        nav .ul a:hover {
+            background-color: rgba(212, 88, 17, 0.959);
+        }
+        .main {
+            margin: 30px auto;
+            width: 90%;
+            height: 800px;
+            padding: 0 20px;
+            border: 1px solid rgb(216, 215, 215);
+            border-radius: 15px;
+            background-color: white;
+            font-family: 'Roboto', serif ;
+            font-size: 1em;
+            color: rgb(40, 40, 40);
+        }
+        .main h2 {
+            font-size: 2em;
+            margin-top: 10px;	
+        }
+        .main h3 {
+            font-size: 1.5em;
+            margin-top: 20px;	
+        }
+        .main p {
+            margin-bottom: 15px;	
+        }
+        footer {
+            margin-top: 15px;
+            font-size: .8em;	
+            padding: 10px 10px 30px 10px;
+            background-color: black;
+            color: rgb(204,204,204);
+        }
+        footer a {
+            color: white;	
+        }
+        /* медиазапросы */
+
+@media (min-width: 769px) {
+	.mobile-menu-block, .mobile-submenu-block {
+		display: none;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 768px){
+    header {
+        padding-bottom: 60px;
+    }
+	.columnWrapper {
+		width: auto;
+	}
+	.main {
+        width: 95%;
+        margin: 10px auto;
+		border-right: none;
+        font-size: 0.9em;
+	}
+	.mobile-menu-block, .mobile-submenu-block {
+		display: none;
+	}
+}
+@media (max-width: 480px){
+	.columnWrapper, .main {
+		width: auto;
+	}
+	.main {
+		border: none;
+        margin: 0;
+        border-radius: 0;
+        font-size: 0.9em;
+	}
+	
+	header h1 {
+		font-size: 1.2em;
+	}
+	nav .ul {
+		display: none;
+	}
+	header nav .wrap_burger{
+		position: absolute;
+		top: -50px;
+		right: 10px;
+	}
+	header nav .wrap_burger .burger {
+		position: relative;
+		width: 50px;
+		height: 37px;
+		background-color: rgb(223, 189, 40);
+		border-radius: 6px;
+	}
+	header .wrap_burger .burger span,
+	header .wrap_burger .burger span::before,
+	header .wrap_burger .burger span::after
+	{
+		display: block;
+		position: absolute;
+		top: 6px;
+		left: 0;
+		height: 5px;
+		content: '';
+		width: 100%;
+		background-color: rgb(40, 97, 136);
+	}
+	header nav .wrap_burger .burger span::before 
+	{
+		content: '';
+		top: 10px;
+	}
+	header nav .wrap_burger .burger span::after
+	{
+		content: '';
+		top: 20px;
+	}
+}
+/* стили для генерируемого контента */
+
+/* заголовок */
+    .main-title h2{
+        font-size: 1.8em;
+        font-family: 'Roboto', serif ;
+        font-weight: 300;
+        text-align: center;
+        margin: 20px auto;
+        padding: 20px 0;
+    }
+
+    </style>
+
+</head>
+<body onload="brython(1)">
+    <div class="pageWrapper">
+    <header>
+        <nav class="clear">
+          <div class="ul">
+        <ul>
+        <li><a id="panel" href="#">панель оператора</a></li>
+        <li><a id="set-timers" href="#">настройка таймеров</a></li>
+        <li><a id="pneumo" href="#">пневматика</a></li>
+        <li><a id="who-set" href="#">как настроить</a></li>
+        <li><a id="translate-doc" href="#">перевод документации</a></li>
+        </ul>
+        </div>
+        
+        <!-- меню бургер -->
+         <div class="wrap_burger">
+            <div id="mobile-menu" class="burger">
+              <span></span>
+            </div>
+          </div>
+          </nav>
+
+        <div class="title-head">
+             <h1>Экструзионная линия № 5</h1> 
+             <h4>Отрезной стол.  Документация.</h4>
+             <span>ОАО Европрофиль</span>
+        </div>
+        
+        </header>
+
+    <!-- Контейнер генерируемого контента  -->
+    <article  class="main">
+        <div id="main-content"></div>
+    </article>
+    <!--  -->
+
+    <script type="text/python">
+
+        from browser import window, document, bind
+        from functools import wraps
+        from typing import Any, Callable
+        from abc import ABC, abstractmethod
+
+
+        class AbcContentPage(ABC):
+            """Абстрактный класс для разделов
+                контента документа"""
+
+            @abstractmethod
+            def make_content(self, event) -> None:
+                """Построить контент и вставить 
+                    в контейнер"""
+                pass
+
+
+            @abstractmethod
+            def delete_content(self) -> None:
+                """Удалить контент"""
+                pass
+
+        # --------------------------------------------------
+
+        class ContentPage(AbcContentPage):
+            """Базовый класс для разделов 
+                документа"""
+
+            _instance_obj = None
+
+            def __new__(cls, *args, **kwargs):
+                if cls._instance_obj is None:
+                    cls._instance_obj = super().__new__(cls)
+                   
+                return cls._instance_obj
+
+
+            def __init__(self, title: str) -> None:
+                self._title = title
+                self.manager = None
+
+            def __repr__(self) -> str:
+                return f"{self.__dict__}"
+
+            def make_content(self, e) -> None:
+                pass
+                
+
+
+            def delete_content(self) -> None:
+                for elem in self.manager.container.children:
+                    self.manager.container.removeChild(elem)
+
+            def make_title(self) -> object:
+                title_contain = document.createElement("div")
+                title_h = document.createElement("h2")
+                title_h.textContent = self._title
+                title_contain.appendChild(title_h)
+                title_contain.classList.add("main-title")
+                self.manager.container.appendChild(title_contain)
+
+        # ---------------------------------------------------------
+        def del_content(method: Callable) -> Callable:
+            @wraps(method)
+            def wrapper(self, *args, **kwds):
+                self.delete_content()
+                method(self, *args, **kwds)
+
+            return wrapper
+
+
+        class PanelPLC(ContentPage):
+            
+            def __init__(self, title: str) -> None:
+                super().__init__(title)
+
+            @del_content
+            def make_content(self, e) -> None:
+                self.make_title()
+
+
+
+        class SetTimers(ContentPage):
+            
+            def __init__(self, title: str) -> None:
+                super().__init__(title)
+
+
+            @del_content
+            def  make_content(self, e) -> None:
+                self.make_title()
+
+
+
+        class Pneumatic(ContentPage):
+            
+            def __init__(self, title: str) -> None:
+                super().__init__(title)
+
+            @del_content
+            def  make_content(self, e) -> None:
+                self.make_title()  
+
+
+
+        class SettingCutTable(ContentPage):
+            
+            def __init__(self, title: str) -> None:
+                super().__init__(title)
+
+            @del_content
+            def  make_content(self, e) -> None:
+                self.make_title()
+
+
+
+        class TranslateDoc(ContentPage):
+            
+            def __init__(self, title: str) -> None:
+                super().__init__(title)
+
+            @del_content
+            def  make_content(self, e) -> None:
+                self.make_title()
+
+        
+        # --------------------------------------------------------------------
+
+        class Manager:
+            """Управляет созданием контента"""
+
+            _obj_pages: dict = {
+                PanelPLC: {"panel": ["Панель оператора", ["panel",]]},
+                SetTimers: {"timers": ["Настройка таймеров", ["set-timers",]]},
+                Pneumatic: {"pneumo": ["Пневматика", ["pneumo",]]},
+                SettingCutTable: {"setcut": ["Как настроить стол", ["who-set",]]},
+                TranslateDoc: {"translate": ["Перевод инструкций", ["translate-doc",]]},
+            }
+
+            def __init__(self, id_container: str) -> None:
+                self._container = document[id_container]
+
+                for key, values in self._obj_pages.items():
+                    attrs_val, i = values.items() 
+                    name, all_attrs = attrs_val
+                    title, evn_action_list = all_attrs
+                    instance = key(title)
+                    instance.manager = self
+                    for action in evn_action_list:
+                        document[action].bind("click", instance.make_content)
+                    super().__setattr__(name, instance)
+                    
+
+            @property
+            def container(self):
+                return self._container
+            
+            
+
+
+
+        man = Manager("main-content")
+        #print(man.__dict__)
+        
+
+       
+            
+    </script>
+    
+</body>
+</html>
