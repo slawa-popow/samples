@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython.min.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/brython@3.10.6/brython_stdlib.js"
+  ></script>
+  <script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
+
+  <style>
+
+
+  </style>
+
+</head>
+<body onload="brython(1)">
+    
+    <!-- <canvas class="zdog-canvas" width="240" height="240"></canvas> -->
+   
+  <svg class="zdog-svg" width="400" height="400" version="1.1"
+  viewBox="0 0 400 400" preserveAspectRatio="none"
+        xmlns="//www.w3.org/2000/svg" 
+        style="border: 2px dashed rgb(175, 145, 8);">
+    
+        <defs>
+            <linearGradient id="lgrad" x1="0%" y1="50%" x2="100%" y2="50%" >
+             
+                   <stop offset="0%" style="stop-color:rgb(97, 138, 60);stop-opacity:1.00" />
+                   <stop offset="100%" style="stop-color:rgb(135, 185, 54);stop-opacity:1.00" />
+         
+             </linearGradient>
+           </defs>
+        <!-- <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#lgrad)" /> -->
+      </svg> 
+
+    <script type="text/python">
+
+        from browser import document, window, html, bind
+        import math
+
+        tau = window.Zdog.TAU
+        
+        tees = 8
+        frontZ = {"z": 3}
+        backZ = {"z": -3}
+        colorA = 'url(#lgrad)'
+        colorB = 'rgb(175, 145, 8)'
+
+        svg = document.querySelector('.zdog-svg')
+        illo = window.Zdog.Illustration.new(
+            {
+            "element": svg,
+             "dragRotate":True,
+             "zoom": 3
+        }
+        )
+
+        def get_gearPath(tees: int) -> list:
+            path = list()
+            teesCount = tees * 8
+            for i in range(teesCount):
+                isOuter = (i % 2) < 1
+                radius = 19 if isOuter else 15
+                theta = math.ceil(i/2) * 2
+                theta += -0.7 if (i%2 == 0) else 0.7
+                theta = ( theta/teesCount + 1/teesCount ) * tau
+                coords = {
+                    "x": math.cos(theta) * radius,
+                    "y": math.sin(theta) * radius
+                }
+                path.append(coords)
+            return path
+        
+        gearPath: list = get_gearPath(tees)
+        
+        gearGroup = window.Zdog.Group.new(
+            {
+               "addTo": illo,
+            }
+        ) 
+        
+        window.Zdog.Shape.new(
+            {
+                "addTo": gearGroup,
+                "path": gearPath,
+                "color": colorA,
+                "backface": True,
+                "fill": True,
+                "stroke": 2,
+                "closed": False,
+            }
+        )
+        
+        val = window.Zdog.Cylinder.new(
+            {
+                "addTo": gearGroup,
+                "diameter": 6,
+                "length": 2,
+                "color": colorB,
+                "backface": 'rgb(85, 85, 88)',
+                "translate": { "z": -2 },
+                "fill": True,
+                "stroke": 1, 
+            }
+        )
+
+        val.copy({
+            "translate": {"z": 4},
+            "length": 20,
+            "backface": False
+        })
+       
+        gearGroup.rotate.y= tau / 3.1
+        gearGroup.updateGraph()
+        gearGroup.renderGraphSvg(svg)
+
+        def animate(t):
+            global scene, gearGroup
+            
+            gearGroup.rotate.z += -0.03
+            gearGroup.translate.y -= 0.2 if gearGroup.translate.y > -20 else 0
+            gearGroup.updateGraph()
+            gearGroup.renderGraphSvg(svg)
+            window.requestAnimationFrame(animate)
+
+        animate(1)
+
+    </script>
+    
+</body>
+</html>
