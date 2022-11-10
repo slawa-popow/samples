@@ -28,7 +28,7 @@
   <svg class="zdog-svg" width="400" height="400" version="1.1"
   viewBox="0 0 400 400" preserveAspectRatio="none"
         xmlns="//www.w3.org/2000/svg" 
-        style="border: 2px dashed rgb(175, 145, 8);">
+        style="border: 2px dashed rgb(190, 188, 172);">
     
         <defs>
             <linearGradient id="lgrad" x1="0%" y1="50%" x2="100%" y2="50%" >
@@ -36,6 +36,12 @@
                    <stop offset="0%" style="stop-color:rgb(97, 138, 60);stop-opacity:1.00" />
                    <stop offset="100%" style="stop-color:rgb(135, 185, 54);stop-opacity:1.00" />
          
+             </linearGradient>
+           </defs>
+           <defs>
+            <linearGradient id="lgrad-pneumo" x1="0%" y1="50%" x2="100%" y2="50%" >
+                   <stop offset="0%" style="stop-color:rgb(220, 226, 167);stop-opacity:1.00" />
+                   <stop offset="100%" style="stop-color:rgb(140, 148, 98);stop-opacity:1.00" />
              </linearGradient>
            </defs>
         <!-- <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#lgrad)" /> -->
@@ -52,7 +58,7 @@
         frontZ = {"z": 3}
         backZ = {"z": -3}
         colorA = 'url(#lgrad)'
-        colorB = 'rgb(175, 145, 8)'
+        colorB = 'rgb(177, 159, 79)'
 
         svg = document.querySelector('.zdog-svg')
         illo = window.Zdog.Illustration.new(
@@ -103,9 +109,9 @@
             {
                 "addTo": gearGroup,
                 "diameter": 6,
-                "length": 2,
+                "length": 1,
                 "color": colorB,
-                "backface": 'rgb(85, 85, 88)',
+                "backface": 'rgb(136, 120, 42)',
                 "translate": { "z": -2 },
                 "fill": True,
                 "stroke": 1, 
@@ -117,10 +123,52 @@
             "length": 20,
             "backface": False
         })
+
+        pneumoGroup = window.Zdog.Group.new(
+            {
+               "addTo": illo,
+              
+            }
+        ) 
+
+        cylinder = window.Zdog.Box.new({
+            "addTo": pneumoGroup,
+            
+            "width": 10,
+            "height": 30,
+            "depth": 10,
+            "translate": {"x": -12, "y": 30},
+            "rotate": {"y": tau/4.4, "x": tau/2.3, "z": 0},
+            "stroke": False,
+            "color": 'url(#lgrad-pneumo)', 
+            "leftFace": 'url(#lgrad-pneumo)',
+            "rightFace": 'url(#lgrad-pneumo)',
+            "topFace": 'url(#lgrad-pneumo)',
+            "bottomFace": '#636'
+        })
+
+        shtok = window.Zdog.Cylinder.new(
+            {
+                "addTo": cylinder,
+                "diameter": 3,
+                "length": 30, # +10
+                "color": 'rgb(221, 218, 200)',
+                "backface": 'rgb(190, 188, 172)',
+                "translate": { "x": -10, "y": 35, "z": -1.5}, # y -> +5
+                "rotate": {"x": tau/4},
+                "fill": True,
+                "stroke": 1, 
+            }
+        )
        
+        layers: list = [gearGroup, pneumoGroup]
+
         gearGroup.rotate.y= tau / 3.1
-        gearGroup.updateGraph()
-        gearGroup.renderGraphSvg(svg)
+
+        for space in layers:
+            space.updateGraph()
+            space.renderGraphSvg(svg)
+       
 
         def animate(t):
             global scene, gearGroup
