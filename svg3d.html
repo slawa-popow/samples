@@ -17,7 +17,10 @@
 
   <style>
 
-
+    #position, #trans, input, span {
+        display: block;
+        width: 100%;
+    }
   </style>
 
 </head>
@@ -25,10 +28,10 @@
     
     <!-- <canvas class="zdog-canvas" width="240" height="240"></canvas> -->
    
-  <svg class="zdog-svg" width="400" height="400" version="1.1"
+  <svg id="zdog-svg" width="1000" height="400" version="1.1"
   viewBox="0 0 400 400" preserveAspectRatio="none"
         xmlns="//www.w3.org/2000/svg" 
-        style="border: 2px dashed rgb(190, 188, 172);">
+        style="border: 2px dashed rgba(255, 255, 255, 0);">
     
         <defs>
             <linearGradient id="lgrad" x1="0%" y1="50%" x2="100%" y2="50%" >
@@ -44,13 +47,50 @@
                    <stop offset="100%" style="stop-color:rgb(140, 148, 98);stop-opacity:1.00" />
              </linearGradient>
            </defs>
+           <defs>
+            <linearGradient id="plita" x1="0%" y1="50%" x2="100%" y2="50%" >
+                   <stop offset="0%" style="stop-color:rgb(219, 170, 97);stop-opacity:1.00" />
+                   <stop offset="100%" style="stop-color:rgb(165, 125, 65);stop-opacity:1.00" />
+             </linearGradient>
+           </defs>
         <!-- <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#lgrad)" /> -->
       </svg> 
 
+      <div id="select-obj">
+        <select name="sel_obj" id="transform-obj">
+        </select>
+      </div>
+
+      <div id="position">
+        <span>rotate</span>
+        <span>x</span>
+        <input type="range" id="xx" min="1" max="10" step="0.01" value="0">
+        <span id="span-x"></span>
+        <span>y</span>
+        <input type="range" id="yy" min="1" max="10" step="0.01" value="0">
+        <span id="span-y"></span>
+        <span>z</span>
+        <input type="range" id="zz" min="1" max="10" step="0.01" value="0">
+        <span id="span-z"></span>
+      </div>
+      <div id="trans">
+        <span>translate</span>
+        <span>x</span>
+        <input type="range" id="tx" min="-90" max="150" step="1" value="0">
+        <span id="span-tx"></span>
+        <span>y</span>
+        <input type="range" id="ty" min="-90" max="150" step="1" value="0">
+        <span id="span-ty"></span>
+        <span>z</span>
+        <input type="range" id="tz" min="-90" max="150" step="1" value="0">
+        <span id="span-tz"></span>
+      </div>
     <script type="text/python">
+
 
         from browser import document, window, html, bind
         import math
+
 
         tau = window.Zdog.TAU
         
@@ -59,15 +99,33 @@
         backZ = {"z": -3}
         colorA = 'url(#lgrad)'
         colorB = 'rgb(177, 159, 79)'
+        len_st = 5
+        zoom_svg = 10
+        sceneWidth = 16;
+        sceneHeight = 16;
+        viewWidth = sceneWidth * zoom_svg;
+        viewHeight = sceneHeight * zoom_svg;
+        svg = document["zdog-svg"]
+        svg.attrs["viewBox"] = f"{-viewWidth/2.5} {-viewHeight/2.5} {viewWidth} {viewHeight}"
+        svg.attrs["width"] = 450
+        svg.attrs["height"] = 450
+        
+        scene = window.Zdog.Anchor.new({            
+            "translate": {"x":18, "y":-10, "z":78},
+            "rotate": {"x": 6.159985595274104, "y": 6.283185307179586, "z": 6.283185307179586},
+        })
 
-        svg = document.querySelector('.zdog-svg')
-        illo = window.Zdog.Illustration.new(
-            {
-            "element": svg,
-             "dragRotate":True,
-             "zoom": 3
-        }
-        )
+        
+        tableCut = window.Zdog.Anchor.new({
+            "addTo": scene,
+            "rotate": {"x": 6.159985595274104, "y": 2.3799944345377217, "z": 0},
+            "translate": {"x":-4, "y":4, "z":24},
+        })
+        table = window.Zdog.Anchor.new({
+            "addTo": scene,
+            "translate": {"x":-19, "y":-2, "z":24},
+            
+        })
 
         def get_gearPath(tees: int) -> list:
             path = list()
@@ -86,99 +144,138 @@
             return path
         
         gearPath: list = get_gearPath(tees)
-        
-        gearGroup = window.Zdog.Group.new(
+        saw = window.Zdog.Shape.new(
             {
-               "addTo": illo,
-            }
-        ) 
-        
-        window.Zdog.Shape.new(
-            {
-                "addTo": gearGroup,
+                "addTo": tableCut,
+                "translate": {"x": 0, "y": 0, "z": 0},
+                
                 "path": gearPath,
                 "color": colorA,
                 "backface": True,
                 "fill": True,
                 "stroke": 2,
                 "closed": False,
+                
             }
         )
         
-        val = window.Zdog.Cylinder.new(
-            {
-                "addTo": gearGroup,
-                "diameter": 6,
-                "length": 1,
-                "color": colorB,
-                "backface": 'rgb(136, 120, 42)',
-                "translate": { "z": -2 },
-                "fill": True,
-                "stroke": 1, 
-            }
-        )
-
-        val.copy({
-            "translate": {"z": 4},
-            "length": 20,
-            "backface": False
-        })
-
-        pneumoGroup = window.Zdog.Group.new(
-            {
-               "addTo": illo,
-              
-            }
-        ) 
-
-        cylinder = window.Zdog.Box.new({
-            "addTo": pneumoGroup,
-            
-            "width": 10,
-            "height": 30,
-            "depth": 10,
-            "translate": {"x": -12, "y": 30},
-            "rotate": {"y": tau/4.4, "x": tau/2.3, "z": 0},
+        plita_vert = window.Zdog.Box.new({
+            "addTo": table,
+            "width": 60,
+            "height": 100,
+            "depth": 4,
+            "translate": {"x": 0, "y": 10, "z": 0},
+            "rotate": {"x": 4.688944259089244, "y": 6.283185307179586, "z": 5.560340979804944},
             "stroke": False,
             "color": 'url(#lgrad-pneumo)', 
             "leftFace": 'url(#lgrad-pneumo)',
             "rightFace": 'url(#lgrad-pneumo)',
             "topFace": 'url(#lgrad-pneumo)',
-            "bottomFace": '#636'
-        })
-
-        shtok = window.Zdog.Cylinder.new(
-            {
-                "addTo": cylinder,
-                "diameter": 3,
-                "length": 30, # +10
-                "color": 'rgb(221, 218, 200)',
-                "backface": 'rgb(190, 188, 172)',
-                "translate": { "x": -10, "y": 35, "z": -1.5}, # y -> +5
-                "rotate": {"x": tau/4},
-                "fill": True,
-                "stroke": 1, 
-            }
-        )
-       
-        layers: list = [gearGroup, pneumoGroup]
-
-        gearGroup.rotate.y= tau / 3.1
-
-        for space in layers:
-            space.updateGraph()
-            space.renderGraphSvg(svg)
-       
-
-        def animate(t):
-            global scene, gearGroup
+            "bottomFace": 'url(#lgrad-pneumo)',
+            "frontFace": "blue",
             
-            gearGroup.rotate.z += -0.03
-            gearGroup.translate.y -= 0.2 if gearGroup.translate.y > -20 else 0
-            gearGroup.updateGraph()
-            gearGroup.renderGraphSvg(svg)
-            window.requestAnimationFrame(animate)
+        })
+       
+        
+        def empty(element):
+            while element.firstChild:
+                element.removeChild(element.firstChild)
 
+        def render():
+            global svg, scene
+            
+            
+            scene.renderGraphSvg(svg)
+            
+            
+        
+        
+        
+
+
+        transforms: dict = {
+            "saw-disc": tableCut,
+            "plita verh":  plita_vert,
+           
+            "table-space": scene,
+        }
+
+        object_transform = None
+        
+        x_pos = document["xx"]
+        y_pos = document["yy"]
+        z_pos = document["zz"]
+        select = document["transform-obj"]
+
+        @bind(x_pos, "change")
+        def change_posX(e):
+            object_transform.rotate.x = tau/float(x_pos.value)
+            document["span-x"].textContent = object_transform.rotate.x
+            
+
+        @bind(y_pos, "change")
+        def change_posY(e):
+            object_transform.rotate.y = tau/float(y_pos.value)
+            document["span-y"].textContent = object_transform.rotate.y
+
+        @bind(z_pos, "change")
+        def change_posZ(e):
+            object_transform.rotate.z = tau/float(z_pos.value)
+            document["span-z"].textContent = object_transform.rotate.z
+
+        @bind(document["tx"], "change")
+        def change_X(e):
+            object_transform.translate.x = float(document["tx"].value)
+            document["span-tx"].textContent = object_transform.translate.x
+
+        @bind(document["ty"], "change")
+        def change_Y(e):
+            object_transform.translate.y = float(document["ty"].value)
+            document["span-ty"].textContent = object_transform.translate.y
+
+
+        @bind(document["tz"], "change")
+        def change_Z(e):
+            object_transform.translate.z = float(document["tz"].value)
+            document["span-tz"].textContent = object_transform.translate.z
+
+        def create_select(obj_list: dict):
+            contain_select = document["transform-obj"]
+            if obj_list:
+                for key in obj_list:
+                    tag_sel = document.createElement("option")
+                    tag_sel.textContent = key
+                    contain_select.appendChild(tag_sel)
+
+        def change_obj_rotate(index: str):
+            global transforms, object_transform
+            try:
+                object_transform = transforms[index]
+            except IndexError:
+                print("нет такого ")
+
+
+        @bind(select, "change")
+        def change_select(e):
+            indx = select.selectedIndex
+            opt = select.options[indx]
+            change_obj_rotate(opt.text)
+
+        
+        
+        object_transform = transforms[list(transforms.keys())[0]] if transforms else None
+        
+        create_select(transforms)
+        
+        
+        def animate(t):
+            global tableCut, table, scene
+            
+            tableCut.rotate.z += -0.05
+            scene.updateGraph()
+            render()
+            window.requestAnimationFrame(animate)
+           
         animate(1)
 
     </script>
