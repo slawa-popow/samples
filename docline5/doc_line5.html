@@ -61,7 +61,9 @@
 
         .clear {
             zoom: 1;	
-        } 
+        }
+
+        
 
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -192,15 +194,20 @@
             margin: 10px 0;	
         }
         footer {
-            margin-top: 15px;
-            font-size: .8em;	
+            margin-top: 125px;
+            font-size: .7em;	
             padding: 10px 10px 30px 10px;
-            background-color: black;
-            color: rgb(204,204,204);
+            background: #D4D3DD;  /* fallback for old browsers */
+            border-top: 1px solid #b8b8bb;
+            position: relative;
         }
-        footer a {
-            color: white;	
+        footer .footer__author span {
+            position: absolute;
+            bottom: 10px;
+            right: 5%;
+            color: rgb(126, 123, 123);
         }
+        
         .mobile-menu-block {
             position: absolute;
             z-index: 100;
@@ -244,6 +251,27 @@
             top: 20px;
             font-weight: bold;
         }
+        button {
+            box-shadow:inset 0px 1px 0px 0px #a6827e;
+            background:linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
+            background-color:#7d5d3b;
+            border-radius:5px;
+            border:1px solid #54381e;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-size:0.9em;
+            padding:10px 16px;
+            text-decoration:none;
+        }
+        button:hover {
+            background:linear-gradient(to bottom, #634b30 5%, #7d5d3b 100%);
+            background-color:#634b30;
+        }
+        button:active {
+            position:relative;
+            top:1px;
+        } 
 
         /* медиазапросы */
 
@@ -336,6 +364,9 @@
     }
     .display-buttons span, .display-plc-settimers span{
         font-size: 0.7em;
+    }
+    button {
+        font-size: 0.8em;
     }
     
 }
@@ -471,6 +502,19 @@
         right: 0;
         bottom: 0;
     }
+    .svg-hidden{
+        display: none;
+        }
+    .svg-visible{
+        position: absolute;
+    }
+    .svg-cuttable__div {
+        width: 100%;
+    }
+    .svg-cuttable__button{
+        margin: 25px 0;
+    }
+    
     
    
    
@@ -525,6 +569,68 @@
         <div id="main-content"></div>
     </article>
     <!--  -->
+    <svg id="SVG-cutTable" class="svg-hidden"  xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+        <defs>
+          <linearGradient gradientUnits="userSpaceOnUse" x1="168" y1="160" x2="168" y2="167" id="gradientA" gradientTransform="matrix(1.066667, 0, 0, 0.428571, -0.199668, 87.592995)">
+            <stop offset="0" style="stop-color: rgba(216, 216, 216, 1)"></stop>
+            <stop offset="1" style="stop-color: rgb(178, 163, 163);"></stop>
+          </linearGradient>
+          <linearGradient gradientUnits="userSpaceOnUse" x1="168" y1="160" x2="168" y2="167" id="gradientB" gradientTransform="matrix(0.212121, 0, 0, 1, 11.631625, 69.522827)">
+            <stop offset="0" style="stop-color: rgba(216, 216, 216, 1)"></stop>
+            <stop offset="1" style="stop-color: rgb(178, 163, 163);"></stop>
+          </linearGradient>
+          <linearGradient gradientUnits="userSpaceOnUse" x1="168" y1="160" x2="168" y2="167" id="gradientC" gradientTransform="matrix(0.030303, 0, 0, 1, 291.831207, 33.877129)">
+            <stop offset="0" style="stop-color: rgba(216, 216, 216, 1)"></stop>
+            <stop offset="1" style="stop-color: rgb(178, 163, 163);"></stop>
+          </linearGradient>
+          <bx:grid x="0" y="0" width="15.609" height="20.451"></bx:grid>
+        </defs>
+        <symbol id="symbol-cutTable" viewBox="0 0 400 200">
+        <rect y="156.164" width="352" height="3" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; stroke-width: 0px; fill: url(#gradientA);" id="rels" x="3"></rect>
+        <g id="tableCut" transform="translate(0 0)">
+          <g transform="matrix(1, 0, 0, 1, 1.328117, 0.089287)">
+            <rect x="174.778" y="100" width="38" height="23.021" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
+            <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 0, 0)" id="text-table"><tspan x="184.665" y="106.994">стол</tspan><tspan x="184.665" dy="1em">​</tspan><tspan>0 s</tspan><tspan x="184.665" dy="1em">​</tspan><tspan x="184.665" dy="1em">​</tspan></text>
+          </g>
+          <circle style="stroke: rgb(0, 0, 0); fill: rgb(58, 58, 58);" cx="18.667" cy="152.656" r="4"></circle>
+          <circle style="stroke: rgb(0, 0, 0); fill: rgb(58, 58, 58);" cx="201.776" cy="152.656" r="4"></circle>
+          <polygon style="fill: rgb(216, 216, 216); vector-effect: non-scaling-stroke; stroke: rgb(143, 139, 139);" points="29.822 150.137 37.633 150.619 67.408 218.441 150.88 219.883 186.025 149.656 192.822 150.137 155.761 225.656 62.04 224.694"></polygon>
+          <rect x="12.268" y="229.523" width="70" height="7" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; stroke-width: 0px; fill: url(#gradientB);" id="rect-1" transform="matrix(0.000001, 1, -1, 0.000001, 363.344971, 137.027435)"></rect>
+          <g transform="matrix(1, 0, 0, 1, -2.178, -5.138016)" id="motorSaw">
+            <g transform="matrix(1, 0, 0, 1, -191.921997, -7.927994)">
+              <path style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; fill: rgb(191, 187, 175);" d="M 307.265 187.27 H 342.265 V 207.928 H 307.265 A 5 5 0 0 1 302.265 202.928 V 192.27 A 5 5 0 0 1 307.265 187.27 Z" bx:shape="rect 302.265 187.27 40 20.658 5 0 0 5 1@c73d8f41"></path>
+              <path style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; fill: rgb(84, 142, 171);" d="M 341.922 187.27 H 350.922 A 4 4 0 0 1 354.922 191.27 V 203.928 A 4 4 0 0 1 350.922 207.928 H 341.922 V 187.27 Z" bx:shape="rect 341.922 187.27 13 20.658 0 4 4 0 1@87c17526"></path>
+              <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" x1="309.279" y1="193.335" x2="340.124" y2="193.335"></line>
+              <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" x1="308.79" y1="197.252" x2="339.635" y2="197.252"></line>
+              <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" x1="308.79" y1="201.168" x2="339.635" y2="201.168"></line>
+              <rect x="291.922" y="193.876" width="10" height="7" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; stroke-width: 0px; fill: url(#gradientC);" id="rect-2"></rect>
+            </g>
+            <circle style="stroke: rgb(0, 0, 0); stroke-width: 0px; vector-effect: non-scaling-stroke; fill: rgb(213, 29, 45);" transform="matrix(0.736937, 0, 0, 13.578938, -489.570312, -2103.175293)" cx="789" cy="168.279" r="3" id="saw"></circle>
+          </g>
+          <g transform="matrix(1, 0, 0, 1, -4.285002, -7.463577)" id="press">
+            <polygon style="fill: rgb(216, 216, 216); stroke: rgb(165, 165, 165);" points="80.998 112.086 81.948 82.883 85.365 79.193 100.977 79.193 103.805 83.167 103.758 112.371" transform="matrix(1, 0.000047, -0.000047, 1, 0.004502, -0.004343)"></polygon>
+            <rect x="67.394" y="111.891" width="49.934" height="5.027" style="fill: rgb(216, 216, 216); stroke: rgb(154, 154, 154);"></rect>
+            <rect x="67.107" y="116.917" width="9.384" height="10" style="stroke-width: 0px; stroke: rgb(126, 126, 126); fill: rgb(220, 169, 111);"></rect>
+            <rect x="108.177" y="116.896" width="9.384" height="10" style="stroke-width: 0px; stroke: rgb(126, 126, 126); fill: rgb(220, 169, 111);"></rect>
+          </g>
+          <rect x="3" y="134.656" width="230" height="15" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; fill: rgb(236, 231, 231);"></rect>
+          <path style="vector-effect: non-scaling-stroke; stroke: rgb(173, 168, 168); fill: rgb(153, 143, 143);" d="M 82.155 150.155 H 97.822 V 209.43 A 7.8 7.8 0 0 1 90.022 217.23 H 89.955 A 7.8 7.8 0 0 1 82.155 209.43 V 150.155 Z" bx:shape="rect 82.155 150.155 15.667 67.075 0 0 7.8 7.8 1@5d42beea"></path>
+          <g transform="translate(0 -15)">
+            <rect x="60.118" y="53.398" width="52" height="25.81" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
+            <text style="fill: rgb(49, 45, 45); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, -44.713268, -23.020693)" id="text-press"><tspan x="118.259" y="87.958">прижим</tspan><tspan x="118.259" dy="1em">​</tspan><tspan>0 s</tspan></text>
+          </g>
+          <g>
+            <rect x="172" y="200" width="28" height="23.021" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
+            <text style="fill: rgb(6, 43, 102); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 81.116592, 0.480301)" id="saw-text"><tspan x="100.551" y="206.603">пила</tspan><tspan x="100.551" dy="1em">​</tspan><tspan>0 s</tspan><tspan x="100.551" dy="1em">​</tspan><tspan x="100.551" dy="1em">​</tspan></text>
+          </g>
+        </g>
+      </symbol>
+      </svg>
+    <footer>
+        <div class="footer__author">
+            <span>Попов В.Г. 2022</span> 
+        </div>
+    </footer>
 
     <script type="text/python">
         
@@ -555,6 +661,350 @@
                 """Удалить контент"""
                 pass
 
+    
+        # -------------------------------------------------- 
+
+        def animate(method: Callable) -> Callable:
+            """Декоратор аниматор"""
+            @wraps(method)
+            def wrapper(self, *args):
+                def animation(t):
+                    self.raf = window.requestAnimationFrame(animation)
+                    method(self)
+                animation(1)
+            return wrapper
+
+        # --------------------------------------------------
+
+        class AbcCutTableNode(ABC):
+            """Абстрактный класс узлов отрезного стола"""
+
+            @property
+            @abstractmethod
+            def raf(self) -> object:
+                """Вернуть ID requestAnimationFrame"""
+                pass
+
+            @abstractmethod
+            def on_node(self) -> None:
+                """Включить узел. Например поднять пилу."""
+                pass
+
+            @abstractmethod
+            def off_node(self) -> None:
+                """Отключить узел. Например опустить пилу"""
+                pass
+
+            @abstractmethod
+            def on_action(self, method: Callable) -> None:
+                """Действие после включения узла"""
+                pass
+
+            @abstractmethod
+            def off_action(self, method: Callable) -> None:
+                """Действие после отключения узла"""
+                pass
+
+            @abstractmethod
+            def destructor(self) -> None:
+                """Запуск операций по удалению объектов"""
+                pass
+
+            @abstractmethod
+            @animate
+            def start_on(self) -> None:
+                """Старт анимации включения узла"""
+                pass
+
+            @abstractmethod
+            @animate
+            def start_off(self) -> None:
+                """Старт анимации отключения узла"""
+                pass
+
+        # -------------------------------------------------- 
+
+       
+        
+        class BaseCutTable(AbcCutTableNode):
+            """Базовый класс отрезного стола (svg)"""
+                
+                # объект svg
+            _svg_cut_table: object = None
+
+            def __init__(self, id_g: str, id_txt: str) -> None:                    
+                self.id = self._svg_cut_table
+
+                    # объект группы узла
+                self.gnode = document[id_g]
+
+                    # объект текстовой метки
+                self.label = document[id_txt]
+                
+                self.end_X: float = None  
+                self.begin_X: float = None
+                self.begin_Y: float = None
+                self.end_Y: float = None
+
+                    # узел включен?
+                self.is_on: bool = False
+
+                self.is_return: bool = False
+
+                    # скорость включения/отключения
+                self._speed_on: float = None
+                self._speed_off: float = None
+                    # аккумулятор-скорость во время анимации
+                self._curr_speed: float = 0
+
+                    # задержки включения/отключения узла
+                self._delay_on: float = 0.1
+                self._delay_off: float = 0.1
+
+                    # события по включению/отключении узла
+                self.evnt_on = None
+                self.evnt_off = None
+                self.evnt_return = None
+
+                    # id requestAnimationFrame
+                self._raf = None
+
+
+             
+            @classmethod
+            def set_cut_table(cls, obj) -> None:
+                cls._svg_cut_table = obj
+
+
+            @property
+            def raf(self) -> object:
+                return self._raf
+
+
+            @raf.setter
+            def raf(self, id_raf) -> None:
+                self._raf = id_raf
+
+            @property
+            def delay_on(self) -> float:
+                return self._delay_on
+
+            @delay_on.setter
+            def delay_on(self, value: float) -> None:
+                self._delay_on = value if isinstance(value, float) else float(value)
+
+            @property
+            def delay_off(self) -> None:
+                return self._delay_off
+
+            @delay_off.setter
+            def delay_off(self, value: float) -> None:
+                self._delay_off = value if isinstance(value, float) else float(value)
+
+
+            @property
+            def speed_on(self) -> float:
+                return self._speed_on
+
+
+            @speed_on.setter
+            def speed_on(self, value) -> None:
+                try:
+                    self._speed_on = value if isinstance(value, float) else float(value)
+                except TypeError:
+                    print(f"Неверный тип данных для _speed_on <{type(value)}>")
+                    self._speed_on = 0
+
+
+            @property
+            def speed_off(self) -> float:
+                return self._speed_off
+
+
+            @speed_off.setter
+            def speed_off(self, value) -> None:
+                try:
+                    self._speed_off = value if isinstance(value, float) else float(value)
+                except TypeError:
+                    print(f"Неверный тип данных для _speed_off <{type(value)}>")
+                    self._speed_off = 0
+
+                                    
+
+            def set_X_range(self, x_begin: float, x_end: float) -> None:
+                self.begin_X = float(x_begin)
+                self.end_X = float(x_end)
+
+            def set_Y_range(self, y_begin: float, y_end: float) -> None:
+                self.begin_Y = float(y_begin)
+                self.end_Y = float(y_end)
+
+            def on_node(self) -> None:
+                self.is_on = False
+                document.dispatchEvent(self.evnt_on)
+                
+
+            def off_node(self) -> None:
+                self.is_on = True
+                if self.raf:
+                    window.cancelAnimationFrame(self.raf)
+                    self.raf = None
+                document.dispatchEvent(self.evnt_off)
+
+            def return_node(self) -> None:
+                self.is_return = True
+                if self.raf:
+                    window.cancelAnimationFrame(self.raf)
+                    self.raf = None
+                document.dispatchEvent(self.evnt_return)
+
+
+            def on_action(self, method: Callable) -> None:
+                name_event_on = "on_" + self.__class__.__name__
+                self.evnt_on = window.Event.new(name_event_on)
+                document.addEventListener(name_event_on, method)
+
+            def off_action(self, method: Callable) -> None:
+                name_event_off = "off_" + self.__class__.__name__
+                self.evnt_off = window.Event.new(name_event_off)
+                document.addEventListener(name_event_off, method)
+
+            def return_action(self, method: Callable) -> None:
+                name_event_return = "return_" + self.__class__.__name__
+                self.evnt_return = window.Event.new(name_event_return)
+                document.addEventListener(name_event_return, method)
+
+            @animate
+            def start_on(self) -> None:
+                pass
+
+            @animate
+            def start_off(self) -> None:
+                pass
+
+            def destructor(self) -> None:
+                self.id = None
+                self.gnode = None
+                self.label = None
+                self.raf = None
+                BaseCutTable.__svg_cut_table = None
+
+        # --------------------------------------------------   
+
+        class Press(BaseCutTable):
+            """Прижим"""
+            
+            def __init__(self, id_g: str, id_txt: str) -> None:
+                super().__init__(id_g, id_txt)
+                self.on_action(self.on_press)
+                self.off_action(self.off_press)
+                self.return_action(self.return_press)
+
+
+                
+            def on_press(self, e) -> None:
+                print("ПРИЖИМ ОПУСКАЕТСЯ", self.is_on, f"is_return {self.is_return}")
+
+            def off_press(self, e) -> None:
+                print("ПРИЖИМ ВНИЗУ", self.is_on, f"is_return {self.is_return}")
+
+            def return_press(self, e) -> None:
+                print("ПРИЖИМ ВЕРНУЛСЯ", f"is_return {self.is_return}")
+
+            def on_node(self) -> None:
+                super().on_node()
+                self._curr_speed = self.end_Y if self.is_on else self.begin_Y
+                self.speed_on = 0.7
+                window.setTimeout(self.start_on, self.delay_on)
+            
+
+            def off_node(self) -> None:
+                super().off_node()
+                self._curr_speed = self.end_Y if self.is_on else self.begin_Y
+                self.speed_off = 1.4
+
+            def return_node(self) -> None:
+                super().return_node()
+                
+                
+
+            @animate
+            def start_on(self, *args) -> None:
+                self.gnode.attrs["transform"] = f"translate({-5} {self._curr_speed})"
+                self._curr_speed += self.speed_on
+                
+                if self._curr_speed >= self.end_Y:
+                    self.off_node()
+                    window.setTimeout(self.start_off, self.delay_off)
+                    
+            
+
+            @animate
+            def start_off(self, *args) -> None:
+                self.gnode.attrs["transform"] = f"translate({-5} {self._curr_speed})"
+                self._curr_speed -= self.speed_off
+            
+                if self._curr_speed <= self.begin_Y:
+                    self.return_node()
+                    
+
+
+        # --------------------------------------------------
+
+        class Saw(BaseCutTable):
+            """Пила"""
+
+            def __init__(self, id_g: str, id_txt: str) -> None:
+                super().__init__(id_g, id_txt)
+                self.on_action(self.on_saw)
+                self.off_action(self.off_saw)
+                self.return_action(self.return_saw)
+
+            def on_saw(self, e) -> None:
+                print("ПИЛА ПОДНИМАЕТСЯ", self.is_on)
+
+            def off_saw(self, e) -> None:
+                print("ПИЛА ВВЕРХУ", self.is_on)
+
+            def return_saw(self, e) -> None:
+                print("ПИЛА ВЕРНУЛАСЬ")
+
+            def on_node(self) -> None:
+                super().on_node()
+                self._curr_speed = self.end_Y if self.is_on else self.begin_Y
+                self.speed_on = 0.5
+                window.setTimeout(self.start_on, self.delay_on)
+                
+
+            def off_node(self) -> None:
+                super().off_node()
+                self._curr_speed = self.end_Y if self.is_on else self.begin_Y
+                self.speed_off = 1.5
+
+            def return_node(self) -> None:
+                super().return_node()
+                
+                
+
+            @animate
+            def start_on(self, *args):
+                self.gnode.attrs["transform"] = f"translate({-5} {self._curr_speed})"
+                self._curr_speed -= self.speed_on
+                
+                if self._curr_speed <= self.end_Y:
+                    self.off_node()
+                    window.setTimeout(self.start_off, self.delay_off)
+                    
+
+
+            @animate
+            def start_off(self, *args) -> None:
+                self.gnode.attrs["transform"] = f"translate({-5} {self._curr_speed})"
+                self._curr_speed += self.speed_off
+            
+                if self._curr_speed >= self.begin_Y:
+                    self.return_node()
+
         # --------------------------------------------------
 
         class ContentPage(AbcContentPage):
@@ -574,6 +1024,10 @@
                     # заголовок
                 self._title = title
                 self.manager = None
+                self.svg_object = None
+                window.addEventListener("resize", self.resize_page)
+                self.viewboxW, self.viewboxH, self.vportW, self.vportH = self.get_size_viewBox()
+                
 
             def __repr__(self) -> str:
                 return f"{self.__dict__}"
@@ -590,6 +1044,56 @@
                 for elem in self.manager.container.children:
                     self.manager.container.removeChild(elem)
 
+
+            def get_width_page(self) -> int:
+                w1 = window.innerWidth
+                w2 = document.documentElement.clientWidth
+                w3 = document.body.clientWidth
+                return w1 or w2 or w3
+
+            def get_height_page(self) -> int:
+                h1 = window.innerHeight
+                h2 = document.documentElement.clientHeight
+                h3 = document.body.clientHeight
+                return h1 or h2 or h3 
+
+            def get_size_viewBox(self) -> tuple:
+                w = self.get_width_page()
+                h = self.get_height_page()
+                if w < 331:
+                    return (380, 290, 280, 190) 
+                elif 331 <= w <= 535:
+                    return (420, 310, 320, 210)
+                elif w > 535:
+                    return (600, 450, 500, 350)
+
+            def resize_page(self, e) -> None:
+                if self.svg_object:
+                    vbW, vbH, vp_w, vp_h = self.get_size_viewBox()
+                    self.svg_object.attrs["veiwBox"] = f"{0} {0} {vbW} {vbH}"
+                    self.svg_object.attrs["width"] = f"{vp_w}"
+                    self.svg_object.attrs["height"] = f"{vp_h}"
+
+
+            def createSVG(self, id_symbol: str) -> object:
+                xmlns = "http://www.w3.org/2000/svg"
+                xlink = "http://www.w3.org/1999/xlink"
+                
+                svg_contain = document.createElementNS(xmlns, "svg")
+                self.svg_object = svg_contain
+                BaseCutTable.set_cut_table(self.svg_object)
+                
+                svg_contain.setAttributeNS(None, "veiwBox", f"0 0 {self.viewboxW} {self.viewboxH}")
+                svg_contain.setAttributeNS(None, "width", f"{self.vportW}")
+                svg_contain.setAttributeNS(None, "height", f"{self.vportH}")
+                svg_contain.setAttributeNS(None, "preserveAspectRatio", "xMinYMin meet")
+                use_tag = document.createElementNS(xmlns, "use")
+                
+                use_tag.setAttributeNS(xlink, "xlink:href", "#"+id_symbol)
+        
+                svg_contain.appendChild(use_tag)
+                 
+                return svg_contain
 
 
             def make_title(self) -> None:
@@ -777,6 +1281,13 @@
 
         class SetTimers(ContentPage):
             
+            p_tmr_1: str = """Когда профиль доползает до датчика длины и поворачивает флажок датчика, или оператор нажимает кнопку <u>manual cut</u>  запускается отрезной стол."""
+            p_tmr_2: str = """Одновременно: опускается прижим, начинает ехать стол и подниматься пила. Задав здесь время задерки в 2 секунды например, <b>пила начнет подниматься через 2 секунды после включения отрезного стола.</b> Т-е сначала опустится прижим, начнет ехать стол, а пила начнет подниматься только спустя заданное здесь время секунд."""
+            dl_situation: dict = {
+                "Например ситуация:": "Если включается отрез и пила поднялась быстрее, чем опустились прижимы, то профиль будет отрезан не ровно. Нужно увеличить эту задержку, чтобы она была немного больше чем время опускания прижима."
+            }
+
+
             def __init__(self, title: str) -> None:
                 super().__init__(title)
 
@@ -785,8 +1296,13 @@
             def  make_content(self, e) -> None:
                 self.make_title()
                 self.make_set_timers_page()
+                self.make_subtitle("Задержка пилы вверх (Saw up delay:)")
+                self.make_paragraph(self.p_tmr_1)
+                self.make_paragraph(self.p_tmr_2)
+                self.make_dl_list(self.dl_situation)
+                self.make_svg("symbol-cutTable", "SVG-cutTable", "saw-up-delay")
 
-
+                
             
             # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
@@ -832,16 +1348,16 @@
                 title_return: str = "назад"
 
                 left_buttons: dict = {
-                    "задержка пилы вверху (сек)": "0.3",
+                    "задержка пилы вверх (сек)": "2.0",
                     "время поднятия пилы (сек)": "3.0",
-                    "время опускания пилы (сек)": "1.5",
+                    "время опускания пилы (сек)": "2.0",
                     "поднять стол через (сек)": "8",
                 }
 
                 right_buttons: dict = {
-                    "Traverse delay (сек)": "5.0",
+                    "Traverse delay (сек)": "0.5",
                     "опустить стол через (сек)": "25.5",
-                    "delay reset (сек)": "1.5"
+                    "delay reset (сек)": "0.5"
                 }
 
                 span_title = document.createElement("span")
@@ -861,6 +1377,47 @@
                 div_plc_contain.appendChild(div_return_contain)
 
                 self.manager.container.appendChild(div_plc_contain)
+
+            # -------------------------------------------------------------------------------------------
+
+            def make_svg(self, symbol_id: str, svg_contain_symbol_id: str, id_button: str) -> None:
+                div_svg_contain = document.createElement("div")
+                div_button = document.createElement("div")
+
+                div_svg_contain.classList.add("svg-cuttable__div")
+                svgcontain = document[svg_contain_symbol_id]
+                svg_obj = self.createSVG(symbol_id)
+
+                div_button.classList.add("svg-cuttable__button")
+                button_start = document.createElement("button")
+                button_start.attrs["id"] = id_button
+                button_start.textContent = "старт"
+                button_start.bind("click", self.start_saw_up_delay)
+
+                div_button.appendChild(button_start)
+                div_svg_contain.appendChild(svg_obj)
+                div_svg_contain.appendChild(div_button)
+
+                if svgcontain.classList.contains("svg-hidden"):
+                    svgcontain.classList.remove("svg-hidden")
+                svgcontain.classList.add("svg-visible")
+                self.manager.container.appendChild(div_svg_contain)
+
+
+            # - - - - - - - - action event buttons - - - - - - - - - - - -
+
+            def start_saw_up_delay(self, e) -> None:
+                
+                tmr_press = Press("press", "text-press")
+                tmr_press.set_Y_range(0, 10)
+                tmr_press.delay_off = 2200
+                tmr_saw = Saw("motorSaw", "saw-text")
+                tmr_saw.set_Y_range(-5, -27)
+                tmr_saw.delay_on = 400
+                tmr_saw.delay_off = 300
+
+                tmr_press.on_node()
+                tmr_saw.on_node()
 
 
 
@@ -1049,7 +1606,7 @@
         
         
                 
-            
+          
     </script>
     
 </body>
