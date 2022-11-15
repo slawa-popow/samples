@@ -514,6 +514,9 @@
     .svg-cuttable__button{
         margin: 25px 0;
     }
+    .svg-cuttable__button button {
+        margin-left: 20px;
+    }
     
     
    
@@ -589,8 +592,8 @@
         <rect y="156.164" width="352" height="3" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; stroke-width: 0px; fill: url(#gradientA);" id="rels" x="3"></rect>
         <g id="tableCut" transform="translate(0 0)">
           <g transform="matrix(1, 0, 0, 1, 1.328117, 0.089287)">
-            <rect x="174.778" y="100" width="38" height="23.021" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
-            <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 0, 0)" id="text-table"><tspan x="184.665" y="106.994">стол</tspan><tspan x="184.665" dy="1em">​</tspan><tspan>0 s</tspan><tspan x="184.665" dy="1em">​</tspan><tspan x="184.665" dy="1em">​</tspan></text>
+            <rect id="text-table-rect" x="174.778" y="100" width="38" height="23.021" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
+            <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 0, 0)" id="text-table"><tspan x="184.665" y="114.994">стол</tspan><tspan x="184.665" dy="1em">​</tspan><tspan></tspan><tspan x="184.665" dy="1em">​</tspan><tspan x="184.665" dy="1em">​</tspan></text>
           </g>
           <circle style="stroke: rgb(0, 0, 0); fill: rgb(58, 58, 58);" cx="18.667" cy="152.656" r="4"></circle>
           <circle style="stroke: rgb(0, 0, 0); fill: rgb(58, 58, 58);" cx="201.776" cy="152.656" r="4"></circle>
@@ -616,12 +619,12 @@
           <rect x="3" y="134.656" width="230" height="15" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; fill: rgb(236, 231, 231);"></rect>
           <path style="vector-effect: non-scaling-stroke; stroke: rgb(173, 168, 168); fill: rgb(153, 143, 143);" d="M 82.155 150.155 H 97.822 V 209.43 A 7.8 7.8 0 0 1 90.022 217.23 H 89.955 A 7.8 7.8 0 0 1 82.155 209.43 V 150.155 Z" bx:shape="rect 82.155 150.155 15.667 67.075 0 0 7.8 7.8 1@5d42beea"></path>
           <g transform="translate(0 -15)">
-            <rect x="60.118" y="53.398" width="52" height="25.81" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
-            <text style="fill: rgb(49, 45, 45); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, -44.713268, -23.020693)" id="text-press"><tspan x="118.259" y="87.958">прижим</tspan><tspan x="118.259" dy="1em">​</tspan><tspan>0 s</tspan></text>
+            <rect id="text-press-rect" x="60.118" y="53.398" width="52" height="25.81" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
+            <text style="fill: rgb(49, 45, 45); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, -44.713268, -23.020693)" id="text-press"><tspan x="118.259" y="87.958">прижим</tspan><tspan x="118.259" dy="1em">​</tspan><tspan></tspan></text>
           </g>
           <g>
-            <rect x="172" y="200" width="28" height="23.021" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
-            <text style="fill: rgb(6, 43, 102); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 81.116592, 0.480301)" id="saw-text"><tspan x="100.551" y="206.603">пила</tspan><tspan x="100.551" dy="1em">​</tspan><tspan>0 s</tspan><tspan x="100.551" dy="1em">​</tspan><tspan x="100.551" dy="1em">​</tspan></text>
+            <rect id="saw-text-rect" x="172" y="200" width="35" height="25" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
+            <text style="fill: rgb(6, 43, 102); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 81.116592, 0.480301)" ><tspan x="95.551" y="212.603">пила</tspan> <tspan id="saw-text" x="100.551" dy="1em">​0 s</text>
           </g>
         </g>
       </symbol>
@@ -643,7 +646,7 @@
         from functools import wraps
         from typing import Any, Callable
         from abc import ABC, abstractmethod
-        
+        import time
 
         class AbcContentPage(ABC):
             """Абстрактный класс для разделов
@@ -693,6 +696,11 @@
             @abstractmethod
             def off_node(self) -> None:
                 """Отключить узел. Например опустить пилу"""
+                pass
+
+            @abstractmethod
+            def return_node(self) -> None:
+                """Вернуть узел в исходное положение."""
                 pass
 
             @abstractmethod
@@ -900,16 +908,18 @@
                 self.off_action(self.off_press)
                 self.return_action(self.return_press)
 
+                self.rect_text = document["text-press-rect"]
+
 
                 
             def on_press(self, e) -> None:
-                print("ПРИЖИМ ОПУСКАЕТСЯ", self.is_on, f"is_return {self.is_return}")
+                pass
 
             def off_press(self, e) -> None:
-                print("ПРИЖИМ ВНИЗУ", self.is_on, f"is_return {self.is_return}")
+                self.rect_text.style["fill"] = "#9acc85"
 
             def return_press(self, e) -> None:
-                print("ПРИЖИМ ВЕРНУЛСЯ", f"is_return {self.is_return}")
+                self.rect_text.style["fill"] = "rgb(219, 202, 91)"
 
             def on_node(self) -> None:
                 super().on_node()
@@ -920,7 +930,6 @@
 
             def off_node(self) -> None:
                 super().off_node()
-                self._curr_speed = self.end_Y if self.is_on else self.begin_Y
                 self.speed_off = 1.4
 
             def return_node(self) -> None:
@@ -951,6 +960,63 @@
 
         # --------------------------------------------------
 
+        class CutTable(BaseCutTable):
+            """Отрезной стол"""
+
+            def __init__(self, id_g: str, id_txt: str) -> None:
+                super().__init__(id_g, id_txt)
+                self.on_action(self.on_cuttable)
+                self.off_action(self.off_cuttable)
+                self.return_action(self.return_cuttable)
+
+                self.rect_text = document["text-table-rect"]
+
+
+            def on_cuttable(self, e) -> None:
+                pass
+
+            def off_cuttable(self, e) -> None:
+                self.rect_text.style["fill"] = "#9acc85"
+
+            def return_cuttable(self, e) -> None:
+                self.rect_text.style["fill"] = "rgb(219, 202, 91)"
+
+            def on_node(self) -> None:
+                super().on_node()
+                self._curr_speed = self.end_X if self.is_on else self.begin_X
+                self.speed_on = 0.5
+                window.setTimeout(self.start_on, self.delay_on)
+                
+
+            def off_node(self) -> None:
+                super().off_node()
+                self.speed_off = 1.5
+
+            def return_node(self) -> None:
+                super().return_node()
+
+            
+            @animate
+            def start_on(self, *args):
+                self.gnode.attrs["transform"] = f"translate({self._curr_speed} {0})"
+                self._curr_speed += self.speed_on
+                
+                if self._curr_speed >= self.end_X:
+                    self.off_node()
+                    window.setTimeout(self.start_off, self.delay_off)
+                    
+
+
+            @animate
+            def start_off(self, *args) -> None:
+                self.gnode.attrs["transform"] = f"translate({self._curr_speed} {0})"
+                self._curr_speed -= self.speed_off
+            
+                if self._curr_speed <= self.begin_X:
+                    self.return_node()
+
+        # --------------------------------------------------
+
         class Saw(BaseCutTable):
             """Пила"""
 
@@ -960,25 +1026,45 @@
                 self.off_action(self.off_saw)
                 self.return_action(self.return_saw)
 
+                self.rect_text = document["saw-text-rect"]
+
+                    # захваченное время в начале подъема пилы
+                self.timer_up_saw: float = None
+                    # объект setTimeout
+                self.settmo_timer: object = None
+                
+
+            def delay_upsaw(self, delay_on: float) -> None:
+                def timersaw():
+                    self.settmo = window.setTimeout(timersaw, 50)
+                    self.label.textContent = f"{str(time.time() - self.timer_up_saw)[:3]} s"
+                    if (time.time() - self.timer_up_saw) >= (delay_on / 1000):
+                        self.start_on ()
+                        window.clearTimeout(self.settmo)
+                        self.settmo = None
+                timersaw()
+    
+
+
             def on_saw(self, e) -> None:
-                print("ПИЛА ПОДНИМАЕТСЯ", self.is_on)
+                if self.timer_up_saw is None:
+                    self.timer_up_saw = time.time()
 
             def off_saw(self, e) -> None:
-                print("ПИЛА ВВЕРХУ", self.is_on)
+                self.rect_text.style["fill"] = "#9acc85"
 
             def return_saw(self, e) -> None:
-                print("ПИЛА ВЕРНУЛАСЬ")
+                self.rect_text.style["fill"] = "rgb(219, 202, 91)"
 
             def on_node(self) -> None:
                 super().on_node()
                 self._curr_speed = self.end_Y if self.is_on else self.begin_Y
                 self.speed_on = 0.5
-                window.setTimeout(self.start_on, self.delay_on)
+                self.delay_upsaw(self.delay_on)
                 
 
             def off_node(self) -> None:
                 super().off_node()
-                self._curr_speed = self.end_Y if self.is_on else self.begin_Y
                 self.speed_off = 1.5
 
             def return_node(self) -> None:
@@ -1082,7 +1168,7 @@
                 svg_contain = document.createElementNS(xmlns, "svg")
                 self.svg_object = svg_contain
                 BaseCutTable.set_cut_table(self.svg_object)
-                
+
                 svg_contain.setAttributeNS(None, "veiwBox", f"0 0 {self.viewboxW} {self.viewboxH}")
                 svg_contain.setAttributeNS(None, "width", f"{self.vportW}")
                 svg_contain.setAttributeNS(None, "height", f"{self.vportH}")
@@ -1278,6 +1364,64 @@
                 self.manager.container.appendChild(div_contain)
 
 
+        # ------------ декоратор функций обработчиков click кнопок запуска анимаций ---------------
+        """пример данных из ф-ции обработчика кропок:
+
+            param: dict = {
+                saw: (Y_range(-5, -27), delay_on 1, delay_off 300),
+                table: ((0, 100), 0.1, 0.1),
+                press: ((0, 10), 30, 2700),
+                id_btns: ("btn1", "btn2",),
+            }
+        """
+
+
+        def startAnimate(method: Callable) -> Callable:
+            @wraps(method)
+            def wrapper(self, e) -> None:
+                param = method(self, e)
+                tmr_cuttable = CutTable("tableCut", "text-table")
+                tmr_press = Press("press", "text-press")
+                tmr_saw = Saw("motorSaw", "saw-text")
+                
+                rngt = param["table"][0]
+                tmr_cuttable.set_X_range(rngt[0], rngt[1])
+                tmr_cuttable.delay_on = param["table"][1]
+                tmr_cuttable.delay_off = param["table"][2]
+
+                rngs = param["saw"][0]
+                tmr_saw.set_Y_range(rngs[0], rngs[1])
+                tmr_saw.delay_on = param["saw"][1]
+                tmr_saw.delay_off = param["saw"][2]
+
+                rngp = param["press"][0]
+                tmr_press.set_Y_range(rngp[0], rngp[1])
+                tmr_press.delay_on = param["press"][1]
+                tmr_press.delay_off = param["press"][2]
+
+                tmr_cuttable.on_node()
+                tmr_press.on_node()
+                tmr_saw.on_node()
+
+                for b in param["id_btns"]:
+                    document[b].disabled = True
+
+                def inspect() -> None:
+                    id_inspect = window.setTimeout(inspect, 100)
+                    nonlocal tmr_cuttable, tmr_press, tmr_saw
+                
+                    if tmr_press.is_return and tmr_saw.is_return:
+                        tmr_cuttable.off_node()
+                        tmr_cuttable.start_off()
+                        window.clearTimeout(id_inspect)
+                        for b in param["id_btns"]:
+                            document[b].disabled = False
+                inspect()
+                
+            return wrapper
+   
+        
+        # -----------------------------------------------------------------------------------------
 
         class SetTimers(ContentPage):
             
@@ -1288,10 +1432,11 @@
             }
 
 
+
             def __init__(self, title: str) -> None:
                 super().__init__(title)
 
-
+                
             @del_content
             def  make_content(self, e) -> None:
                 self.make_title()
@@ -1300,7 +1445,7 @@
                 self.make_paragraph(self.p_tmr_1)
                 self.make_paragraph(self.p_tmr_2)
                 self.make_dl_list(self.dl_situation)
-                self.make_svg("symbol-cutTable", "SVG-cutTable", "saw-up-delay")
+                self.make_svg("symbol-cutTable", "SVG-cutTable", (("saw-up",self.start_saw_up), ("saw-up-delay",self.start_saw_up_delay)))
 
                 
             
@@ -1308,7 +1453,6 @@
 
             def make_set_timers_page(self) -> None:
                 """Страница дисплея настройки таймеров.
-                
                    .display-plc-settimers - дисплей
                    .display-title - заголовок"""
 
@@ -1380,7 +1524,7 @@
 
             # -------------------------------------------------------------------------------------------
 
-            def make_svg(self, symbol_id: str, svg_contain_symbol_id: str, id_button: str) -> None:
+            def make_svg(self, symbol_id: str, svg_contain_symbol_id: str, attr_btn: tuple) -> None:
                 div_svg_contain = document.createElement("div")
                 div_button = document.createElement("div")
 
@@ -1390,11 +1534,17 @@
 
                 div_button.classList.add("svg-cuttable__button")
                 button_start = document.createElement("button")
-                button_start.attrs["id"] = id_button
-                button_start.textContent = "старт"
-                button_start.bind("click", self.start_saw_up_delay)
+                button_start.attrs["id"] = attr_btn[0][0]
+                button_start.textContent = "старт без задержки"
+                button_start.bind("click", attr_btn[0][1])
+
+                button_start_delay = document.createElement("button")
+                button_start_delay.attrs["id"] = attr_btn[1][0]
+                button_start_delay.textContent = "старт с задержкой 1.2s"
+                button_start_delay.bind("click", attr_btn[1][1])
 
                 div_button.appendChild(button_start)
+                div_button.appendChild(button_start_delay)
                 div_svg_contain.appendChild(svg_obj)
                 div_svg_contain.appendChild(div_button)
 
@@ -1405,19 +1555,28 @@
 
 
             # - - - - - - - - action event buttons - - - - - - - - - - - -
-
-            def start_saw_up_delay(self, e) -> None:
+            @startAnimate
+            def start_saw_up(self, e) -> dict:
+                saw_up_decorator: dict = {
+                    "saw": ((-5, -27), 1, 300),
+                    "table": ((0, 100), 0.1, 0.1),
+                    "press": ((0, 10), 0.1, 1400),
+                    "id_btns": ("saw-up-delay", "saw-up",),
+                }
+                return saw_up_decorator
                 
-                tmr_press = Press("press", "text-press")
-                tmr_press.set_Y_range(0, 10)
-                tmr_press.delay_off = 2200
-                tmr_saw = Saw("motorSaw", "saw-text")
-                tmr_saw.set_Y_range(-5, -27)
-                tmr_saw.delay_on = 400
-                tmr_saw.delay_off = 300
 
-                tmr_press.on_node()
-                tmr_saw.on_node()
+            # -----------  -----------  ------------  -----------  -------  -----
+            @startAnimate
+            def start_saw_up_delay(self, e) -> dict:
+                saw_up_delay_decorator: dict = {
+                    "saw": ((-5, -27), 1200, 300),
+                    "table": ((0, 100), 0.1, 0.1),
+                    "press": ((0, 10), 0.1, 2700),
+                    "id_btns": ("saw-up-delay", "saw-up",),
+                }
+
+                return saw_up_delay_decorator                    
 
 
 
