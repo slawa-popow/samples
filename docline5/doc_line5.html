@@ -1377,6 +1377,11 @@
             """Базовый класс для разделов 
                 документа"""
 
+                # хранит для удаления объектов setTimeout
+                # иначе после запуска анимации и перехода на другую страницу
+                # ошибка таймера
+            timeout_obj: list = list()
+
             _instance_obj = None
 
             def __new__(cls, *args, **kwargs):
@@ -1394,7 +1399,11 @@
                 self.svgList: list = list()
                 window.addEventListener("resize", self.resize_page)
                 self.viewboxW, self.viewboxH, self.vportW, self.vportH = self.get_size_viewBox()
+               
                 
+            @classmethod
+            def add_timer(cls, obj_tmr) -> None:
+                cls.timeout_obj.append(obj_tmr)   
 
             def __repr__(self) -> str:
                 return f"{self.__dict__}"
@@ -1407,6 +1416,10 @@
             def delete_content(self) -> None:
                 """Удалить всех дочерних html элементов 
                     в контейнере [.main-content]"""
+
+                if ContentPage.timeout_obj:
+                    for cleartmr in ContentPage.timeout_obj:
+                        window.clearTimeout(cleartmr)
 
                 for elem in self.manager.container.children:
                     self.manager.container.removeChild(elem)
@@ -1697,13 +1710,15 @@
                     document[b].disabled = True
 
                 def inspect() -> None:
-                    id_inspect = window.setTimeout(inspect, 100)
+                    
+                    self.id_inspect = window.setTimeout(inspect, 100)
+                    self.add_timer(self.id_inspect)
                     nonlocal tmr_cuttable, tmr_press, tmr_saw
                 
                     if tmr_press.is_return and tmr_saw.is_return:
                         tmr_cuttable.off_node()
                         tmr_cuttable.start_off()
-                        window.clearTimeout(id_inspect)
+                        window.clearTimeout(self.id_inspect)
                         for b in param["id_btns"]:
                             document[b].disabled = False
                     elif tmr_cuttable.is_on and (not tmr_saw.is_return):
@@ -1714,6 +1729,7 @@
                         tmr_press.start_off()
                         tmr_saw.off_node()
                         tmr_saw.start_off()
+                    
 
                 inspect()
                 
@@ -1746,7 +1762,10 @@
 
             def __init__(self, title: str) -> None:
                 super().__init__(title)
+                self.id_inspect = None
 
+
+            
                 
             @del_content
             def  make_content(self, e) -> None:
@@ -2068,6 +2087,7 @@
                     def animate():
                         nonlocal settmo, cnt, speed, count, is_end
                         settmo = window.setTimeout(animate, 50)
+                        self.add_timer(settmo)
                         cnt += 50
                         if not is_end:
                             speed += float(input1.value)
