@@ -310,7 +310,7 @@
 	.columnWrapper, .main {
 		width: auto;
         margin: 0;
-        padding: 5px;
+        padding: 10px;
 	}
 	.main {
 		border: none;
@@ -319,6 +319,9 @@
         padding-bottom: 60px;
 	}
     .main p {
+        font-size: 0.9em;
+    }
+    li {
         font-size: 0.9em;
     }
 	
@@ -391,8 +394,13 @@
         
     }
     .main dl {
-        background-color: rgb(240, 238, 238);
-        padding: 5px;
+        background-color: rgb(255, 255, 247);
+        padding: 10px;
+        margin-bottom: 30px;
+        border: 1px solid rgb(223, 223, 223);
+        -webkit-box-shadow: 3px 4px 8px -1px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 3px 4px 8px -1px rgba(34, 60, 80, 0.2);
+        box-shadow: 3px 4px 8px -1px rgba(34, 60, 80, 0.2);
     }
     .main dt {
         font-size: 0.9em;
@@ -580,7 +588,7 @@
         <div class="title-head">
              <h1>Экструзионная линия № 5</h1> 
              <h4>Отрезной стол.  Документация.</h4>
-             <span>ОАО Европрофиль</span>
+             <span>ООО "Европрофиль"</span>
         </div>
         
         </header>
@@ -638,11 +646,11 @@
           <path style="vector-effect: non-scaling-stroke; stroke: rgb(173, 168, 168); fill: rgb(153, 143, 143);" d="M 82.155 150.155 H 97.822 V 209.43 A 7.8 7.8 0 0 1 90.022 217.23 H 89.955 A 7.8 7.8 0 0 1 82.155 209.43 V 150.155 Z" bx:shape="rect 82.155 150.155 15.667 67.075 0 0 7.8 7.8 1@5d42beea"></path>
           <g transform="translate(0 -15)">
             <rect id="text-press-rect" x="60.118" y="53.398" width="52" height="25.81" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
-            <text style="fill: rgb(49, 45, 45); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, -44.713268, -23.020693)" id="text-press"><tspan x="118.259" y="87.958">прижим</tspan><tspan x="118.259" dy="1em">​</tspan><tspan></tspan></text>
+            <text style="fill: rgb(49, 45, 45); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, -44.713268, -23.020693)" id="text-press"><tspan x="117.259" y="92.958">прижим</tspan><tspan x="118.259" dy="1em">​</tspan><tspan></tspan></text>
           </g>
           <g>
             <rect id="saw-text-rect" x="172" y="200" width="35" height="25" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(219, 202, 91);"></rect>
-            <text style="fill: rgb(6, 43, 102); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 81.116592, 0.480301)" ><tspan x="95.551" y="212.603">пила</tspan> <tspan id="saw-text" x="100.551" dy="1em">​0 s</text>
+            <text style="fill: rgb(6, 43, 102); font-family: Arial, sans-serif; font-size: 8px; white-space: pre;" transform="matrix(1, 0, 0, 1, 81.116592, 0.480301)" ><tspan x="98.551" y="212.603">пила</tspan> <tspan id="saw-text" x="100.551" dy="1em">​0 s</text>
           </g>
         </g>
       </symbol>
@@ -1031,6 +1039,58 @@
             </symbol>
           </svg>
 
+          <!-- поворотный стол -->
+
+          <svg  id="SVG-rotate-table" class="svg-hidden" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+            <defs>
+              <bx:grid x="0" y="0" width="2" height="2"></bx:grid>
+              <radialGradient gradientUnits="userSpaceOnUse" cx="158" cy="81" r="8" id="gradient-A0" gradientTransform="matrix(4.479611, -4.732892, 1.724043, 1.63178, -689.426025, 696.622864)">
+                <stop offset="0" style="stop-color: rgba(216, 216, 216, 1)"></stop>
+                <stop offset="1" style="stop-color: rgba(165, 165, 165, 1)"></stop>
+              </radialGradient>
+              <linearGradient gradientUnits="userSpaceOnUse" x1="220.258" y1="95.516" x2="220.258" y2="104" id="gradient-A1" gradientTransform="matrix(0.999999, 0, 0, 0.999999, -0.000092, -0.000001)">
+                <stop offset="0" style="stop-color: rgb(250, 250, 250);"></stop>
+                <stop offset="1" style="stop-color: rgb(110, 117, 124);"></stop>
+              </linearGradient>
+              <linearGradient gradientUnits="userSpaceOnUse" x1="185.792" y1="151.381" x2="185.792" y2="179.7" id="gradient-A3" gradientTransform="matrix(-0.000017, -0.988736, 0.301445, -0.000004, 136.979358, 353.597608)">
+                <stop offset="0" style="stop-color: rgb(197, 197, 197);"></stop>
+                <stop offset="0.532" style="stop-color: rgb(228, 228, 228);"></stop>
+                <stop offset="1" style="stop-color: rgb(198, 198, 198);"></stop>
+              </linearGradient>
+              <linearGradient gradientUnits="userSpaceOnUse" x1="187" y1="126" x2="187" y2="178" id="gradient-A2" gradientTransform="matrix(0.022261, -1.134336, 0.049836, 0.001258, 175.18868, 348.844463)">
+                <stop offset="0" style="stop-color: rgb(250, 250, 250);"></stop>
+                <stop offset="1" style="stop-color: rgb(214, 209, 209);"></stop>
+              </linearGradient>
+            </defs>
+            <symbol id="symbol-rotate-table" viewBox="0 0 280 180"> 
+            <g transform="matrix(1, 0, 0, 1, -144, -58)">
+              <polygon style="vector-effect: non-scaling-stroke; fill: rgb(229, 178, 90); stroke: rgb(88, 88, 88); paint-order: stroke;" points="160 98 156 98 156 216 144 216 144 220 352 220 352 216 160 216 160 108 166 108 166 104 160 104"></polygon>
+              <path style="vector-effect: non-scaling-stroke; stroke: rgb(25, 25, 25); fill: url(#gradient-A0);" d="M 150 62.106 L 150 58 L 155.153 58.203 L 157.436 58.55 C 159.719 59.125 161.086 59.62 161.086 59.62 C 161.086 59.62 164.17 61.048 164.837 63.048 C 165.504 65.048 165.561 66.267 165.591 67.231 C 165.621 68.195 166 74 166 79.667 C 166 85.333 166 94.667 166 99.333 L 166 104 L 160 104 L 160 98.667 C 160 93.333 160 82.667 160 76.667 C 160 70.667 160 69.333 159.667 67.667 C 159.333 66 158.667 64 157.098 63.009 C 155.529 62.018 153.057 62.035 151.822 62.044 L 150.024 62.108"></path>
+              <g>
+                <rect id="rotate-shtok" x="186.097" y="107.733" width="2" height="59" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: url(#gradient-A2);"  transform="matrix(0.819152, 0.573577, -0.573577, 0.819152, 121.385101, -90.687675)"></rect>
+                <rect x="180" y="152" width="14" height="4" style="stroke: rgb(85, 85, 85); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(96, 96, 96);" transform="matrix(0.819152, 0.573577, -0.573577, 0.819152, 121.385101, -90.687675)"></rect>
+                <rect x="180" y="184" width="14" height="4" style="stroke: rgb(85, 85, 85); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(96, 96, 96);" transform="matrix(0.819152, 0.573577, -0.573577, 0.819152, 121.385101, -90.687675)"></rect>
+                <rect x="182" y="156" width="10" height="28" style="vector-effect: non-scaling-stroke; stroke: rgb(148, 148, 148); fill: url(#gradient-A3); paint-order: stroke;" transform="matrix(0.819152, 0.573577, -0.573577, 0.819152, 121.385101, -90.687675)"></rect>
+                <path style="vector-effect: non-scaling-stroke; stroke: rgb(82, 82, 82); fill: rgb(159, 158, 158);" transform="matrix(0.819152, 0.573577, 0.573577, -0.819152, 121.385104, -90.687662)" d="M 186.795 -192.044 H 186.795 A 2 2 0 0 1 188.795 -190.044 V -188.044 H 184.795 V -190.044 A 2 2 0 0 1 186.795 -192.044 Z" bx:shape="rect 184.795 -192.044 4 4 2.8 2.8 0 0 1@ddab45ff"></path>
+                <path style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(142, 140, 140);" d="M 160.181 170.578 H 164.181 A 2 2 0 0 1 166.181 172.578 V 173.826 A 2 2 0 0 1 164.181 175.826 H 160.181 V 170.578 Z" bx:shape="rect 160.181 170.578 6 5.248 0 2 2 0 1@e6087135"></path>
+              </g>
+              <g id="rotate-table" transform-origin="167 104.004">
+                <path style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; fill: url(#gradient-A1); paint-order: stroke;" d="M 167 95.516 H 269.516 A 4 4 0 0 1 273.516 99.516 V 100 A 4 4 0 0 1 269.516 104 H 167 V 95.516 Z" bx:shape="rect 167 95.516 106.516 8.484 0 4 4 0 1@2c7c7b37" bx:origin="0 0.999"></path>
+                <path id="table-ushko" transform="translate(1 0)" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(142, 140, 140);"  d="M 208.781 104.355 H 214.781 V 107.603 A 2 2 0 0 1 212.781 109.603 H 210.781 A 2 2 0 0 1 208.781 107.603 V 104.355 Z" bx:shape="rect 208.781 104.355 6 5.248 0 0 2 2 1@e043fc09"></path>
+              </g>
+              <circle style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; fill: rgb(132, 132, 132);" cx="167" cy="104.004" r="2.742"></circle>
+              <rect x="156" y="202" width="180" height="4" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(229, 178, 90);"></rect>
+              <rect x="821.333" y="184" width="48" height="4" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(229, 178, 90);" transform="matrix(0, 1, -1, 0, 520, -649.333008)"></rect>
+              <rect x="821.333" y="184" width="48" height="4" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(229, 178, 90);" transform="matrix(0, 1, -1, 0, 444, -649.333008)"></rect>
+              <rect x="1214.887" y="184" width="71" height="4" style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(229, 178, 90);" transform="matrix(0.819151, 0.573577, -0.573577, 0.819151, -643.395813, -685.467163)"></rect>
+              <path style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(176, 155, 174);" d="M 407.951 153.909 H 465.351 A 1.3 1.274 0 0 1 466.651 155.183 V 156.456 H 406.651 V 155.183 A 1.3 1.274 0 0 1 407.951 153.909 Z" transform="matrix(0.819152, 0.573576, -0.573576, 0.819152, 8.962153, -195.375519)" bx:shape="rect 406.651 153.909 60 2.547 1.3 1.3 0 0 1@05552132"></path>
+              <path style="stroke: rgb(0, 0, 0); vector-effect: non-scaling-stroke; paint-order: stroke; fill: rgb(176, 155, 174);" d="M 305.333 199.297 H 328.733 A 1.3 1.274 0 0 1 330.033 200.571 V 201.844 H 304.033 V 200.571 A 1.3 1.274 0 0 1 305.333 199.297 Z" bx:shape="rect 304.033 199.297 26 2.547 1.3 1.3 0 0 1@2da6c6ce"></path>
+              <text id="time-text" style="fill: rgb(141, 43, 68); font-family: Arial, sans-serif; font-size: 11px; white-space: pre;" x="172.382" y="69.696">поворотный стол</text>
+             
+            </g>
+        </symbol>
+          </svg>
+
     <footer>
         <div class="footer__author">
             <span>Попов В.Г. 2022</span> 
@@ -1049,6 +1109,7 @@
         from typing import Any, Callable
         from abc import ABC, abstractmethod
         import time
+        import math
 
         class AbcContentPage(ABC):
             """Абстрактный класс для разделов
@@ -1137,6 +1198,7 @@
                 # объект svg
             _svg_cut_table: object = None
 
+
             def __init__(self, id_g: str, id_txt: str) -> None:                    
                 self.id = self._svg_cut_table
 
@@ -1153,8 +1215,11 @@
 
                     # узел включен?
                 self.is_on: bool = False
-
+                    # узел совершил цикл?
                 self.is_return: bool = False
+
+                    # id кнопок пуска анимаций
+                self.id_buttons: list = list()
 
                     # скорость включения/отключения
                 self._speed_on: float = None
@@ -1478,6 +1543,115 @@
 
         # --------------------------------------------------
 
+        class RotateTable(BaseCutTable):
+            """Поворотный стол"""
+
+            def __init__(self, id_g: str, id_txt: str, id_uho: str, id_stok: str) -> None:
+                super().__init__(id_g, id_txt)
+                self.on_action(self.on_rotate)
+                self.off_action(self.off_rotate)
+                self.return_action(self.return_rotate)
+
+                self.timer_rotate: float = None
+                    # объект setTimeout
+                self.settmo_timer: object = None
+
+                self.uho = document[id_uho]
+                self.stok = document[id_stok]
+
+                self.deg: float = 0
+                self.tmp_uho: float = 0
+
+                self.dX_uho_dw = -0.035
+                self.dX_uho_up = 0.035
+
+                self.dY_uho_dw = -0.05
+                self.dY_uho_up = 0.05
+
+                self.stok_h = 59
+                self.stok_x = 186.097
+                self.stok_y = 107.733
+
+
+            def unblock_button(self) -> None:
+                for b in self.id_buttons:
+                    document[b].disabled = False
+
+            def on_rotate(self, e) -> None:
+                self.timer_rotate = time.time()
+
+            def off_rotate(self, e) -> None:
+                self.timer_rotate = time.time()
+
+            def return_rotate(self, e) -> None:
+                self.label.textContent = "поворотный стол"
+                self.unblock_button()
+                self.id_buttons.clear()
+
+            def on_node(self) -> None:
+                super().on_node()
+                self.delay_rotate(self.start_on, self.delay_on, "таймер на опускание:")
+
+
+            def delay_rotate(self, method: Callable, delay: float, message: str) -> None:
+                def timerotate():
+                    self.settmo = window.setTimeout(timerotate, 50)
+                    self.label.textContent = f"{message} {str(time.time() - self.timer_rotate)[:3]} s"
+                    if (time.time() - self.timer_rotate) >= (delay / 1000):
+                        method(self)
+                        window.clearTimeout(self.settmo)
+                        self.settmo = None
+                timerotate()
+                
+                
+
+            def off_node(self) -> None:
+                super().off_node()
+                
+
+            def return_node(self) -> None:
+                super().return_node()
+
+            @animate
+            def start_on(self, *args):
+                self.gnode.attrs["transform"] = f"rotate({self.deg})"
+                self.deg += self.speed_on
+                self.tmp_uho += self.dX_uho_dw
+                x = self.tmp_uho + math.cos((self.deg * math.pi) / 180)
+                y = self.dY_uho_dw - math.sin((self.deg * math.pi) / 180) 
+
+                self.uho.attrs["transform"] = f"translate({x} {y})"
+                self.stok_h -= 0.1
+                self.stok_y += 0.1
+                self.stok.attrs["height"] = self.stok_h
+                self.stok.attrs["y"] = self.stok_y
+
+                if self.deg >= 35:
+                    self.off_node()                    
+                    self.delay_rotate(self.start_off, self.delay_off, "таймер на подъем:")
+                
+                
+            @animate
+            def start_off(self, *args) -> None:
+                self.gnode.attrs["transform"] = f"rotate({self.deg})"
+                self.deg -= self.speed_off
+                self.tmp_uho += self.dX_uho_up
+                x = self.tmp_uho + math.cos((self.deg * math.pi) / 180)
+                y = self.dY_uho_up - math.sin((self.deg * math.pi) / 180) 
+
+                self.uho.attrs["transform"] = f"translate({x} {y})"
+                self.stok_h += 0.1
+                self.stok_y -= 0.1
+                self.stok.attrs["height"] = self.stok_h
+                self.stok.attrs["y"] = self.stok_y
+
+                if self.deg <= 0:
+                    self.return_node()
+            
+                
+
+        # --------------------------------------------------
+
         class ContentPage(AbcContentPage):
             """Базовый класс для разделов 
                 документа"""
@@ -1584,6 +1758,9 @@
 
 
             def make_svg(self, symbol_id: str, svg_contain_symbol_id: str, attr_btn: tuple) -> None:
+                """attr_btn = (("up-time", self.start_up_time, "старт хорошо"), 
+                   ("up-time-bad", self.start_up_time_bad, "старт плохо"))"""
+
                 div_svg_contain = document.createElement("div")
                 div_button = document.createElement("div")
 
@@ -1592,18 +1769,13 @@
                 svg_obj = self.createSVG(symbol_id)
                 
                 div_button.classList.add("svg-cuttable__button")
-                button_start = document.createElement("button")
-                button_start.attrs["id"] = attr_btn[0][0]
-                button_start.textContent = attr_btn[0][2]
-                button_start.bind("click", attr_btn[0][1])
+                for btn in attr_btn:
+                    button_elem = document.createElement("button")
+                    button_elem.attrs["id"] = btn[0]
+                    button_elem.textContent = btn[2]
+                    button_elem.bind("click", btn[1])
+                    div_button.appendChild(button_elem)
 
-                button_start_delay = document.createElement("button")
-                button_start_delay.attrs["id"] = attr_btn[1][0]
-                button_start_delay.textContent = attr_btn[1][2]
-                button_start_delay.bind("click", attr_btn[1][1])
-
-                div_button.appendChild(button_start)
-                div_button.appendChild(button_start_delay)
                 div_svg_contain.appendChild(svg_obj)
                 div_svg_contain.appendChild(div_button)
 
@@ -1612,6 +1784,16 @@
                 svgcontain.classList.add("svg-visible")
                 self.manager.container.appendChild(div_svg_contain)
 
+
+            def make_SVG_image(self, svg_contain_symbol_id: str, symbol_id: str):
+                div_svg_contain = document.createElement("div")
+                svgcontain = document[svg_contain_symbol_id]
+                svg_obj = self.createSVG(symbol_id)
+                div_svg_contain.appendChild(svg_obj)
+                if svgcontain.classList.contains("svg-hidden"):
+                    svgcontain.classList.remove("svg-hidden")
+                svgcontain.classList.add("svg-visible")
+                self.manager.container.appendChild(div_svg_contain)
 
 
             def make_title(self) -> None:
@@ -1823,71 +2005,88 @@
                 "saw": (set_Y_range(begin, end), delay_on, delay_off, speed_on, speed_off),
                 "table": (set_X_range(begin, end), delay_on, delay_off, speed_on, speed_off),
                 "press": (set_Y_range(begin, end), delay_on, delay_off, speed_on, speed_off),
+                "rotate_table": (delay_on, delay_off),
                 "id_кнопок": ("парам", "пам-пам"),
             }
         """
 
 
-        def startAnimate(method: Callable) -> Callable:
-            @wraps(method)
-            def wrapper(self, e) -> None:
-                param = method(self, e)
-                tmr_cuttable = CutTable("tableCut", "text-table")
-                tmr_press = Press("press", "text-press")
-                tmr_saw = Saw("motorSaw", "saw-text")
-                
-                rngt = param["table"][0]
-                tmr_cuttable.set_X_range(rngt[0], rngt[1])
-                tmr_cuttable.delay_on = param["table"][1]
-                tmr_cuttable.delay_off = param["table"][2]
-                tmr_cuttable.speed_on = param["table"][3]
-                tmr_cuttable.speed_off = param["table"][4]
+        def startAnimate(r_table=False) -> Callable:
+            def extern(method: Callable) -> Callable:
+                @wraps(method)
+                def wrapper(self, e) -> None:
+                    param = method(self, e)
+                    tmr_cuttable = CutTable("tableCut", "text-table")
+                    tmr_press = Press("press", "text-press")
+                    tmr_saw = Saw("motorSaw", "saw-text")
+                    rotate_table = RotateTable("rotate-table", "time-text", "table-ushko", "rotate-shtok")
+                    rotate_table.delay_on = param["rotate_table"][0]
+                    rotate_table.delay_off = param["rotate_table"][1]
+                    rotate_table.speed_on = rotate_table.speed_off = 0
 
-                rngs = param["saw"][0]
-                tmr_saw.set_Y_range(rngs[0], rngs[1])
-                tmr_saw.delay_on = param["saw"][1]
-                tmr_saw.delay_off = param["saw"][2]
-                tmr_saw.speed_on = param["saw"][3]
-                tmr_saw.speed_off = param["saw"][4]
+                    rngt = param["table"][0]
+                    tmr_cuttable.set_X_range(rngt[0], rngt[1])
+                    tmr_cuttable.delay_on = param["table"][1]
+                    tmr_cuttable.delay_off = param["table"][2]
+                    tmr_cuttable.speed_on = param["table"][3]
+                    tmr_cuttable.speed_off = param["table"][4]
 
-                rngp = param["press"][0]
-                tmr_press.set_Y_range(rngp[0], rngp[1])
-                tmr_press.delay_on = param["press"][1]
-                tmr_press.delay_off = param["press"][2]
-                tmr_press.speed_on = param["press"][3]
-                tmr_press.speed_off = param["press"][4]
+                    rngs = param["saw"][0]
+                    tmr_saw.set_Y_range(rngs[0], rngs[1])
+                    tmr_saw.delay_on = param["saw"][1]
+                    tmr_saw.delay_off = param["saw"][2]
+                    tmr_saw.speed_on = param["saw"][3]
+                    tmr_saw.speed_off = param["saw"][4]
 
-                tmr_cuttable.on_node()
-                tmr_press.on_node()
-                tmr_saw.on_node()
+                    rngp = param["press"][0]
+                    tmr_press.set_Y_range(rngp[0], rngp[1])
+                    tmr_press.delay_on = param["press"][1]
+                    tmr_press.delay_off = param["press"][2]
+                    tmr_press.speed_on = param["press"][3]
+                    tmr_press.speed_off = param["press"][4]
 
-                for b in param["id_btns"]:
-                    document[b].disabled = True
+                    tmr_cuttable.on_node()
+                    tmr_press.on_node()
+                    tmr_saw.on_node()
 
-                def inspect() -> None:                    
-                    self.id_inspect = window.setTimeout(inspect, 100)
-                    self.add_timer(self.id_inspect)
-                    nonlocal tmr_cuttable, tmr_press, tmr_saw
-                
-                    if tmr_press.is_return and tmr_saw.is_return:
-                        tmr_cuttable.off_node()
-                        tmr_cuttable.start_off()
-                        window.clearTimeout(self.id_inspect)
-                        for b in param["id_btns"]:
-                            document[b].disabled = False
-                    elif tmr_cuttable.is_on and (not tmr_saw.is_return):
-                        document["plita"].style["fill"] = "red"
-                        tmr_cuttable.off_node()
-                        tmr_cuttable.start_off()
-                        tmr_press.off_node()
-                        tmr_press.start_off()
-                        tmr_saw.off_node()
-                        tmr_saw.start_off()
+                    for b in param["id_btns"]:
+                        document[b].disabled = True
+                        rotate_table.id_buttons.append(b)
+
+                    def inspect() -> None:                    
+                        nonlocal tmr_cuttable, tmr_press, tmr_saw, rotate_table
+
+                        self.id_inspect = window.setTimeout(inspect, 100)
+                        self.add_timer(self.id_inspect)
+
+                        if tmr_press.is_return and tmr_saw.is_return:
+                            tmr_cuttable.off_node()
+                            tmr_cuttable.start_off()                            
+                            window.clearTimeout(self.id_inspect)
+                            if r_table:
+                                rotate_table.speed_on = rotate_table.speed_off = 0.2
+                                rotate_table.on_node()
+                            else:
+                                for b in param["id_btns"]:
+                                    document[b].disabled = False
+                            
+                        elif tmr_cuttable.is_on and (not tmr_saw.is_return):                           
+                            document["plita"].style["fill"] = "red"
+                            tmr_cuttable.off_node()
+                            tmr_cuttable.start_off()
+                            tmr_press.off_node()
+                            tmr_press.start_off()
+                            tmr_saw.off_node()
+                            tmr_saw.start_off()
+                            rotate_table.off_node()
+                            window.clearTimeout(self.id_inspect)
+                            for b in param["id_btns"]:
+                                document[b].disabled = False
+                              
+                    inspect()
                     
-
-                inspect()
-                
-            return wrapper
+                return wrapper
+            return extern
    
         
         # -----------------------------------------------------------------------------------------
@@ -2021,13 +2220,14 @@
             # -------------------------------------------------------------------------------------------
 
             # - - - - - - - - action event buttons - - - - - - - - - - - -
-            @startAnimate
+            @startAnimate()
             def start_saw_up(self, e) -> dict:
                 """Задержки:
                     param = {
                         "saw": (set_Y_range(begin, end), delay_on, delay_off, speed_on, speed_off),
                         "table": (set_X_range(begin, end), delay_on, delay_off, speed_on, speed_off),
                         "press": (set_Y_range(begin, end), delay_on, delay_off, speed_on, speed_off),
+                        "rotate_table": (delay_on, delay_off),
                         "id_кнопок": ("парам", "пам-пам"),
                     }
                     Так и в таком порядке. Если задержки не нужно, то 0.1
@@ -2037,18 +2237,20 @@
                     "saw": ((-5, -27), 1, 300, 0.5, 1.5),
                     "table": ((0, 100), 0.1, 0.1, 0.3, 1.6),
                     "press": ((0, 10), 0.1, 1400, 0.7, 1.4),
+                    "rotate_table": (2, 0.8), 
                     "id_btns": ("saw-up-delay", "saw-up",),
                 }
 
                 return saw_up_decorator
                 
 
-            @startAnimate
+            @startAnimate()
             def start_saw_up_delay(self, e) -> dict:
                 saw_up_delay_decorator: dict = {
                     "saw": ((-5, -27), 1200, 300, 0.5, 1.5),
                     "table": ((0, 100), 0.1, 0.1, 0.3, 1.6),
                     "press": ((0, 10), 0.1, 2700, 0.7, 1.4),
+                    "rotate_table": (2000, 200), 
                     "id_btns": ("saw-up-delay", "saw-up",),
                 }
 
@@ -2056,24 +2258,26 @@
 
             # -----------  -----------  ------------  -----------  -------  -----
 
-            @startAnimate
+            @startAnimate()
             def start_up_time(self, e) -> dict:
                 uptime: dict = {
                     "saw": ((-5, -27), 600, 100, 0.6, 1.5),
-                    "table": ((0, 100), 0.1, 0.1, 0.7, 1.5),
+                    "table": ((0, 100), 0.1, 0.1, 0.6, 1.5),
                     "press": ((0, 10), 0.1, 1900, 0.7, 1.4),
+                    "rotate_table": (2000, 800), 
                     "id_btns": ("up-time", "up-time-bad",),
                 }
 
                 return uptime
 
 
-            @startAnimate
+            @startAnimate()
             def start_up_time_bad(self, e) -> dict:
                 badtime: dict = {
                     "saw": ((-5, -27), 1200, 1400, 0.5, 1.5),
                     "table": ((0, 100), 0.1, 0.1, 0.7, 1.5),
                     "press": ((0, 10), 0.1, 3200, 0.7, 1.4),
+                    "rotate_table": (2000, 800), 
                     "id_btns": ("up-time", "up-time-bad",),
                 }
 
@@ -2136,18 +2340,6 @@
                 self.make_paragraph(self.p_reduc_3)
 
             # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-            def make_SVG_image(self, svg_contain_symbol_id: str, symbol_id: str):
-                div_svg_contain = document.createElement("div")
-                svgcontain = document[svg_contain_symbol_id]
-                svg_obj = self.createSVG(symbol_id)
-                div_svg_contain.appendChild(svg_obj)
-                if svgcontain.classList.contains("svg-hidden"):
-                    svgcontain.classList.remove("svg-hidden")
-                svgcontain.classList.add("svg-visible")
-                self.manager.container.appendChild(div_svg_contain)
-
-
 
             def tools_work_pneumo(self) -> None:
                 shtok = document["schtok-push"]
@@ -2269,13 +2461,13 @@
             p_set_2: str = """Прижим сильно давит на профиль. Редуктором отрегулируй силу давления прижима. Откручивай (обычно против часовой стрелки. Смотри вверху на колпачке ручки редуктора стрелки направления open, close) ручку редуктора пока не станет нормально. <span class='warning'>Не убавляй давление почти до нуля, т-к прижимы вообще не сработают</span>. Кручение дросселей на распеделителе или на цилиндрах не поможет. Если вообще никак, то подложи под прижим какую-нибудь крепкую штуку, которая чуть-чуть ниже профиля по высоте и чтобы эта штука не попала под пилу."""
            
             ol_list_1: tuple = (
-                            """Пила слишком быстро поднимается. Закрути дроссель пневмораспределителя пилы так, чтобы пила плавно отрезала, но в этом случае возможно понадобится увеличить значения таймера <b>Время поднятия пилы (Saw up time:)</b> .""",
+                            """Пила слишком быстро поднимается. Закрути дроссель пневмораспределителя поднятия пилы так, чтобы пила плавно поднималась, но в этом случае возможно понадобится увеличить значения таймера <b>Время поднятия пилы (Saw up time:)</b> .""",
                             """Пила поднимается и прижим опускается одновременно, или пила поднялась быстрей, чем опустились прижимы. Задай задержку на поднятие пилы после включения отреза <b>Задержка пилы вверх (Saw up delay:)</b>. Может быть нужно отрегулировать дроссель поднятия пилы и дроссель(и) опускания прижима на пневмораспределителях.(на цилиндрах прижима стоят штуцеры с дросселями куда подсоединяются шланги <b>их лучше открутить полностью и не трогать, а регулировать на распределителе</b>). <span class='warning'>ПНЕВМОЦИЛИНДР ПИЛЫ ПЕРЕВЕРНУТ</span> из-за конструктивных особенностей механики этого узла. Поэтому на нем шланг, который подает воздух на поднятие, подключается вверху. Этот момент может сбивать с толку.""",
                             """Отрегулируй давление прижима.""",
                             """Отрегулируй скорость отрезного стола с помощью дросселя на распределителе так, чтобы после отреза стол некоторое расстояние двигался со скоростью профиля.""",
                 )
             
-            p_set_3: str = """Такое случается когда пила не успела отпилить до того как стол доехал до конца и нажал на концевик, который выключает пилу, прижимы, стол. Обычно так бывает, когда после переналадки линии увеличили скорость тянущего. Ну и соответственно отрезной стол на старых настройках скорости стола, таймеров не будет нормально работать. Если скорость движения профиля слишком большая нужно настроить таймеры <b> Время поднятия пилы (Saw up time:) примерно 2,5 сек., Время опускания пилы (Saw dw time:) примерно 1.8 сек.</b> так чтобы пила отрезала быстро, без больших задержек в верхнем положении, таймер на поднятие пилы <b>Задержка пилы вверх (Saw up delay:)</b> сделай минимальным чтобы прижимы успели опуститься и сразу же начала подниматься пила (0.6 - 1 сек.). Если нужно дросселем на превмораспределителе увеличь скорость поднятия и опускания пилы (откручивать)."""
+            p_set_3: str = """Такое случается когда пила не успела отпилить до того как стол доехал до конца и нажал на концевик, который выключает пилу, прижимы, стол. Обычно так бывает, когда после переналадки линии увеличили скорость тянущего. Ну и соответственно отрезной стол на старых настройках скорости стола и таймеров не будет нормально работать. Если скорость движения профиля слишком большая нужно настроить таймеры <b> Время поднятия пилы (Saw up time:) примерно 2,5 сек., Время опускания пилы (Saw dw time:) примерно 1.8 сек.</b> так чтобы пила отрезала быстро, без больших задержек в верхнем положении, таймер на поднятие пилы <b>Задержка пилы вверх (Saw up delay:)</b> сделай минимальным чтобы прижимы успели опуститься и сразу же начала подниматься пила (0.6 - 1 сек.). Если нужно, то дросселем на превмораспределителе увеличь скорость поднятия и опускания пилы (откручивать)."""
 
 
             
@@ -2296,18 +2488,161 @@
                 self.make_subtitle("Упаковочный поворотный стол не опускается после отреза:")
                 self.make_paragraph(self.p_set_3)
 
-
+                self.make_SVG_image("SVG-rotate-table", "symbol-rotate-table")
+                
+                attrs_buttons: tuple = (("rotate-time", self.start_rotate_time, "старт хорошо"), ("rotate-time-bad", self.start_rotate_time_bad, "старт плохо"))
+                self.make_svg("symbol-cutTable", "SVG-cutTable", attrs_buttons)
+                
+                
             # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
+           
+            # -----------  -----------  ------------  -----------  -------  -----
+            """Задержки:
+                    param = {
+                        "saw": (set_Y_range(begin, end), delay_on, delay_off, speed_on, speed_off),
+                        "table": (set_X_range(begin, end), delay_on, delay_off, speed_on, speed_off),
+                        "press": (set_Y_range(begin, end), delay_on, delay_off, speed_on, speed_off),
+                        "rotate_table": (2, 0.8),
+                        "id_кнопок": ("парам", "пам-пам"),
+                    }
+                    Так и в таком порядке. Если задержки не нужно, то 0.1
+            """
+
+            @startAnimate(True)
+            def start_rotate_time(self, e) -> dict:
+                uptime: dict = {
+                    "saw": ((-5, -27), 600, 100, 0.6, 1.5),
+                    "table": ((0, 100), 0.1, 0.1, 0.7, 1.5),
+                    "press": ((0, 10), 0.1, 1900, 0.7, 1.4),
+                    "rotate_table": (2630, 3890), 
+                    "id_btns": ("rotate-time", "rotate-time-bad",),
+                }
+
+                return uptime
+
+
+            @startAnimate(True)
+            def start_rotate_time_bad(self, e) -> dict:
+                badtime: dict = {
+                    "saw": ((-5, -27), 1200, 1400, 0.5, 1.5),
+                    "table": ((0, 100), 0.1, 0.1, 0.7, 1.5),
+                    "press": ((0, 10), 0.1, 3200, 0.7, 1.4),
+                    "rotate_table": (2500, 3800), 
+                    "id_btns": ("rotate-time", "rotate-time-bad",),
+                }
+
+                return badtime
+
+
+            # -----------  -----------  ------------  -----------  -------  -----
 
         class TranslateDoc(ContentPage):
+            """Перевод документации в программе PLC"""
+
+            ol_list_1: tuple = (
+                """ Главная страница; Выбор <s>китайского</s> или английского языка, или переход на другие страницы.""",
+                """ Экран настройки времени. Вы можете установить задержку подъема пилы, время подъема пилы, время опускания пилы, задержку времени поворота, сброс задержки и номер резки.""",
+                """ Страница ручного управления; Позволяет управлять вручную на этой странице.""",
+                """ Страница автоматического режима; Позволяет вести счет отрезанных изделий.""",
+                """ Эта страница;""",
+                """ Описание возможных неиспровностей и способов их устранения.""",
+            )
+            dl_saw: dict = {
+                "Нажата кнопка аварийного останова": """Посмотри все красные с грибком кнопки на линии и отожми их если нужно. Кнопка(и) аварийного останова <b>самофиксируются</b> после нажатия. Нужно провернуть красный грибок кнопки и тянуть на себя (некоторые кнопки нужно просто тянуть на себя без поворота).""",
+                "Сработал защитный выключатель двигателя от перегрузки": """ Сработало тепловое реле защиты мотора, или отключился автоматический выключатель защиты мотора: <ol><li>проверьте автоматический выключатель двигателя</li><li>нажать синюю кнопку <u>reset</u> на тепловом реле</li><li>ослабли ремни. Подтяни ремни.</li><li>сгорел мотор, заклинил ротор мотора/заклинила пила.</li></ol> """,
+                "Пила не в рабочем положении (поднята)": """ Если кто-то нажал кнопку <u>поднять пилу</u> на странице ручного управления и не нажал на нее еще раз, то пила будет поднята постоянно. В этом случае мотор пилы не включится. Зайди на страницу <b>Manual page</b> и нажми кнопку <b>M saw up</b>""",
+            }
+
+            dl_cut: dict = {
+                "Неисправность концевого выключателя": """ Не сработал, или неисправен концевой выключатель отрезного стола (стол с пилой).""",
+                "Плохой контакт промежуточного реле": """ Проверить и/или заменить реле.""",
+            }
+            dl_speed: dict = {
+                "Поврежденный пневмо-цилиндр подачи": """ Посмотреть и/или заменить/отремонтировать цилиндр подачи (пилы или стола)""",
+                "Электромагнитный клапан (пневмо-распределитель) подачи поврежден": """ Заменить распределитель. Возможно неисправен вневмодроссель подачи распределителя. Нужно снять по очереди шланги с выходных штуцеров распределителя и если ни из одного штуцера не выходит воздух под давлением, то причина в распределителе/дросселе. <u>Один из выходных штуцеров пневмо-распределителя всегда должен пропускать воздух под давлением в выключенном состоянии, а второй во включенном состоянии. </u>""",
+                "Слишком сильно давит прижим": """ пневмо-Редуктором отрегулировать силу прижима.""",
+                "Скорость резки слишком высока": """ Отрегулировать дросселем на пневмо-распределителе пилы скорость подъема пилы. Возможно потребуется внести корректировки в настройки таймеров <b>Время поднятия пилы (Saw up time:) и Время опускания пилы (Saw dw time:)</b>""",  
+            }
+            dl_profile: dict = {
+                "Установлено слишком короткое время поднятия пилы Saw up time:": """ Увеличить значечие времени таймера на странице <u>Time Setting</u>.""",
+                "Слишком слабое давление воздуха в пневмо-цилиндре пилы": """ Проверь пневмо-распределитель отвечающий за поднятие/опускание пилы, пневмо-дроссели на этом распределителе. Проверь общее давление воздуха. Проверь пневмо-шланги. Посмотри что с вводным пневмо-редуктором (он за защитной крышкой между поворотным столом и отрезным столом).""",
+            }
+            dl_flat: dict = {
+                "Затупилась дисковая пила": """ Замени пильный диск. Возможно поможет замена железного пильного диска на вулканит (как на болгарке).""",
+                "Установлено слишком большое время подачи пилы": """ Сделай меньше значения таймеров <b>Время поднятия пилы (Saw up time:) и Время опускания пилы (Saw dw time:)</b>. Короче настрой поднятие пилы так, чтобы как только диск пилы распилив профиль выйдет над профилем на пару см., то без большой задержки пила должна опуститься.""",
+            }
+            dl_invalid: dict = {
+                "Пылесос не включается": """ Постмотри автоматический выключатель пылесоса, пускатель и остальные электрические цепи, связанные с вытяжкой. Сгорел мотор.""",
+                "Пылесос не сосёт": """ Заполнена бочка пылесборника. Забит гофрированый шланг от пилы до пылесборника. Забита полость защитного кожуха дисковой пилы. Сними шланг с кожуха пилы, если сосет, то забита полость кожуха. Если нет, то почисти шланг, бочку.""",
+            }
+            dl_rotate: dict = {
+                "Скорость профиля не соответствует скорости резки отрезного стола. Если резание не завершено, то отрезной стол отъезжает назад и отключаются одновременно прижим, пила, поворотный стол.": """ Отрегулируй положение концевого выключателя стола пилы или отрегулируй скорость реза. Нужно сократить время работы пилы так, чтобы пила отрезала и выключилась до того как стол наедет на концевик.""",
+                "Лимит стола для пилы": """ Заменить концевой выключатель""",
+            }
+            dl_motor: dict = {
+                "Сбой питания": """ Проверь наличие всех 3-х фаз в шкафу с электрикой отрезного стола.""",
+                "Обрыв кабеля от пускателя к мотору пилы": """ Устранить обрыв.""",
+                "Плохой контакт автоматического выключателя, пускателя итд": """ Устранить.""",
+                "Двигатель запускается на 2-х фазах": """ Найти где пропала фаза: пускатель, автомат, кабель итд. и устранить. Если обрыв одной обмотки статора мотора, то мотор на перемотку/в металлолом.""",
+                "3-х фазный мотор пытались подключить от одной фазы (на 220V)": """3-х фазный мотор подключай от 3-х фаз. Если очень надо подключить на 220V трехфазный мотор, то подключай его с конденсаторами.""",
+                "Поставили однофазный мотор на пилу. Не работает": """ Посмотри наличие конденсаторов в клемной коробке мотора и правильность подключения. Возможно емкости конденсатора/ов не хватает для работы мотора такой мощности. Увеличь емкость конденсаторов (подключи параллельно еще пару штук).""",                
+            }
+            dl_motor_load: dict = {
+                "Упало напряжение": """ Сбой в электрике. Слишком длинный кабель от мотора к ящику управления.""",
+                "1. Во время пиления диск пилы останавливается": """Растянуты ремни, или пила работает на одном ремне (и тот растянут). """,
+                "2. Во время пиления диск пилы останавливается": """ Чрезмерная нагрузка на пилу, возможно мотору не хватает мощности. Прекрати пытаться пилить стальные рельсы.""",
+            }
+            dl_noise: dict = {
+                "Громкий и непрерывный звук": """Повреждение подшипника """,
+                "Стучит, шумит время от времени": """ Повреждение подшипника, заедание """,
+                "Cильная и не очень вибрация": """Не зажаты болты крепления """,
+            }
+            dl_anomal: dict = {
+                "Масло загрязнено, или его уровень мал": """ Заменить масло и масляный фильтр, долить масло.""",
+                "Течь масла на фланце двигателя или сальнике": """Устранить""",
+                "Винты/болты расслабли": """ Затянуть""",
+                "Сальник поврежден": """Только замена. """,
+                "Слишком большой уровень масла": """Слить. """,
+                "Вентиляционная пробка установлена не правильно": """Переустановить. """,
+                "Частый холодный пуск (вспенивание). Слишком высокий уровень масла": """ Заменить вентиляционную пробку на вентиляционный клапан""",
+            }
+
             
             def __init__(self, title: str) -> None:
                 super().__init__(title)
 
+
+            # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
             @del_content
             def  make_content(self, e) -> None:
                 self.make_title()
+                self.make_subtitle("Инструкция по эксплуатации:")
+                self.make_oul_list("", self.ol_list_1, "OL")
+                self.make_subtitle("Пильный диск не вращается:")
+                self.make_dl_list(self.dl_saw)
+                self.make_subtitle("Пила после отреза не опустилась:")
+                self.make_dl_list(self.dl_cut)
+                self.make_subtitle("Не нормальная скорость резки при работе пилы:")
+                self.make_dl_list(self.dl_speed)
+                self.make_subtitle("Пила не дорезает профиль:")
+                self.make_dl_list(self.dl_profile)
+                self.make_subtitle("Профиль пилится со сколами (плохо пилится):")
+                self.make_dl_list(self.dl_flat)
+                self.make_subtitle("Проблема с пылесосом:")
+                self.make_dl_list(self.dl_invalid)
+                self.make_subtitle("Стол не поворачивается:")
+                self.make_dl_list(self.dl_rotate)
+                self.make_subtitle("Двигатель не вращается без нагрузки:")
+                self.make_dl_list(self.dl_motor)
+                self.make_subtitle("Двигатель не вращается/плохо работает под нагрузкой:")
+                self.make_dl_list(self.dl_motor_load)
+                self.make_subtitle("Сильный шум и вибрация:")
+                self.make_dl_list(self.dl_noise)
+                self.make_subtitle("Не стабильная работа:")
+                self.make_dl_list(self.dl_anomal)
+
+            # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
         
         # --------------------------------------------------------------------
